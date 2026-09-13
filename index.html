@@ -21,19 +21,15 @@
   --bg-card: #1C1C1E;
   --bg-card-hover: #2C2C2E;
   --bg-elevated: #2C2C2E;
-
   --accent: #5E8CBF;
   --accent-light: #7BA8D9;
   --accent-dark: #456B94;
   --accent-glow: rgba(94,140,191,0.18);
-
   --text-primary: #FFFFFF;
   --text-secondary: #8E8E93;
   --text-tertiary: #48484A;
-
   --separator: rgba(84, 84, 88, 0.36);
   --separator-opaque: #38383A;
-
   --income: #4CAF7A;
   --expense: #C66B66;
   --warning: #D99A4E;
@@ -41,9 +37,7 @@
   --pink: #C2607A;
   --teal: #6BA8B8;
   --yellow: #C9B560;
-
   --shadow: rgba(0,0,0,0.6);
-
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 18px;
@@ -62,7 +56,6 @@ body {
   letter-spacing: -0.01em;
 }
 
-/* ==================== HEADER ==================== */
 .header {
   display: flex;
   justify-content: space-between;
@@ -80,14 +73,9 @@ body {
   display: flex; align-items: center; gap: 10px;
   letter-spacing: -0.02em;
 }
-.logo-mark {
-  width: 26px; height: 26px;
-  color: var(--accent);
-  flex-shrink: 0;
-}
+.logo-mark { width: 26px; height: 26px; color: var(--accent); flex-shrink: 0; }
 .sync-btn {
-  background: transparent;
-  border: none;
+  background: transparent; border: none;
   color: var(--accent);
   width: 32px; height: 32px;
   border-radius: 50%; cursor: pointer;
@@ -100,7 +88,6 @@ body {
 .sync-btn.syncing svg { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ==================== VIEWS ==================== */
 .view { display: none; padding: 16px; max-width: 720px; margin: 0 auto; }
 .view.active { display: block; animation: fadeIn 0.25s ease; }
 @keyframes fadeIn {
@@ -108,7 +95,6 @@ body {
   to { opacity: 1; transform: none; }
 }
 
-/* ==================== CARDS ==================== */
 .cards-row {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 12px; margin-bottom: 16px;
@@ -143,7 +129,85 @@ body {
 .card-value .expense { color: var(--expense); }
 .card-sub { font-size: 11px; color: var(--text-secondary); margin-top: 6px; }
 
-/* ==================== COLLAPSIBLE SECTIONS ==================== */
+/* Бюджет */
+.budget-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 0.5px solid var(--separator);
+  position: relative;
+  overflow: hidden;
+}
+.budget-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4CAF7A 0%, #C9B560 50%, #C66B66 100%);
+}
+.budget-header {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 12px;
+}
+.budget-title {
+  font-size: 11px; color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.budget-days {
+  font-size: 11px; color: var(--text-secondary);
+  font-feature-settings: 'tnum';
+}
+.budget-main {
+  font-size: 26px; font-weight: 700;
+  color: var(--text-primary);
+  font-feature-settings: 'tnum';
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+.budget-sub {
+  font-size: 12px; color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+.budget-bar {
+  height: 6px; background: var(--bg-tertiary);
+  border-radius: 3px; overflow: hidden;
+  margin-bottom: 8px;
+}
+.budget-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.5s;
+}
+.budget-bar-fill.warn { background: var(--warning); }
+.budget-bar-fill.over { background: var(--expense); }
+.budget-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+.budget-stat {
+  text-align: center;
+}
+.budget-stat-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.budget-stat-value {
+  font-size: 13px;
+  font-weight: 600;
+  font-feature-settings: 'tnum';
+}
+.budget-stat-value.green { color: var(--income); }
+.budget-stat-value.red { color: var(--expense); }
+
+/* Секции */
 .section {
   margin-bottom: 16px;
   background: var(--bg-card);
@@ -153,27 +217,21 @@ body {
   transition: background 0.2s;
 }
 .section-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; align-items: center; gap: 10px;
   padding: 14px 16px;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   transition: background 0.15s;
 }
-.section-header:active {
-  background: var(--bg-card-hover);
-}
+.section-header:active { background: var(--bg-card-hover); }
 .section-chevron {
   width: 16px; height: 16px;
   color: var(--text-secondary);
   transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
   flex-shrink: 0;
 }
-.section.collapsed .section-chevron {
-  transform: rotate(-90deg);
-}
+.section.collapsed .section-chevron { transform: rotate(-90deg); }
 .section-title {
   font-size: 13px; color: var(--text-primary);
   font-weight: 600;
@@ -203,15 +261,11 @@ body {
   padding-top: 0;
   padding-bottom: 0;
   opacity: 0;
-  transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1),
-              padding 0.2s,
-              opacity 0.15s;
 }
-
 .section .charts-row { margin-bottom: 0; padding-top: 4px; }
 .section .chart-box { background: var(--bg-tertiary); }
 
-/* ==================== CHARTS ==================== */
+/* Графики */
 .charts-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -267,7 +321,7 @@ body {
   white-space: nowrap;
 }
 
-/* ==================== QUICK ADD ==================== */
+/* Быстрое добавление */
 .quick-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -297,7 +351,7 @@ body {
   flex-shrink: 0;
 }
 
-/* ==================== BLOCKS ==================== */
+/* Блоки */
 .block-list { display: flex; flex-direction: column; gap: 8px; }
 .block-item {
   background: var(--bg-tertiary);
@@ -333,7 +387,7 @@ body {
   border-radius: var(--radius-md);
 }
 
-/* ==================== DEBTS (active cards) ==================== */
+/* Кредиты */
 .debt-progress {
   background: var(--bg-tertiary);
   border-radius: var(--radius-md);
@@ -362,7 +416,6 @@ body {
 
 .credits-list { display: flex; flex-direction: column; gap: 8px; }
 
-/* Активная карточка кредита */
 .debt-card {
   background: var(--bg-tertiary);
   border-radius: var(--radius-md);
@@ -370,9 +423,7 @@ body {
   overflow: hidden;
   transition: border-color 0.2s;
 }
-.debt-card.target {
-  border-color: var(--accent);
-}
+.debt-card.target { border-color: var(--accent); }
 .debt-card.closed { opacity: 0.55; }
 
 .debt-card-header {
@@ -394,10 +445,7 @@ body {
   display: flex; align-items: center; gap: 6px;
   flex: 1; min-width: 0;
 }
-.debt-name svg {
-  width: 14px; height: 14px;
-  color: var(--accent); flex-shrink: 0;
-}
+.debt-name svg { width: 14px; height: 14px; color: var(--accent); flex-shrink: 0; }
 .debt-name .chevron {
   width: 14px; height: 14px;
   color: var(--text-secondary);
@@ -405,9 +453,7 @@ body {
   margin-left: auto;
   flex-shrink: 0;
 }
-.debt-card.open .debt-name .chevron {
-  transform: rotate(90deg);
-}
+.debt-card.open .debt-name .chevron { transform: rotate(90deg); }
 .debt-num { font-size: 13px; font-weight: 700; color: var(--text-primary); white-space: nowrap; font-feature-settings: 'tnum'; }
 .debt-meta {
   display: flex; justify-content: space-between;
@@ -416,15 +462,12 @@ body {
   gap: 8px;
 }
 
-/* Развёрнутое содержимое карточки */
 .debt-card-body {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
 }
-.debt-card.open .debt-card-body {
-  max-height: 2000px;
-}
+.debt-card.open .debt-card-body { max-height: 3000px; }
 .debt-card-body-inner {
   padding: 0 14px 14px;
   border-top: 0.5px solid var(--separator);
@@ -458,7 +501,6 @@ body {
   font-feature-settings: 'tnum';
 }
 
-/* Кнопки в карточке */
 .debt-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -479,13 +521,8 @@ body {
   justify-content: center;
   gap: 6px;
 }
-.debt-action-btn svg {
-  width: 16px; height: 16px;
-}
-.debt-action-btn.primary {
-  background: var(--accent);
-  color: #FFFFFF;
-}
+.debt-action-btn svg { width: 16px; height: 16px; }
+.debt-action-btn.primary { background: var(--accent); color: #FFFFFF; }
 .debt-action-btn.primary:active { background: var(--accent-dark); }
 .debt-action-btn.secondary {
   background: var(--bg-secondary);
@@ -493,12 +530,7 @@ body {
   border: 0.5px solid var(--separator);
 }
 .debt-action-btn.secondary:active { background: var(--bg-elevated); }
-.debt-action-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
 
-/* История платежей */
 .payments-title {
   font-size: 11px;
   color: var(--text-secondary);
@@ -511,23 +543,28 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-height: 200px;
+  max-height: 260px;
   overflow-y: auto;
 }
 .payment-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 10px;
+  padding: 10px 12px;
   background: var(--bg-secondary);
   border-radius: var(--radius-sm);
   border: 0.5px solid var(--separator);
   font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
 }
+.payment-item:active { background: var(--bg-elevated); }
 .payment-item-left {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 .payment-date {
   font-size: 12px;
@@ -558,7 +595,7 @@ body {
   border: 0.5px dashed var(--separator-opaque);
 }
 
-/* ==================== HISTORY ==================== */
+/* История */
 .filters {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 8px; margin-bottom: 14px;
@@ -585,19 +622,10 @@ body {
   background-position: right 10px center;
   padding-right: 30px;
 }
-.filters input[type="date"] {
-  position: relative;
-  cursor: pointer;
-}
+.filters input[type="date"] { position: relative; cursor: pointer; }
 .filters input[type="date"]::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-  opacity: 0.6;
-  padding: 4px;
-  border-radius: 4px;
-  transition: opacity 0.15s;
-}
-.filters input[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
+  cursor: pointer; opacity: 0.6; padding: 4px;
+  border-radius: 4px; transition: opacity 0.15s;
 }
 
 .history-list { display: flex; flex-direction: column; }
@@ -645,7 +673,7 @@ body {
 .history-amount.income { color: var(--income); }
 .history-amount.expense { color: var(--expense); }
 
-/* ==================== CREDITS SUMMARY ==================== */
+/* Сводка кредитов */
 .credits-summary {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -669,7 +697,7 @@ body {
   margin-top: 6px;
 }
 
-/* ==================== FAB ==================== */
+/* FAB */
 .fab {
   position: fixed; right: 20px;
   bottom: calc(90px + env(safe-area-inset-bottom));
@@ -686,7 +714,7 @@ body {
 .fab svg { width: 26px; height: 26px; }
 .fab:active { transform: scale(0.92); }
 
-/* ==================== BOTTOM NAV ==================== */
+/* Нижняя навигация */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   display: flex;
@@ -711,12 +739,9 @@ body {
   letter-spacing: 0.01em;
 }
 .bottom-nav button.active { color: var(--accent); }
-.bottom-nav svg {
-  width: 24px; height: 24px;
-  color: currentColor;
-}
+.bottom-nav svg { width: 24px; height: 24px; color: currentColor; }
 
-/* ==================== MODALS ==================== */
+/* Модалки */
 .modal {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,0.6);
@@ -794,19 +819,10 @@ body {
 .form-row input:focus, .form-row select:focus {
   outline: none; border-color: var(--accent);
 }
-.form-row input[type="date"] {
-  cursor: pointer;
-  position: relative;
-}
+.form-row input[type="date"] { cursor: pointer; position: relative; }
 .form-row input[type="date"]::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-  opacity: 0.6;
-  padding: 4px;
-  border-radius: 4px;
-  transition: opacity 0.15s;
-}
-.form-row input[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
+  cursor: pointer; opacity: 0.6; padding: 4px;
+  border-radius: 4px; transition: opacity 0.15s;
 }
 
 .checkbox-row label {
@@ -853,10 +869,7 @@ body {
   cursor: pointer; transition: all 0.15s;
   letter-spacing: -0.01em;
 }
-.btn-primary {
-  background: var(--accent);
-  color: #FFFFFF;
-}
+.btn-primary { background: var(--accent); color: #FFFFFF; }
 .btn-primary:active { background: var(--accent-dark); }
 .btn-danger {
   background: rgba(198,107,102,0.15);
@@ -868,26 +881,6 @@ body {
 }
 .btn-danger:active { background: rgba(198,107,102,0.25); }
 
-.detail-row {
-  display: flex; justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 0.5px solid var(--separator);
-  gap: 12px;
-}
-.detail-row:last-child { border-bottom: none; }
-.detail-row span:first-child {
-  color: var(--text-secondary); font-size: 13px;
-  flex-shrink: 0;
-}
-.detail-row span:last-child {
-  font-weight: 500; font-size: 14px;
-  color: var(--text-primary);
-  text-align: right;
-  word-break: break-word;
-  font-feature-settings: 'tnum';
-}
-
-/* ==================== PAYMENT MODAL ==================== */
 .payment-info {
   background: var(--bg-tertiary);
   border-radius: var(--radius-md);
@@ -904,7 +897,7 @@ body {
 .payment-info-row span:first-child { color: var(--text-secondary); }
 .payment-info-row span:last-child { color: var(--text-primary); font-weight: 600; font-feature-settings: 'tnum'; }
 
-/* ==================== TOAST ==================== */
+/* Toast */
 .toast {
   position: fixed;
   bottom: calc(110px + env(safe-area-inset-bottom));
@@ -931,40 +924,30 @@ body {
 }
 .toast.error { color: var(--expense); }
 
-/* ==================== RESPONSIVE ==================== */
 @media (max-width: 520px) {
   .charts-row { grid-template-columns: 1fr; gap: 10px; }
   .chart-box { height: 170px; }
   .chart-center { font-size: 13px; }
-
   .cards-row { grid-template-columns: 1fr; gap: 10px; }
   .card-value { font-size: 20px; }
   .card-value.small { font-size: 15px; }
-
   .quick-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .quick-btn {
-    padding: 12px 4px 10px;
-    font-size: 11px;
-    gap: 6px;
-  }
+  .quick-btn { padding: 12px 4px 10px; font-size: 11px; gap: 6px; }
   .quick-btn svg { width: 22px; height: 22px; }
-
   .credits-summary .big { font-size: 24px; }
   .credits-summary { padding: 16px; }
-
   .view { padding: 12px; }
   .header { padding: 12px 16px; }
-
   .history-item { padding: 11px 12px; }
   .history-amount { font-size: 13px; margin-left: 8px; }
   .history-cat { font-size: 12.5px; }
-
   .section-header { padding: 12px 14px; }
   .section-content { padding: 0 14px 14px; }
-
   .debt-detail-grid { gap: 8px; }
   .debt-detail-item { padding: 8px 10px; }
   .debt-detail-value { font-size: 13px; }
+  .budget-main { font-size: 22px; }
+  .budget-stat-value { font-size: 12px; }
 }
 
 @media (max-width: 360px) {
@@ -972,6 +955,7 @@ body {
   .card-value { font-size: 18px; }
   .chart-box { height: 155px; }
   .debt-actions { grid-template-columns: 1fr; }
+  .budget-stat-value { font-size: 11px; }
 }
 </style>
 </head>
@@ -1007,6 +991,33 @@ body {
       </div>
     </div>
   </section>
+
+  <!-- Дневной бюджет -->
+  <div class="budget-card" id="budgetCard">
+    <div class="budget-header">
+      <span class="budget-title">Дневной бюджет</span>
+      <span class="budget-days" id="budgetDays">—</span>
+    </div>
+    <div class="budget-main" id="budgetMain">0 ₽</div>
+    <div class="budget-sub" id="budgetSub">—</div>
+    <div class="budget-bar">
+      <div class="budget-bar-fill" id="budgetBarFill" style="width: 0%"></div>
+    </div>
+    <div class="budget-stats">
+      <div class="budget-stat">
+        <div class="budget-stat-label">Лимит/день</div>
+        <div class="budget-stat-value" id="budgetLimit">—</div>
+      </div>
+      <div class="budget-stat">
+        <div class="budget-stat-label">Потрачено</div>
+        <div class="budget-stat-value red" id="budgetSpent">—</div>
+      </div>
+      <div class="budget-stat">
+        <div class="budget-stat-label">Осталось</div>
+        <div class="budget-stat-value green" id="budgetLeft">—</div>
+      </div>
+    </div>
+  </div>
 
   <section class="section" data-section="charts">
     <div class="section-header">
@@ -1094,6 +1105,35 @@ body {
   </section>
 </main>
 
+<main id="view-settings" class="view">
+  <section class="section" data-section="settings-budget">
+    <div class="section-header">
+      <svg class="section-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="section-title">Бюджет</span>
+    </div>
+    <div class="section-content">
+      <div class="form-row">
+        <label>Доход в месяц, ₽</label>
+        <input type="number" id="setIncome" step="1000" min="0" placeholder="110000">
+      </div>
+      <div class="form-row">
+        <label>Обязательные платежи в месяц, ₽</label>
+        <input type="number" id="setMandatory" step="1000" min="0" placeholder="70000">
+        <div style="font-size:11px;color:var(--text-secondary);margin-top:6px;line-height:1.4;">
+          ЖКХ, кредиты, связь — всё, что платишь каждый месяц
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Резерв/накопления в месяц, ₽</label>
+        <input type="number" id="setSavings" step="1000" min="0" placeholder="5000">
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-primary" id="btnSaveSettings">Сохранить</button>
+      </div>
+    </div>
+  </section>
+</main>
+
 <nav class="bottom-nav">
   <button data-view="dashboard" class="active">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1113,8 +1153,16 @@ body {
     </svg>
     Кредиты
   </button>
+  <button data-view="settings">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+    </svg>
+    Настройки
+  </button>
 </nav>
 
+<!-- Модалка: транзакция -->
 <div class="modal" id="modalAdd">
   <div class="modal-content">
     <div class="modal-header">
@@ -1181,7 +1229,7 @@ body {
   </div>
 </div>
 
-<!-- МОДАЛКА ПЛАТЕЖА ПО КРЕДИТУ -->
+<!-- Модалка: платёж по кредиту (создание) -->
 <div class="modal" id="modalPayment">
   <div class="modal-content">
     <div class="modal-header">
@@ -1197,6 +1245,7 @@ body {
     </div>
     <form id="formPayment">
       <input type="hidden" id="payCreditId">
+      <input type="hidden" id="payEditId">
 
       <div class="form-row">
         <label>Тип платежа</label>
@@ -1218,22 +1267,11 @@ body {
       </div>
 
       <div class="form-actions">
+        <button type="button" class="btn-danger" id="btnPayDelete" style="display:none">Удалить</button>
         <button type="button" class="btn-danger" id="btnPayCancel">Отмена</button>
-        <button type="submit" class="btn-primary">Внести</button>
+        <button type="submit" class="btn-primary">Сохранить</button>
       </div>
     </form>
-  </div>
-</div>
-
-<div class="modal" id="modalDetail">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Операция</h2>
-      <button class="close-btn" id="closeDetail" type="button">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-    <div id="detailContent"></div>
   </div>
 </div>
 
@@ -1243,18 +1281,19 @@ body {
 <script>
 // ==================== КОНФИГ ====================
 const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbyRi40Le8dbK5Z0-B1Cev5fPmSmJrqi_kJ7X-AowZMSkUobKGqcyrCsfCKNzuHx-CZJ/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbzI6MUyRJ6bvnwGl1xzuhMKmRscSiCIgMV5-ha2M9RAxFxio3rez2I3BBT1WXawlhWi/exec',
   API_TOKEN: 'finance_secret_2026',
   CACHE_KEY: 'finance_tracker_v1',
   SECTIONS_KEY: 'finance_sections_state_v1',
-  OPEN_CARDS_KEY: 'finance_open_cards_v1'
+  OPEN_CARDS_KEY: 'finance_open_cards_v1',
+  DISPLAY_CACHE: 'finance_display_cache_v1',
+  BUDGET_KEY: 'finance_budget_v1'
 };
 
-// ==================== СВОРАЧИВАНИЕ БЛОКОВ ====================
+// ==================== СВОРАЧИВАНИЕ ====================
 function loadSectionsState() {
-  try {
-    return JSON.parse(localStorage.getItem(CONFIG.SECTIONS_KEY) || '{}');
-  } catch (e) { return {}; }
+  try { return JSON.parse(localStorage.getItem(CONFIG.SECTIONS_KEY) || '{}'); }
+  catch (e) { return {}; }
 }
 function saveSectionState(name, collapsed) {
   const s = loadSectionsState();
@@ -1262,10 +1301,10 @@ function saveSectionState(name, collapsed) {
   localStorage.setItem(CONFIG.SECTIONS_KEY, JSON.stringify(s));
 }
 function initCollapsibleSections() {
-  const state = loadSectionsState();
+  const st = loadSectionsState();
   document.querySelectorAll('.section[data-section]').forEach(section => {
     const name = section.dataset.section;
-    if (state[name]) section.classList.add('collapsed');
+    if (st[name]) section.classList.add('collapsed');
     const header = section.querySelector('.section-header');
     header.addEventListener('click', () => {
       section.classList.toggle('collapsed');
@@ -1277,16 +1316,24 @@ function initCollapsibleSections() {
   });
 }
 
-// ==================== ОТКРЫТЫЕ КАРТОЧКИ КРЕДИТОВ ====================
 function loadOpenCards() {
-  try {
-    return JSON.parse(localStorage.getItem(CONFIG.OPEN_CARDS_KEY) || '{}');
-  } catch (e) { return {}; }
+  try { return JSON.parse(localStorage.getItem(CONFIG.OPEN_CARDS_KEY) || '{}'); }
+  catch (e) { return {}; }
 }
 function saveOpenCard(id, open) {
   const s = loadOpenCards();
   s[id] = open;
   localStorage.setItem(CONFIG.OPEN_CARDS_KEY, JSON.stringify(s));
+}
+
+// ==================== БЮДЖЕТ ====================
+function loadBudget() {
+  try {
+    return JSON.parse(localStorage.getItem(CONFIG.BUDGET_KEY) || '{}');
+  } catch (e) { return {}; }
+}
+function saveBudget(b) {
+  localStorage.setItem(CONFIG.BUDGET_KEY, JSON.stringify(b));
 }
 
 // ==================== SVG-ИКОНКИ ====================
@@ -1351,12 +1398,15 @@ const state = {
   credits: [],
   payments: [],
   summary: null,
+  budget: loadBudget(),
   view: 'dashboard'
 };
 
 // ==================== API ====================
 async function api(action, payload = {}) {
-  if (!CONFIG.API_URL) return demoApi(action, payload);
+  if (!CONFIG.API_URL || CONFIG.API_URL.includes('ВСТАВЬ')) {
+    return demoApi(action, payload);
+  }
   const body = { action, token: CONFIG.API_TOKEN, ...payload };
   const res = await fetch(CONFIG.API_URL, {
     method: 'POST',
@@ -1375,6 +1425,19 @@ function demoApi(action, payload) {
   let result = { ok: true };
 
   switch (action) {
+    case 'getAll': {
+      const totalDebt = db.credits.reduce((s,c) => s + Number(c.current_debt||0), 0);
+      const totalMonthly = db.credits.reduce((s,c) => s + Number(c.monthly_payment||0), 0);
+      result = {
+        ok: true,
+        transactions: db.transactions,
+        credits: db.credits,
+        payments: db.payments,
+        total_debt: totalDebt,
+        total_monthly: totalMonthly
+      };
+      break;
+    }
     case 'addTransaction':
       db.transactions.push({
         id: uid(), ...payload,
@@ -1384,23 +1447,13 @@ function demoApi(action, payload) {
     case 'deleteTransaction':
       db.transactions = db.transactions.filter(t => t.id !== payload.id);
       break;
-    case 'listTransactions':
-      result = { ok: true, items: db.transactions };
-      break;
-    case 'listCredits': {
-      const totalDebt = db.credits.reduce((s,c) => s + Number(c.current_debt||0), 0);
-      const totalMonthly = db.credits.reduce((s,c) => s + Number(c.monthly_payment||0), 0);
-      result = { ok: true, items: db.credits, total_debt: totalDebt, total_monthly: totalMonthly };
+    case 'updateTransaction': {
+      const idx = db.transactions.findIndex(t => t.id === payload.id);
+      if (idx >= 0) {
+        db.transactions[idx] = { ...db.transactions[idx], ...payload.data };
+      }
       break;
     }
-    case 'listPayments':
-      result = {
-        ok: true,
-        items: payload.credit_id
-          ? db.payments.filter(p => String(p.credit_id) === String(payload.credit_id))
-          : db.payments
-      };
-      break;
     case 'addPayment': {
       const c = db.credits.find(x => String(x.id) === String(payload.credit_id));
       let newDebt = null;
@@ -1419,7 +1472,6 @@ function demoApi(action, payload) {
         created_at: new Date().toISOString()
       };
       db.payments.push(payment);
-
       db.transactions.push({
         id: uid(),
         date: payment.date,
@@ -1432,7 +1484,34 @@ function demoApi(action, payload) {
         isImpulse: false,
         created_at: new Date().toISOString()
       });
-      result = { ok: true, new_debt: newDebt, payment: payment };
+      result = { ok: true, new_debt: newDebt, payment };
+      break;
+    }
+    case 'deletePayment': {
+      const p = db.payments.find(x => x.id === payload.id);
+      if (p) {
+        const c = db.credits.find(x => String(x.id) === String(p.credit_id));
+        if (c) {
+          c.current_debt = Number(c.current_debt) + Number(p.amount);
+          if (c.current_debt > 0) c.status = 'active';
+        }
+        db.payments = db.payments.filter(x => x.id !== payload.id);
+      }
+      break;
+    }
+    case 'updatePayment': {
+      const idx = db.payments.findIndex(p => p.id === payload.id);
+      if (idx >= 0) {
+        const oldP = db.payments[idx];
+        const c = db.credits.find(x => String(x.id) === String(oldP.credit_id));
+        if (c) {
+          c.current_debt = Number(c.current_debt) + Number(oldP.amount);
+          c.current_debt = Math.max(0, c.current_debt - Number(payload.data.amount));
+          if (c.current_debt === 0) c.status = 'closed';
+          else c.status = 'active';
+        }
+        db.payments[idx] = { ...oldP, ...payload.data };
+      }
       break;
     }
     case 'getSummary':
@@ -1448,29 +1527,52 @@ function uid() {
 }
 
 // ==================== ЗАГРУЗКА ====================
-async function loadAll() {
+async function loadAll(showToast = true) {
   try {
     setSync(true);
-    const [txRes, crRes, payRes, sumRes] = await Promise.all([
-      api('listTransactions', {}),
-      api('listCredits', {}),
-      api('listPayments', {}),
-      api('getSummary', { from: firstDayOfMonth(), to: today() })
-    ]);
-    state.transactions = txRes.items || [];
-    state.credits = crRes.items || [];
-    state.payments = payRes.items || [];
-    state.summary = sumRes;
+    const res = await api('getAll', {});
+    state.transactions = res.transactions || [];
+    state.credits = res.credits || [];
+    state.payments = res.payments || [];
+    state.summary = buildSummary(state.transactions, firstDayOfMonth(), today());
+
+    // кэш для мгновенного показа при следующем открытии
+    try {
+      localStorage.setItem(CONFIG.DISPLAY_CACHE, JSON.stringify({
+        transactions: state.transactions,
+        credits: state.credits,
+        payments: state.payments
+      }));
+    } catch (e) {}
+
     renderDashboard();
     renderHistory();
     renderCredits();
-    toast('Обновлено');
+    renderBudget();
+    if (showToast) toast('Обновлено');
   } catch (e) {
     console.error(e);
-    toast('Ошибка: ' + e.message, true);
+    if (showToast) toast('Ошибка: ' + e.message, true);
   } finally {
     setSync(false);
   }
+}
+
+function loadFromCache() {
+  try {
+    const c = localStorage.getItem(CONFIG.DISPLAY_CACHE);
+    if (!c) return false;
+    const db = JSON.parse(c);
+    state.transactions = db.transactions || [];
+    state.credits = db.credits || [];
+    state.payments = db.payments || [];
+    state.summary = buildSummary(state.transactions, firstDayOfMonth(), today());
+    renderDashboard();
+    renderHistory();
+    renderCredits();
+    renderBudget();
+    return true;
+  } catch (e) { return false; }
 }
 
 function setSync(on) {
@@ -1488,6 +1590,18 @@ function firstDayOfMonth() {
   const d = new Date();
   return d.getFullYear() + '-' +
     String(d.getMonth()+1).padStart(2,'0') + '-01';
+}
+function lastDayOfMonth() {
+  const d = new Date();
+  return new Date(d.getFullYear(), d.getMonth()+1, 0);
+}
+function daysLeftInMonth() {
+  const now = new Date();
+  const last = lastDayOfMonth();
+  return Math.max(1, last.getDate() - now.getDate() + 1);
+}
+function daysInMonth() {
+  return lastDayOfMonth().getDate();
 }
 function formatMoney(n) {
   const num = Number(n) || 0;
@@ -1510,6 +1624,71 @@ function toast(msg, isError = false) {
   el.classList.add('show');
   clearTimeout(el._t);
   el._t = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// ==================== БЮДЖЕТ ====================
+function calcBudget(s) {
+  const b = state.budget || {};
+  const income = Number(b.income) || 0;
+  const mandatory = Number(b.mandatory) || 0;
+  const savings = Number(b.savings) || 0;
+  const spent = s.expense || 0;
+  const daysLeft = daysLeftInMonth();
+  const totalDays = daysInMonth();
+
+  // Свободные деньги за месяц
+  const free = Math.max(0, income - mandatory - savings);
+  // Дневной лимит
+  const dailyLimit = free / totalDays;
+  // Сколько уже потрачено в этом месяце (кроме обязательных)
+  const discretionarySpent = Math.max(0, spent - mandatory);
+  // Сколько осталось
+  const left = Math.max(0, free - discretionarySpent);
+  // Лимит на оставшиеся дни
+  const dailyLeft = left / daysLeft;
+
+  return { income, mandatory, savings, free, dailyLimit, spent, discretionarySpent, left, dailyLeft, daysLeft, totalDays };
+}
+
+function renderBudget() {
+  const b = state.budget || {};
+  const s = state.summary || { expense: 0 };
+  const hasBudget = b.income && b.income > 0;
+
+  const budgetMain = document.getElementById('budgetMain');
+  const budgetSub = document.getElementById('budgetSub');
+  const budgetDays = document.getElementById('budgetDays');
+  const budgetBar = document.getElementById('budgetBarFill');
+  const budgetLimit = document.getElementById('budgetLimit');
+  const budgetSpent = document.getElementById('budgetSpent');
+  const budgetLeft = document.getElementById('budgetLeft');
+
+  if (!hasBudget) {
+    budgetMain.textContent = '—';
+    budgetSub.textContent = 'Заполни настройки → вкладка «Настройки»';
+    budgetDays.textContent = '';
+    budgetBar.style.width = '0%';
+    budgetLimit.textContent = '—';
+    budgetSpent.textContent = '—';
+    budgetLeft.textContent = '—';
+    return;
+  }
+
+  const r = calcBudget(s);
+
+  budgetMain.textContent = formatMoney(r.dailyLeft);
+  budgetSub.textContent = `из ${formatMoney(r.dailyLimit)} в день · до конца месяца`;
+  budgetDays.textContent = `${r.daysLeft} дн. осталось`;
+
+  const pct = r.dailyLimit > 0 ? Math.min(100, (r.discretionarySpent / r.free) * 100) : 0;
+  budgetBar.style.width = pct.toFixed(1) + '%';
+  budgetBar.classList.remove('warn', 'over');
+  if (pct > 90) budgetBar.classList.add('over');
+  else if (pct > 70) budgetBar.classList.add('warn');
+
+  budgetLimit.textContent = formatMoney(r.dailyLimit);
+  budgetSpent.textContent = formatMoney(r.discretionarySpent);
+  budgetLeft.textContent = formatMoney(r.left);
 }
 
 // ==================== ДАШБОРД ====================
@@ -1744,7 +1923,7 @@ function renderHistory() {
   });
 }
 
-// ==================== КРЕДИТЫ (активные карточки) ====================
+// ==================== КРЕДИТЫ ====================
 function renderCredits() {
   const sum  = document.getElementById('creditsSummary');
   const list = document.getElementById('creditsList');
@@ -1786,7 +1965,6 @@ function renderCredits() {
     const progress = c.total > 0 ? (1 - c.current_debt/c.total)*100 : 0;
     const isOpen = openCards[c.id] === true;
 
-    // платежи по этому кредиту
     const creditPayments = state.payments
       .filter(p => String(p.credit_id) === String(c.id))
       .sort((a,b) => (b.date || '').localeCompare(a.date || ''));
@@ -1795,7 +1973,7 @@ function renderCredits() {
 
     const paymentsHTML = creditPayments.length
       ? creditPayments.map(p => `
-          <div class="payment-item">
+          <div class="payment-item" data-payment-id="${p.id}">
             <div class="payment-item-left">
               <span class="payment-date">${formatDateLong(p.date)}</span>
               <span class="payment-type ${p.type === 'early' ? 'early' : ''}">
@@ -1849,17 +2027,12 @@ function renderCredits() {
             ${!isClosed ? `
             <div class="debt-actions">
               <button class="debt-action-btn primary" data-action="pay" data-id="${c.id}">
-                ${ICONS.plus} Внести платёж
+                ${ICONS.plus} Внести
               </button>
               <button class="debt-action-btn secondary" data-action="early" data-id="${c.id}">
                 ${ICONS.bolt} Досрочно
               </button>
-            </div>` : `
-            <div class="debt-actions">
-              <button class="debt-action-btn secondary" data-action="reopen" data-id="${c.id}" style="grid-column: span 2;">
-                ${ICONS.check} Кредит закрыт
-              </button>
-            </div>`}
+            </div>` : ''}
 
             <div class="payments-title">История платежей (${creditPayments.length})</div>
             <div class="payments-list">
@@ -1871,11 +2044,8 @@ function renderCredits() {
     `;
   }).join('');
 
-  // Обработчики
   list.querySelectorAll('.debt-card').forEach(card => {
     const id = card.dataset.id;
-
-    // Тап по заголовку — открыть/закрыть
     const header = card.querySelector('[data-toggle="card"]');
     if (header) {
       header.onclick = (e) => {
@@ -1884,39 +2054,56 @@ function renderCredits() {
         saveOpenCard(id, card.classList.contains('open'));
       };
     }
-
-    // Кнопки внутри карточки
     card.querySelectorAll('[data-action]').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
         const action = btn.dataset.action;
         const creditId = btn.dataset.id;
-        if (action === 'pay') openPaymentModal(creditId, 'min');
-        else if (action === 'early') openPaymentModal(creditId, 'early');
+        if (action === 'pay') openPaymentModal(creditId, 'min', null);
+        else if (action === 'early') openPaymentModal(creditId, 'early', null);
+      };
+    });
+    // Клик по платежу — редактирование
+    card.querySelectorAll('[data-payment-id]').forEach(pEl => {
+      pEl.onclick = (e) => {
+        e.stopPropagation();
+        const pid = pEl.dataset.paymentId;
+        const payment = state.payments.find(p => p.id === pid);
+        if (payment) openPaymentModal(payment.credit_id, payment.type, payment);
       };
     });
   });
 }
 
-// ==================== МОДАЛКА ПЛАТЕЖА ====================
-function openPaymentModal(creditId, type = 'min') {
+// ==================== МОДАЛКА ПЛАТЕЖА (создание + редактирование) ====================
+function openPaymentModal(creditId, type = 'min', editPayment = null) {
   const c = state.credits.find(x => String(x.id) === String(creditId));
   if (!c) return;
 
-  document.getElementById('paymentTitle').textContent = 'Платёж · ' + c.name;
+  const isEdit = !!editPayment;
+  document.getElementById('paymentTitle').textContent =
+    isEdit ? 'Редактировать платёж' : 'Платёж · ' + c.name;
   document.getElementById('payCreditId').value = creditId;
-  document.getElementById('payAmount').value = type === 'early' ? '' : (c.monthly_payment || '');
-  document.getElementById('payDate').value = today();
+  document.getElementById('payEditId').value = isEdit ? editPayment.id : '';
 
-  // Тип
-  setPayType(type);
+  // Показываем кнопку удаления только при редактировании
+  document.getElementById('btnPayDelete').style.display = isEdit ? 'block' : 'none';
+  document.getElementById('btnPayCancel').style.display = isEdit ? 'block' : 'none';
 
-  // Инфо
+  if (isEdit) {
+    document.getElementById('payAmount').value = editPayment.amount;
+    document.getElementById('payDate').value = editPayment.date;
+    setPayType(editPayment.type || 'min');
+  } else {
+    document.getElementById('payAmount').value = type === 'early' ? '' : (c.monthly_payment || '');
+    document.getElementById('payDate').value = today();
+    setPayType(type);
+  }
+
   document.getElementById('payCurrentDebt').textContent = formatMoney(c.current_debt);
   document.getElementById('payMonthly').textContent = formatMoney(c.monthly_payment);
   updatePayAfter();
 
-  // Слушатель на изменение суммы
   const amountInput = document.getElementById('payAmount');
   amountInput.oninput = updatePayAfter;
 
@@ -1932,32 +2119,41 @@ function setPayType(type) {
 
 function updatePayAfter() {
   const creditId = document.getElementById('payCreditId').value;
+  const editId = document.getElementById('payEditId').value;
   const c = state.credits.find(x => String(x.id) === String(creditId));
   if (!c) return;
   const amount = Number(document.getElementById('payAmount').value) || 0;
-  const after = Math.max(0, Number(c.current_debt) - amount);
+
+  // Если редактируем — сначала возвращаем старую сумму
+  let baseDebt = Number(c.current_debt);
+  if (editId) {
+    const oldP = state.payments.find(p => p.id === editId);
+    if (oldP) baseDebt += Number(oldP.amount);
+  }
+  const after = Math.max(0, baseDebt - amount);
   document.getElementById('payAfter').textContent = formatMoney(after);
 }
 
 document.querySelectorAll('#payTypeSegmented button').forEach(b => {
   b.addEventListener('click', () => {
     setPayType(b.dataset.paytype);
-    // Если досрочный — очистить сумму
+    const editId = document.getElementById('payEditId').value;
+    if (editId) return; // при редактировании не меняем сумму автоматически
     if (b.dataset.paytype === 'early') {
       document.getElementById('payAmount').value = '';
-      updatePayAfter();
     } else {
       const creditId = document.getElementById('payCreditId').value;
       const c = state.credits.find(x => String(x.id) === String(creditId));
       if (c) document.getElementById('payAmount').value = c.monthly_payment || '';
-      updatePayAfter();
     }
+    updatePayAfter();
   });
 });
 
 document.getElementById('formPayment').addEventListener('submit', async (e) => {
   e.preventDefault();
   const creditId = document.getElementById('payCreditId').value;
+  const editId = document.getElementById('payEditId').value;
   const amount = Number(document.getElementById('payAmount').value);
   const date = document.getElementById('payDate').value;
   const type = document.getElementById('payType').value;
@@ -1965,10 +2161,29 @@ document.getElementById('formPayment').addEventListener('submit', async (e) => {
   if (!amount || amount <= 0) { toast('Введи сумму', true); return; }
 
   try {
-    await api('addPayment', { credit_id: creditId, amount, date, type });
+    if (editId) {
+      await api('updatePayment', { id: editId, data: { amount, date, type } });
+      toast('Платёж обновлён');
+    } else {
+      await api('addPayment', { credit_id: creditId, amount, date, type });
+      toast(type === 'early' ? 'Досрочный платёж внесён' : 'Платёж внесён');
+    }
     document.getElementById('modalPayment').classList.remove('open');
-    toast(type === 'early' ? 'Досрочный платёж внесён' : 'Платёж внесён');
-    await loadAll();
+    await loadAll(false);
+  } catch (err) {
+    toast('Ошибка: ' + err.message, true);
+  }
+});
+
+document.getElementById('btnPayDelete').addEventListener('click', async () => {
+  const editId = document.getElementById('payEditId').value;
+  if (!editId) return;
+  if (!confirm('Удалить платёж? Долг по кредиту восстановится.')) return;
+  try {
+    await api('deletePayment', { id: editId });
+    document.getElementById('modalPayment').classList.remove('open');
+    toast('Платёж удалён');
+    await loadAll(false);
   } catch (err) {
     toast('Ошибка: ' + err.message, true);
   }
@@ -1979,7 +2194,7 @@ document.getElementById('closePayment').onclick = () =>
 document.getElementById('btnPayCancel').onclick = () =>
   document.getElementById('modalPayment').classList.remove('open');
 
-// ==================== МОДАЛКИ ОПЕРАЦИЙ ====================
+// ==================== МОДАЛКА ТРАНЗАКЦИИ ====================
 function openAddModal(category, type) {
   document.getElementById('modalTitle').textContent = 'Новая операция';
   document.getElementById('editId').value = '';
@@ -2031,7 +2246,6 @@ function updateSubcats() {
     subs.map(s => `<option value="${s}">${s}</option>`).join('');
 }
 
-// ==================== ОБРАБОТЧИКИ ====================
 document.getElementById('fCategory').addEventListener('change', updateSubcats);
 
 document.querySelectorAll('#typeSegmented button').forEach(b => {
@@ -2059,14 +2273,14 @@ document.getElementById('formAdd').addEventListener('submit', async (e) => {
 
   try {
     if (id) {
-      await api('deleteTransaction', { id });
-      await api('addTransaction', data);
+      await api('updateTransaction', { id, data });
+      toast('Обновлено');
     } else {
       await api('addTransaction', data);
+      toast('Сохранено');
     }
     document.getElementById('modalAdd').classList.remove('open');
-    toast('Сохранено');
-    await loadAll();
+    await loadAll(false);
   } catch (err) {
     toast('Ошибка: ' + err.message, true);
   }
@@ -2079,7 +2293,7 @@ document.getElementById('btnDelete').addEventListener('click', async () => {
     await api('deleteTransaction', { id });
     document.getElementById('modalAdd').classList.remove('open');
     toast('Удалено');
-    await loadAll();
+    await loadAll(false);
   } catch (err) {
     toast('Ошибка: ' + err.message, true);
   }
@@ -2087,14 +2301,32 @@ document.getElementById('btnDelete').addEventListener('click', async () => {
 
 document.getElementById('closeModal').onclick = () =>
   document.getElementById('modalAdd').classList.remove('open');
-document.getElementById('closeDetail').onclick = () =>
-  document.getElementById('modalDetail').classList.remove('open');
 
 document.querySelectorAll('.modal').forEach(m => {
   m.addEventListener('click', e => {
     if (e.target === m) m.classList.remove('open');
   });
 });
+
+// ==================== НАСТРОЙКИ ====================
+document.getElementById('btnSaveSettings').onclick = () => {
+  const b = {
+    income: Number(document.getElementById('setIncome').value) || 0,
+    mandatory: Number(document.getElementById('setMandatory').value) || 0,
+    savings: Number(document.getElementById('setSavings').value) || 0
+  };
+  state.budget = b;
+  saveBudget(b);
+  renderBudget();
+  toast('Настройки сохранены');
+};
+
+function loadSettingsIntoForm() {
+  const b = state.budget || {};
+  document.getElementById('setIncome').value = b.income || '';
+  document.getElementById('setMandatory').value = b.mandatory || '';
+  document.getElementById('setSavings').value = b.savings || '';
+}
 
 // ==================== НАВИГАЦИЯ ====================
 function switchView(view) {
@@ -2114,6 +2346,9 @@ function switchView(view) {
       }
     }, 60);
   }
+  if (view === 'settings') {
+    loadSettingsIntoForm();
+  }
 }
 
 document.querySelectorAll('.bottom-nav button').forEach(b => {
@@ -2126,7 +2361,7 @@ document.getElementById('fabAdd').onclick = () => openAddModal();
   document.getElementById(id).addEventListener('change', renderHistory);
 });
 
-document.getElementById('syncBtn').onclick = loadAll;
+document.getElementById('syncBtn').onclick = () => loadAll(true);
 
 // ==================== СВОДКА ====================
 function buildSummary(transactions, from, to) {
@@ -2167,7 +2402,6 @@ function seedDemoData() {
     const db = JSON.parse(existing);
     if (db.credits && db.credits.length) return;
   }
-
   const demoCredits = [
     { id: 4, name: 'Кредит 4', priority: 1, total: 20800,  current_debt: 20800,  rate: 0, monthly_payment: 2600,  close_date: '2026-11', status: 'active' },
     { id: 7, name: 'Кредит 7', priority: 2, total: 27000,  current_debt: 27000,  rate: 0, monthly_payment: 1300,  close_date: '2027-01', status: 'active' },
@@ -2177,10 +2411,8 @@ function seedDemoData() {
     { id: 3, name: 'Кредит 3', priority: 6, total: 159000, current_debt: 159000, rate: 0, monthly_payment: 7500,  close_date: '2027-11', status: 'active' },
     { id: 5, name: 'Кредит 5', priority: 7, total: 249000, current_debt: 249000, rate: 0, monthly_payment: 12500, close_date: '2028-02', status: 'active' }
   ];
-
   const existingTx = existing ? (JSON.parse(existing).transactions || []) : [];
   const existingPay = existing ? (JSON.parse(existing).payments || []) : [];
-
   localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify({
     transactions: existingTx,
     credits: demoCredits,
@@ -2199,7 +2431,12 @@ document.getElementById('filterCategory').innerHTML =
 
 initCollapsibleSections();
 seedDemoData();
-loadAll();
+
+// Сначала мгновенно показываем кэш
+const hadCache = loadFromCache();
+
+// Потом тихо синхронизируемся с сервером
+loadAll(!hadCache);
 
 let resizeTimer;
 window.addEventListener('resize', () => {
