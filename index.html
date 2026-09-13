@@ -13,913 +13,307 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
 :root {
-  --bg-primary: #000000;
-  --bg-secondary: #1C1C1E;
-  --bg-tertiary: #2C2C2E;
-  --bg-card: #1C1C1E;
-  --bg-card-hover: #2C2C2E;
-  --bg-elevated: #2C2C2E;
-  --accent: #5E8CBF;
-  --accent-light: #7BA8D9;
-  --accent-dark: #456B94;
-  --accent-glow: rgba(94,140,191,0.18);
-  --text-primary: #FFFFFF;
-  --text-secondary: #8E8E93;
-  --text-tertiary: #48484A;
-  --separator: rgba(84, 84, 88, 0.36);
-  --separator-opaque: #38383A;
-  --income: #4CAF7A;
-  --expense: #C66B66;
-  --warning: #D99A4E;
-  --purple: #9B6DB8;
-  --pink: #C2607A;
-  --teal: #6BA8B8;
-  --yellow: #C9B560;
+  --bg-primary: #000000; --bg-secondary: #1C1C1E; --bg-tertiary: #2C2C2E;
+  --bg-card: #1C1C1E; --bg-card-hover: #2C2C2E; --bg-elevated: #2C2C2E;
+  --accent: #5E8CBF; --accent-light: #7BA8D9; --accent-dark: #456B94; --accent-glow: rgba(94,140,191,0.18);
+  --text-primary: #FFFFFF; --text-secondary: #8E8E93; --text-tertiary: #48484A;
+  --separator: rgba(84, 84, 88, 0.36); --separator-opaque: #38383A;
+  --income: #4CAF7A; --expense: #C66B66; --warning: #D99A4E; --purple: #9B6DB8;
+  --pink: #C2607A; --teal: #6BA8B8; --yellow: #C9B560;
   --shadow: rgba(0,0,0,0.6);
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
+  --radius-sm: 10px; --radius-md: 14px; --radius-lg: 18px;
 }
-
 html { color-scheme: dark; }
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Text', 'Segoe UI', sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  padding-bottom: calc(90px + env(safe-area-inset-bottom));
-  line-height: 1.4;
-  -webkit-font-smoothing: antialiased;
-  letter-spacing: -0.01em;
+  background: var(--bg-primary); color: var(--text-primary); min-height: 100vh;
+  padding-bottom: calc(90px + env(safe-area-inset-bottom)); line-height: 1.4;
+  -webkit-font-smoothing: antialiased; letter-spacing: -0.01em;
 }
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 20px;
-  background: rgba(28,28,30,0.85);
-  backdrop-filter: saturate(180%) blur(20px);
+.header { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px;
+  background: rgba(28,28,30,0.85); backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 0.5px solid var(--separator);
-  position: sticky; top: 0; z-index: 100;
-}
-.logo {
-  font-weight: 600; font-size: 17px;
-  color: var(--text-primary);
-  display: flex; align-items: center; gap: 10px;
-  letter-spacing: -0.02em;
-}
+  border-bottom: 0.5px solid var(--separator); position: sticky; top: 0; z-index: 100; }
+.logo { font-weight: 600; font-size: 17px; display: flex; align-items: center; gap: 10px; letter-spacing: -0.02em; }
 .logo-mark { width: 26px; height: 26px; color: var(--accent); flex-shrink: 0; }
-.sync-btn {
-  background: transparent; border: none;
-  color: var(--accent);
-  width: 32px; height: 32px;
-  border-radius: 50%; cursor: pointer;
-  transition: all 0.15s;
-  display: flex; align-items: center; justify-content: center;
-  padding: 6px;
-}
+.sync-btn { background: transparent; border: none; color: var(--accent); width: 32px; height: 32px;
+  border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 6px; }
 .sync-btn:active { background: var(--accent-glow); }
 .sync-btn svg { width: 100%; height: 100%; }
 .sync-btn.syncing svg { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
 .view { display: none; padding: 16px; max-width: 720px; margin: 0 auto; }
 .view.active { display: block; animation: fadeIn 0.25s ease; }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: none; }
-}
-
-.cards-row {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 12px; margin-bottom: 16px;
-}
-.card {
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-  position: relative; overflow: hidden;
-  border: 0.5px solid var(--separator);
-}
-.card.accent {
-  background: linear-gradient(135deg, #3A5878 0%, #2A4258 100%);
-  border-color: rgba(94,140,191,0.25);
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 16px;
+  position: relative; overflow: hidden; border: 0.5px solid var(--separator); }
+.card.accent { background: linear-gradient(135deg, #3A5878 0%, #2A4258 100%); border-color: rgba(94,140,191,0.25); }
 .card.accent .card-label { color: rgba(255,255,255,0.7); }
 .card.accent .card-value { color: #FFFFFF; }
 .card.accent .card-sub { color: rgba(255,255,255,0.55); }
-.card.accent.negative {
-  background: linear-gradient(135deg, #6B3A3A 0%, #4A2A2A 100%);
-  border-color: rgba(198,107,102,0.3);
-}
-.card-label {
-  font-size: 11px; color: var(--text-secondary);
-  margin-bottom: 8px; text-transform: uppercase;
-  letter-spacing: 0.06em; font-weight: 600;
-}
-.card-value {
-  font-size: 22px; font-weight: 700;
-  color: var(--text-primary); line-height: 1.2;
-  word-break: break-word;
-  font-feature-settings: 'tnum';
-}
+.card.accent.negative { background: linear-gradient(135deg, #6B3A3A 0%, #4A2A2A 100%); border-color: rgba(198,107,102,0.3); }
+.card-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;
+  text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+.card-value { font-size: 22px; font-weight: 700; line-height: 1.2; word-break: break-word; font-feature-settings: 'tnum'; }
 .card-value.small { font-size: 16px; font-weight: 600; }
 .card-value .income { color: var(--income); }
 .card-value .expense { color: var(--expense); }
 .card-sub { font-size: 11px; color: var(--text-secondary); margin-top: 6px; }
-
-.month-switcher {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--bg-card);
-  border: 0.5px solid var(--separator);
-  border-radius: var(--radius-md);
-  padding: 8px 10px;
-  margin-bottom: 14px;
-}
-.month-btn {
-  background: var(--bg-tertiary);
-  border: none;
-  color: var(--accent);
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-  flex-shrink: 0;
-}
+.month-switcher { display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg-card); border: 0.5px solid var(--separator); border-radius: var(--radius-md);
+  padding: 8px 10px; margin-bottom: 14px; }
+.month-btn { background: var(--bg-tertiary); border: none; color: var(--accent);
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .month-btn:active { background: var(--bg-elevated); transform: scale(0.94); }
 .month-btn svg { width: 18px; height: 18px; }
-.month-title {
-  flex: 1;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 8px;
-  transition: background 0.15s;
-  text-transform: capitalize;
-}
+.month-title { flex: 1; text-align: center; font-size: 14px; font-weight: 600;
+  cursor: pointer; padding: 4px 8px; border-radius: 8px; text-transform: capitalize; }
 .month-title:active { background: var(--bg-tertiary); }
-.month-title .month-hint {
-  display: block;
-  font-size: 10px;
-  color: var(--text-secondary);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 2px;
-}
-
-.section {
-  margin-bottom: 16px;
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  border: 0.5px solid var(--separator);
-  overflow: hidden;
-  transition: background 0.2s;
-}
-.section-header {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px 16px;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  transition: background 0.15s;
-}
+.month-title .month-hint { display: block; font-size: 10px; color: var(--text-secondary);
+  font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+.section { margin-bottom: 16px; background: var(--bg-card); border-radius: var(--radius-lg);
+  border: 0.5px solid var(--separator); overflow: hidden; }
+.section-header { display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+  cursor: pointer; user-select: none; -webkit-user-select: none; }
 .section-header:active { background: var(--bg-card-hover); }
-.section-chevron {
-  width: 16px; height: 16px;
-  color: var(--text-secondary);
-  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
-  flex-shrink: 0;
-}
+.section-chevron { width: 16px; height: 16px; color: var(--text-secondary);
+  transition: transform 0.25s; flex-shrink: 0; }
 .section.collapsed .section-chevron { transform: rotate(-90deg); }
-.section-title {
-  font-size: 13px; color: var(--text-primary);
-  font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  flex: 1;
-}
-.section-badge {
-  font-size: 11px;
-  color: var(--text-secondary);
-  font-weight: 500;
-  background: var(--bg-tertiary);
-  padding: 3px 8px;
-  border-radius: 10px;
-  font-feature-settings: 'tnum';
-}
-.section-content {
-  padding: 0 16px 16px;
-  max-height: 5000px;
-  overflow: hidden;
-  transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1),
-              padding 0.25s,
-              opacity 0.25s;
-  opacity: 1;
-}
-.section.collapsed .section-content {
-  max-height: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  opacity: 0;
-}
-
-.chart-wrap {
-  position: relative;
-  height: 280px;
-  overflow: visible;
-}
-.chart-wrap canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-}
-.chart-center {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center; pointer-events: none;
-  font-size: 14px; font-weight: 700;
-  color: var(--text-primary); line-height: 1.2;
-  font-feature-settings: 'tnum';
-  max-width: 42%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.chart-center small {
-  display: block; font-size: 9px;
-  color: var(--text-secondary); font-weight: 500;
-  margin-top: 2px; text-transform: uppercase;
-  letter-spacing: 0.08em;
-  white-space: nowrap;
-}
-
-.chart-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 14px;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 0.5px solid var(--separator);
-  justify-content: center;
-}
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-.legend-dot {
-  width: 9px; height: 9px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.ratio-block {
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 0.5px solid var(--separator);
-}
-.ratio-bar {
-  display: flex;
-  height: 12px;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 12px;
-  background: var(--bg-tertiary);
-}
-.ratio-income {
-  background: var(--income);
-  transition: width 0.5s;
-}
-.ratio-expense {
-  background: var(--expense);
-  transition: width 0.5s;
-}
-.ratio-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-}
-.ratio-stat {
-  text-align: center;
-}
-.ratio-stat-label {
-  font-size: 10px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.ratio-stat-value {
-  font-size: 14px;
-  font-weight: 700;
-  font-feature-settings: 'tnum';
-}
+.section-title { font-size: 13px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.06em; flex: 1; }
+.section-badge { font-size: 11px; color: var(--text-secondary); font-weight: 500;
+  background: var(--bg-tertiary); padding: 3px 8px; border-radius: 10px; font-feature-settings: 'tnum'; }
+.section-content { padding: 0 16px 16px; max-height: 5000px; overflow: hidden;
+  transition: max-height 0.35s, padding 0.25s, opacity 0.25s; opacity: 1; }
+.section.collapsed .section-content { max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; }
+.chart-wrap { position: relative; height: 240px; }
+.chart-wrap canvas { display: block; width: 100% !important; height: 100% !important; }
+.chart-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  text-align: center; pointer-events: none; font-size: 15px; font-weight: 700;
+  line-height: 1.2; font-feature-settings: 'tnum'; max-width: 45%;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chart-center small { display: block; font-size: 9px; color: var(--text-secondary);
+  font-weight: 500; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 12px;
+  padding-top: 12px; border-top: 0.5px solid var(--separator); justify-content: center; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px;
+  color: var(--text-secondary); font-weight: 500; }
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.ratio-block { margin-top: 14px; padding-top: 14px; border-top: 0.5px solid var(--separator); }
+.ratio-bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden;
+  margin-bottom: 12px; background: var(--bg-tertiary); }
+.ratio-income { background: var(--income); transition: width 0.5s; }
+.ratio-expense { background: var(--expense); transition: width 0.5s; }
+.ratio-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.ratio-stat { text-align: center; }
+.ratio-stat-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase;
+  letter-spacing: 0.05em; font-weight: 600; margin-bottom: 4px; }
+.ratio-stat-value { font-size: 14px; font-weight: 700; font-feature-settings: 'tnum'; }
 .ratio-stat-value.green { color: var(--income); }
 .ratio-stat-value.red { color: var(--expense); }
 .ratio-stat-value.accent { color: var(--accent-light); }
-
-.ratio-percent {
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-bottom: 10px;
-}
-.ratio-percent strong {
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 10px;
-}
-.quick-btn {
-  background: var(--bg-tertiary);
-  border: 0.5px solid var(--separator);
-  border-radius: var(--radius-md);
-  padding: 14px 8px 12px;
-  color: var(--text-primary);
-  font-size: 12px; font-weight: 500;
-  cursor: pointer; text-align: center;
-  transition: all 0.15s;
-  font-family: inherit;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 8px;
-}
-.quick-btn:active {
-  background: var(--bg-elevated);
-  transform: scale(0.96);
-}
-.quick-btn svg {
-  width: 26px; height: 26px;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-
+.ratio-percent { text-align: center; font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
+.ratio-percent strong { color: var(--text-primary); font-weight: 700; }
+.quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+.quick-btn { background: var(--bg-tertiary); border: 0.5px solid var(--separator);
+  border-radius: var(--radius-md); padding: 14px 8px 12px; color: var(--text-primary);
+  font-size: 12px; font-weight: 500; cursor: pointer; text-align: center;
+  font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.quick-btn:active { background: var(--bg-elevated); transform: scale(0.96); }
+.quick-btn svg { width: 26px; height: 26px; color: var(--accent); flex-shrink: 0; }
 .block-list { display: flex; flex-direction: column; gap: 8px; }
-.block-item {
-  background: var(--bg-tertiary);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
-  cursor: pointer; transition: all 0.15s;
-  border: 0.5px solid var(--separator);
-}
-.block-item:active {
-  background: var(--bg-elevated);
-  transform: scale(0.99);
-}
-.block-row {
-  display: flex; justify-content: space-between;
-  align-items: center; margin-bottom: 6px;
-  gap: 8px;
-}
+.block-item { background: var(--bg-tertiary); border-radius: var(--radius-md);
+  padding: 12px 14px; cursor: pointer; border: 0.5px solid var(--separator); }
+.block-item:active { background: var(--bg-elevated); transform: scale(0.99); }
+.block-row { display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px; gap: 8px; }
 .block-name { font-size: 13px; font-weight: 500; }
-.block-amount { font-size: 14px; font-weight: 700; color: var(--text-primary); white-space: nowrap; font-feature-settings: 'tnum'; }
-.block-bar {
-  height: 3px; background: var(--bg-elevated);
-  border-radius: 2px; overflow: hidden;
-}
-.block-bar-fill {
-  height: 100%; border-radius: 2px;
-  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-}
-.block-empty {
-  color: var(--text-secondary); font-size: 13px;
-  padding: 20px; text-align: center;
-  background: var(--bg-tertiary);
-  border: 0.5px dashed var(--separator-opaque);
-  border-radius: var(--radius-md);
-}
-
-.debt-progress {
-  background: var(--bg-tertiary);
-  border-radius: var(--radius-md);
-  padding: 14px; margin-bottom: 10px;
-  border: 0.5px solid var(--separator);
-}
-.debt-total {
-  font-size: 13px; margin-bottom: 10px;
-  color: var(--text-secondary);
-}
-.debt-total strong {
-  color: var(--text-primary); font-size: 18px;
-  font-weight: 700;
-  font-feature-settings: 'tnum';
-}
-.progress-bar {
-  height: 8px; background: var(--bg-elevated);
-  border-radius: 4px; overflow: hidden;
-}
-.progress-fill {
-  height: 100%; width: 0%;
-  background: var(--accent);
-  border-radius: 4px;
-  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
-}
+.block-amount { font-size: 14px; font-weight: 700; white-space: nowrap; font-feature-settings: 'tnum'; }
+.block-bar { height: 3px; background: var(--bg-elevated); border-radius: 2px; overflow: hidden; }
+.block-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+.block-empty { color: var(--text-secondary); font-size: 13px; padding: 20px; text-align: center;
+  background: var(--bg-tertiary); border: 0.5px dashed var(--separator-opaque); border-radius: var(--radius-md); }
+.debt-progress { background: var(--bg-tertiary); border-radius: var(--radius-md);
+  padding: 14px; margin-bottom: 10px; border: 0.5px solid var(--separator); }
+.debt-total { font-size: 13px; margin-bottom: 10px; color: var(--text-secondary); }
+.debt-total strong { color: var(--text-primary); font-size: 18px; font-weight: 700; font-feature-settings: 'tnum'; }
+.progress-bar { height: 8px; background: var(--bg-elevated); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 4px; transition: width 0.6s; }
 .credits-list { display: flex; flex-direction: column; gap: 8px; }
-
-.debt-card {
-  background: var(--bg-tertiary);
-  border-radius: var(--radius-md);
-  border: 0.5px solid var(--separator);
-  overflow: hidden;
-}
+.debt-card { background: var(--bg-tertiary); border-radius: var(--radius-md);
+  border: 0.5px solid var(--separator); overflow: hidden; }
 .debt-card.target { border-color: var(--accent); }
 .debt-card.closed { opacity: 0.55; }
-.debt-card-header {
-  padding: 12px 14px;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-}
+.debt-card-header { padding: 12px 14px; cursor: pointer; user-select: none; -webkit-user-select: none; }
 .debt-card-header:active { background: var(--bg-elevated); }
-.debt-head {
-  display: flex; justify-content: space-between;
-  align-items: center; margin-bottom: 8px;
-  gap: 8px;
-}
-.debt-name {
-  font-size: 13px; font-weight: 600;
-  display: flex; align-items: center; gap: 6px;
-  flex: 1; min-width: 0;
-}
+.debt-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
+.debt-name { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
 .debt-name svg { width: 14px; height: 14px; color: var(--accent); flex-shrink: 0; }
-.debt-name .chevron {
-  width: 14px; height: 14px;
-  color: var(--text-secondary);
-  transition: transform 0.25s;
-  margin-left: auto;
-  flex-shrink: 0;
-}
+.debt-name .chevron { width: 14px; height: 14px; color: var(--text-secondary);
+  transition: transform 0.25s; margin-left: auto; flex-shrink: 0; }
 .debt-card.open .debt-name .chevron { transform: rotate(90deg); }
-.debt-num { font-size: 13px; font-weight: 700; color: var(--text-primary); white-space: nowrap; font-feature-settings: 'tnum'; }
-.debt-meta {
-  display: flex; justify-content: space-between;
-  font-size: 11px; color: var(--text-secondary);
-  margin-top: 6px;
-  gap: 8px;
-}
-
-.debt-card-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
-}
+.debt-num { font-size: 13px; font-weight: 700; white-space: nowrap; font-feature-settings: 'tnum'; }
+.debt-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-top: 6px; gap: 8px; }
+.debt-card-body { max-height: 0; overflow: hidden; transition: max-height 0.3s; }
 .debt-card.open .debt-card-body { max-height: 3000px; }
-.debt-card-body-inner {
-  padding: 0 14px 14px;
-  border-top: 0.5px solid var(--separator);
-  padding-top: 12px;
-}
-.debt-detail-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-.debt-detail-item {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  border: 0.5px solid var(--separator);
-}
-.debt-detail-label {
-  font-size: 10px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.debt-detail-value {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  font-feature-settings: 'tnum';
-}
-.debt-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.debt-action-btn {
-  padding: 11px 12px;
-  border-radius: var(--radius-sm);
-  border: none;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: all 0.15s;
-}
+.debt-card-body-inner { padding: 0 14px 14px; border-top: 0.5px solid var(--separator); padding-top: 12px; }
+.debt-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.debt-detail-item { background: var(--bg-secondary); border-radius: var(--radius-sm);
+  padding: 10px 12px; border: 0.5px solid var(--separator); }
+.debt-detail-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase;
+  letter-spacing: 0.05em; font-weight: 600; margin-bottom: 4px; }
+.debt-detail-value { font-size: 14px; font-weight: 600; font-feature-settings: 'tnum'; }
+.debt-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.debt-action-btn { padding: 11px 12px; border-radius: var(--radius-sm); border: none;
+  font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px; }
 .debt-action-btn svg { width: 16px; height: 16px; }
 .debt-action-btn.primary { background: var(--accent); color: #FFFFFF; }
 .debt-action-btn.primary:active { background: var(--accent-dark); }
-.debt-action-btn.secondary {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 0.5px solid var(--separator);
-}
+.debt-action-btn.secondary { background: var(--bg-secondary); color: var(--text-primary);
+  border: 0.5px solid var(--separator); }
 .debt-action-btn.secondary:active { background: var(--bg-elevated); }
-
-.payments-title {
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-.payments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 260px;
-  overflow-y: auto;
-}
-.payment-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 12px;
-  background: var(--bg-secondary);
-  border-radius: var(--radius-sm);
-  border: 0.5px solid var(--separator);
-  cursor: pointer;
-  transition: background 0.15s;
-}
+.payments-title { font-size: 11px; color: var(--text-secondary); text-transform: uppercase;
+  letter-spacing: 0.05em; font-weight: 600; margin-bottom: 8px; }
+.payments-list { display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
+.payment-item { display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 12px; background: var(--bg-secondary); border-radius: var(--radius-sm);
+  border: 0.5px solid var(--separator); cursor: pointer; }
 .payment-item:active { background: var(--bg-elevated); }
-.payment-item-left {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: 0;
-}
+.payment-item-left { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
 .payment-date { font-size: 12px; font-weight: 500; }
-.payment-type {
-  font-size: 10px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-weight: 600;
-}
+.payment-type { font-size: 10px; color: var(--text-secondary); text-transform: uppercase;
+  letter-spacing: 0.04em; font-weight: 600; }
 .payment-type.early { color: var(--warning); }
-.payment-amount {
-  font-size: 13px;
-  font-weight: 700;
-  font-feature-settings: 'tnum';
-}
-.payments-empty {
-  padding: 14px;
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 12px;
-  background: var(--bg-secondary);
-  border-radius: var(--radius-sm);
-  border: 0.5px dashed var(--separator-opaque);
-}
-
-.filters {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 8px; margin-bottom: 14px;
-}
-.filters input, .filters select {
-  background: var(--bg-card);
-  border: 0.5px solid var(--separator);
-  color: var(--text-primary);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  font-size: 13px;
-  font-family: inherit;
-  width: 100%;
-  color-scheme: dark;
-  appearance: none;
-  -webkit-appearance: none;
-}
-.filters input:focus, .filters select:focus {
-  outline: none; border-color: var(--accent);
-}
-.filters select {
+.payment-amount { font-size: 13px; font-weight: 700; font-feature-settings: 'tnum'; }
+.payments-empty { padding: 14px; text-align: center; color: var(--text-secondary);
+  font-size: 12px; background: var(--bg-secondary); border-radius: var(--radius-sm);
+  border: 0.5px dashed var(--separator-opaque); }
+.filters { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.filters select { background: var(--bg-card); border: 0.5px solid var(--separator);
+  color: var(--text-primary); border-radius: var(--radius-sm); padding: 10px 12px;
+  font-size: 13px; font-family: inherit; width: 100%; color-scheme: dark;
+  appearance: none; -webkit-appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 30px;
-}
-.filters input[type="date"] { cursor: pointer; position: relative; }
-.filters input[type="date"]::-webkit-calendar-picker-indicator {
-  cursor: pointer; opacity: 0.6; padding: 4px; border-radius: 4px;
-}
-
+  background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px; }
+.filters select:focus { outline: none; border-color: var(--accent); }
 .history-list { display: flex; flex-direction: column; }
-.history-date-group {
-  font-size: 11px; color: var(--text-secondary);
-  text-transform: uppercase; letter-spacing: 0.06em;
-  margin: 16px 0 6px; padding-left: 4px;
-  display: flex; gap: 10px; align-items: center;
-  font-weight: 600;
-  flex-wrap: wrap;
-}
+.history-date-group { font-size: 11px; color: var(--text-secondary); text-transform: uppercase;
+  letter-spacing: 0.06em; margin: 16px 0 6px; padding-left: 4px; display: flex;
+  gap: 10px; align-items: center; font-weight: 600; flex-wrap: wrap; }
 .history-date-group:first-child { margin-top: 0; }
-.history-item {
-  display: flex; justify-content: space-between;
-  align-items: center;
-  background: var(--bg-card);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  transition: all 0.15s;
-  border: 0.5px solid var(--separator);
-}
-.history-item:active {
-  background: var(--bg-card-hover);
-  transform: scale(0.99);
-}
+.history-item { display: flex; justify-content: space-between; align-items: center;
+  background: var(--bg-card); border-radius: var(--radius-md); padding: 12px 14px;
+  margin-bottom: 6px; cursor: pointer; border: 0.5px solid var(--separator); }
+.history-item:active { background: var(--bg-card-hover); transform: scale(0.99); }
 .history-info { flex: 1; min-width: 0; }
-.history-cat {
-  font-size: 13px; font-weight: 500;
-  white-space: nowrap; overflow: hidden;
-  text-overflow: ellipsis;
-}
-.history-note {
-  font-size: 11px; color: var(--text-secondary);
-  margin-top: 2px;
-  white-space: nowrap; overflow: hidden;
-  text-overflow: ellipsis;
-}
-.history-amount {
-  font-size: 14px; font-weight: 700;
-  margin-left: 12px; white-space: nowrap;
-  font-feature-settings: 'tnum';
-}
+.history-cat { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.history-note { font-size: 11px; color: var(--text-secondary); margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.history-amount { font-size: 14px; font-weight: 700; margin-left: 12px;
+  white-space: nowrap; font-feature-settings: 'tnum'; }
 .history-amount.income { color: var(--income); }
 .history-amount.expense { color: var(--expense); }
-
-.credits-summary {
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  padding: 18px; margin-bottom: 14px;
-  border: 0.5px solid var(--separator);
-}
-.credits-summary h4 {
-  font-size: 11px; color: var(--text-secondary);
-  font-weight: 600; margin-bottom: 8px;
-  text-transform: uppercase; letter-spacing: 0.06em;
-}
-.credits-summary .big {
-  font-size: 28px; font-weight: 700;
-  color: var(--text-primary); line-height: 1.1;
-  word-break: break-word;
-  font-feature-settings: 'tnum';
-  letter-spacing: -0.03em;
-}
-.credits-summary .sub {
-  font-size: 12px; color: var(--text-secondary);
-  margin-top: 6px;
-}
-
-.fab {
-  position: fixed; right: 20px;
-  bottom: calc(90px + env(safe-area-inset-bottom));
-  width: 58px; height: 58px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #FFFFFF;
-  border: none;
-  cursor: pointer; z-index: 50;
-  box-shadow: 0 8px 24px rgba(94,140,191,0.35);
-  transition: all 0.15s;
-  display: flex; align-items: center; justify-content: center;
-}
+.credits-summary { background: var(--bg-card); border-radius: var(--radius-lg);
+  padding: 18px; margin-bottom: 14px; border: 0.5px solid var(--separator); }
+.credits-summary h4 { font-size: 11px; color: var(--text-secondary); font-weight: 600;
+  margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+.credits-summary .big { font-size: 28px; font-weight: 700; line-height: 1.1;
+  word-break: break-word; font-feature-settings: 'tnum'; letter-spacing: -0.03em; }
+.credits-summary .sub { font-size: 12px; color: var(--text-secondary); margin-top: 6px; }
+.fab { position: fixed; right: 20px; bottom: calc(90px + env(safe-area-inset-bottom));
+  width: 58px; height: 58px; border-radius: 50%; background: var(--accent); color: #FFFFFF;
+  border: none; cursor: pointer; z-index: 50; box-shadow: 0 8px 24px rgba(94,140,191,0.35);
+  display: flex; align-items: center; justify-content: center; }
 .fab svg { width: 26px; height: 26px; }
 .fab:active { transform: scale(0.92); }
-
-.bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  display: flex;
-  background: rgba(28,28,30,0.9);
-  backdrop-filter: saturate(180%) blur(20px);
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex;
+  background: rgba(28,28,30,0.9); backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-top: 0.5px solid var(--separator);
-  z-index: 100;
-  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-}
-.bottom-nav button {
-  flex: 1;
-  background: transparent; border: none;
-  color: var(--text-secondary);
-  font-family: inherit;
-  font-size: 10px; font-weight: 500;
-  padding: 4px;
-  cursor: pointer;
-  transition: color 0.15s;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 4px;
-}
+  border-top: 0.5px solid var(--separator); z-index: 100;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); }
+.bottom-nav button { flex: 1; background: transparent; border: none;
+  color: var(--text-secondary); font-family: inherit; font-size: 10px; font-weight: 500;
+  padding: 4px; cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; gap: 4px; }
 .bottom-nav button.active { color: var(--accent); }
 .bottom-nav svg { width: 24px; height: 24px; color: currentColor; }
-
-.modal {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 200;
-  align-items: center; justify-content: center;
-  padding: 16px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 200; align-items: center; justify-content: center; padding: 16px;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .modal.open { display: flex; animation: fadeIn 0.2s; }
-.modal-content {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-lg);
-  width: 100%; max-width: 480px;
-  max-height: 90vh; overflow-y: auto;
-  padding: 20px;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.7);
-  border: 0.5px solid var(--separator);
-}
-.modal-header {
-  display: flex; justify-content: space-between;
-  align-items: center; margin-bottom: 18px;
-}
-.modal-header h2 {
-  font-size: 18px; font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.close-btn {
-  background: var(--bg-tertiary);
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  border-radius: 50%;
-  width: 30px; height: 30px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0;
-}
+.modal-content { background: var(--bg-secondary); border-radius: var(--radius-lg);
+  width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; padding: 20px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7); border: 0.5px solid var(--separator); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.modal-header h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+.close-btn { background: var(--bg-tertiary); border: none; color: var(--text-secondary);
+  cursor: pointer; border-radius: 50%; width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center; padding: 0; }
 .close-btn svg { width: 16px; height: 16px; }
 .close-btn:active { background: var(--separator-opaque); }
-
 .form-row { margin-bottom: 14px; }
-.form-row > label {
-  display: block;
-  font-size: 11px; color: var(--text-secondary);
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
-.form-row input[type="text"],
-.form-row input[type="number"],
-.form-row input[type="date"],
-.form-row select {
-  width: 100%;
-  background: var(--bg-tertiary);
-  border: 0.5px solid var(--separator);
-  color: var(--text-primary);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  font-size: 14px;
-  font-family: inherit;
-  color-scheme: dark;
-  appearance: none;
-  -webkit-appearance: none;
-}
-.form-row select {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 32px;
-}
-.form-row input:focus, .form-row select:focus {
-  outline: none; border-color: var(--accent);
-}
-.form-row input[type="date"] { cursor: pointer; }
-.form-row input[type="date"]::-webkit-calendar-picker-indicator {
-  cursor: pointer; opacity: 0.6; padding: 4px;
-}
-
-.checkbox-row label {
-  display: flex; align-items: center; gap: 8px;
-  text-transform: none; font-size: 13px;
-  font-weight: 400; color: var(--text-primary);
-  cursor: pointer; letter-spacing: 0;
-}
+.form-row > label { display: block; font-size: 11px; color: var(--text-secondary);
+  margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+.form-row input[type="text"], .form-row input[type="number"], .form-row input[type="date"],
+.form-row select { width: 100%; background: var(--bg-tertiary); border: 0.5px solid var(--separator);
+  color: var(--text-primary); border-radius: var(--radius-sm); padding: 12px 14px;
+  font-size: 14px; font-family: inherit; color-scheme: dark; appearance: none; -webkit-appearance: none; }
+.form-row select { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+.form-row input:focus, .form-row select:focus { outline: none; border-color: var(--accent); }
+.form-row input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; padding: 4px; }
+.checkbox-row label { display: flex; align-items: center; gap: 8px; text-transform: none;
+  font-size: 13px; font-weight: 400; cursor: pointer; letter-spacing: 0; }
 .checkbox-row input { width: auto; accent-color: var(--accent); }
-
-.segmented {
-  display: flex; gap: 2px;
-  background: var(--bg-tertiary);
-  border-radius: 9px;
-  padding: 2px;
-}
-.segmented button {
-  flex: 1;
-  background: transparent; border: none;
-  color: var(--text-secondary);
-  padding: 8px;
-  border-radius: 7px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 13px; font-weight: 600;
-  transition: all 0.15s;
-}
-.segmented button.active {
-  background: var(--bg-elevated);
-  color: var(--text-primary);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-}
-
-.form-actions {
-  display: flex; gap: 8px;
-  margin-top: 22px;
-}
-.form-actions button {
-  flex: 1; padding: 13px;
-  border-radius: var(--radius-sm); border: none;
-  font-family: inherit;
-  font-size: 15px; font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-}
+.segmented { display: flex; gap: 2px; background: var(--bg-tertiary); border-radius: 9px; padding: 2px; }
+.segmented button { flex: 1; background: transparent; border: none; color: var(--text-secondary);
+  padding: 8px; border-radius: 7px; cursor: pointer; font-family: inherit;
+  font-size: 13px; font-weight: 600; }
+.segmented button.active { background: var(--bg-elevated); color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.form-actions { display: flex; gap: 8px; margin-top: 22px; }
+.form-actions button { flex: 1; padding: 13px; border-radius: var(--radius-sm);
+  border: none; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
 .btn-primary { background: var(--accent); color: #FFFFFF; }
 .btn-primary:active { background: var(--accent-dark); }
-.btn-danger {
-  background: rgba(198,107,102,0.15);
-  color: var(--expense);
-  flex: 0 0 auto !important;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
-}
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; pointer-events: none; }
+.btn-danger { background: rgba(198,107,102,0.15); color: var(--expense);
+  flex: 0 0 auto !important; padding-left: 20px !important; padding-right: 20px !important; }
 .btn-danger:active { background: rgba(198,107,102,0.25); }
-
-.payment-info {
-  background: var(--bg-tertiary);
-  border-radius: var(--radius-md);
-  padding: 14px;
-  margin-bottom: 16px;
-  border: 0.5px solid var(--separator);
-}
-.payment-info-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  padding: 4px 0;
-}
+.payment-info { background: var(--bg-tertiary); border-radius: var(--radius-md);
+  padding: 14px; margin-bottom: 16px; border: 0.5px solid var(--separator); }
+.payment-info-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
 .payment-info-row span:first-child { color: var(--text-secondary); }
-.payment-info-row span:last-child { color: var(--text-primary); font-weight: 600; font-feature-settings: 'tnum'; }
-
-.toast {
-  position: fixed;
-  bottom: calc(110px + env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: rgba(44,44,46,0.95);
-  color: var(--text-primary);
-  border: 0.5px solid var(--separator);
-  padding: 12px 20px;
-  border-radius: var(--radius-md);
-  font-size: 13px; font-weight: 500;
-  z-index: 300;
-  opacity: 0; pointer-events: none;
-  transition: all 0.25s;
+.payment-info-row span:last-child { font-weight: 600; font-feature-settings: 'tnum'; }
+.toast { position: fixed; bottom: calc(110px + env(safe-area-inset-bottom));
+  left: 50%; transform: translateX(-50%) translateY(20px);
+  background: rgba(44,44,46,0.95); color: var(--text-primary);
+  border: 0.5px solid var(--separator); padding: 12px 20px;
+  border-radius: var(--radius-md); font-size: 13px; font-weight: 500; z-index: 300;
+  opacity: 0; pointer-events: none; transition: all 0.25s;
   box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  max-width: 90vw;
-  text-align: center;
-}
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  max-width: 90vw; text-align: center; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast.error { color: var(--expense); }
-
+.loading-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  z-index: 400; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.loading-overlay.open { display: flex; }
+.loading-box { background: var(--bg-secondary); border-radius: var(--radius-lg);
+  padding: 22px 28px; text-align: center; border: 0.5px solid var(--separator);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7); }
+.loading-spinner { width: 32px; height: 32px; border: 3px solid var(--separator);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+.loading-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
 @media (max-width: 520px) {
-  .chart-wrap { height: 250px; }
-  .chart-center { font-size: 13px; max-width: 38%; }
+  .chart-wrap { height: 220px; }
+  .chart-center { font-size: 14px; max-width: 42%; }
   .cards-row { grid-template-columns: 1fr; gap: 10px; }
   .card-value { font-size: 20px; }
   .card-value.small { font-size: 15px; }
@@ -941,11 +335,10 @@ body {
   .month-title { font-size: 13px; }
   .ratio-stat-value { font-size: 12px; }
 }
-
 @media (max-width: 360px) {
   .quick-grid { grid-template-columns: repeat(2, 1fr); }
   .card-value { font-size: 18px; }
-  .chart-wrap { height: 230px; }
+  .chart-wrap { height: 200px; }
   .debt-actions { grid-template-columns: 1fr; }
 }
 </style>
@@ -954,20 +347,15 @@ body {
 
 <header class="header">
   <div class="logo">
-    <svg class="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <svg class="logo-mark" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Финансы
   </div>
   <button class="sync-btn" id="syncBtn" title="Синхронизация">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </header>
 
 <main id="view-dashboard" class="view active">
-
   <section class="cards-row">
     <div class="card accent" id="balanceCard">
       <div class="card-label">Остаток всего</div>
@@ -982,17 +370,11 @@ body {
       </div>
     </div>
   </section>
-
   <div class="month-switcher">
-    <button class="month-btn" id="prevMonth" title="Предыдущий месяц">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="month-title" id="monthTitle">Сентябрь 2026<span class="month-hint">Текущий месяц</span></div>
-    <button class="month-btn" id="nextMonth" title="Следующий месяц">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
+    <button class="month-btn" id="prevMonth"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="month-title" id="monthTitle">—</div>
+    <button class="month-btn" id="nextMonth"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
-
   <section class="section" data-section="charts">
     <div class="section-header">
       <svg class="section-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1004,78 +386,48 @@ body {
         <canvas id="chartMain"></canvas>
         <div class="chart-center" id="chartCenter"></div>
       </div>
-
       <div class="chart-legend" id="chartLegend"></div>
-
-      <div class="ratio-block" id="ratioBlock">
+      <div class="ratio-block">
         <div class="ratio-percent" id="ratioPercent">—</div>
         <div class="ratio-bar">
           <div class="ratio-income" id="ratioIncomeBar" style="width: 0%"></div>
           <div class="ratio-expense" id="ratioExpenseBar" style="width: 0%"></div>
         </div>
         <div class="ratio-stats">
-          <div class="ratio-stat">
-            <div class="ratio-stat-label">Доход</div>
-            <div class="ratio-stat-value green" id="ratioIncome">0 ₽</div>
-          </div>
-          <div class="ratio-stat">
-            <div class="ratio-stat-label">Расход</div>
-            <div class="ratio-stat-value red" id="ratioExpense">0 ₽</div>
-          </div>
-          <div class="ratio-stat">
-            <div class="ratio-stat-label">Остаток</div>
-            <div class="ratio-stat-value accent" id="ratioBalance">0 ₽</div>
-          </div>
+          <div class="ratio-stat"><div class="ratio-stat-label">Доход</div><div class="ratio-stat-value green" id="ratioIncome">0 ₽</div></div>
+          <div class="ratio-stat"><div class="ratio-stat-label">Расход</div><div class="ratio-stat-value red" id="ratioExpense">0 ₽</div></div>
+          <div class="ratio-stat"><div class="ratio-stat-label">Остаток</div><div class="ratio-stat-value accent" id="ratioBalance">0 ₽</div></div>
         </div>
       </div>
     </div>
   </section>
-
   <section class="section" data-section="quick">
     <div class="section-header">
       <svg class="section-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="section-title">Быстрое добавление</span>
     </div>
-    <div class="section-content">
-      <div class="quick-grid" id="quickGrid"></div>
-    </div>
+    <div class="section-content"><div class="quick-grid" id="quickGrid"></div></div>
   </section>
-
   <section class="section" data-section="blocks">
     <div class="section-header">
       <svg class="section-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="section-title">Расходы по блокам</span>
       <span class="section-badge" id="blocksBadge"></span>
     </div>
-    <div class="section-content">
-      <div class="block-list" id="blockList"></div>
-    </div>
+    <div class="section-content"><div class="block-list" id="blockList"></div></div>
   </section>
-
-  <button class="fab" id="fabAdd" title="Добавить операцию">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
-  </button>
+  <button class="fab" id="fabAdd"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button>
 </main>
 
 <main id="view-history" class="view">
   <div class="month-switcher">
-    <button class="month-btn" id="histPrevMonth">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="month-title" id="histMonthTitle">Сентябрь 2026<span class="month-hint">История операций</span></div>
-    <button class="month-btn" id="histNextMonth">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
+    <button class="month-btn" id="histPrevMonth"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="month-title" id="histMonthTitle">—</div>
+    <button class="month-btn" id="histNextMonth"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
   <div class="filters">
     <select id="filterCategory"><option value="">Все категории</option></select>
-    <select id="filterType">
-      <option value="">Все типы</option>
-      <option value="expense">Расходы</option>
-      <option value="income">Доходы</option>
-    </select>
+    <select id="filterType"><option value="">Все типы</option><option value="expense">Расходы</option><option value="income">Доходы</option></select>
   </div>
   <div class="history-list" id="historyList"></div>
 </main>
@@ -1099,33 +451,16 @@ body {
 </main>
 
 <nav class="bottom-nav">
-  <button data-view="dashboard" class="active">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    Дашборд
-  </button>
-  <button data-view="history">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    История
-  </button>
-  <button data-view="credits">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    Кредиты
-  </button>
+  <button data-view="dashboard" class="active"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Дашборд</button>
+  <button data-view="history"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>История</button>
+  <button data-view="credits"><svg viewBox="0 0 24 24" fill="none"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Кредиты</button>
 </nav>
 
 <div class="modal" id="modalAdd">
   <div class="modal-content">
     <div class="modal-header">
       <h2 id="modalTitle">Новая операция</h2>
-      <button class="close-btn" id="closeModal" type="button">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
+      <button class="close-btn" id="closeModal" type="button"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     </div>
     <form id="formAdd">
       <input type="hidden" id="editId">
@@ -1137,40 +472,16 @@ body {
         </div>
         <input type="hidden" id="fType" value="expense">
       </div>
-      <div class="form-row">
-        <label>Дата</label>
-        <input type="date" id="fDate" required>
-      </div>
-      <div class="form-row">
-        <label>Категория</label>
-        <select id="fCategory" required></select>
-      </div>
-      <div class="form-row" id="subcatRow">
-        <label>Подкатегория</label>
-        <select id="fSubcategory"></select>
-      </div>
-      <div class="form-row">
-        <label>Сумма, ₽</label>
-        <input type="number" id="fAmount" step="0.01" min="0" required placeholder="0">
-      </div>
-      <div class="form-row">
-        <label>Счёт</label>
-        <select id="fAccount">
-          <option>Карта</option>
-          <option>Наличные</option>
-          <option>Кредитка</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>Комментарий</label>
-        <input type="text" id="fNote" placeholder="Например: Пятёрочка">
-      </div>
-      <div class="form-row checkbox-row">
-        <label><input type="checkbox" id="fImpulse"> Импульсивная покупка</label>
-      </div>
+      <div class="form-row"><label>Дата</label><input type="date" id="fDate" required></div>
+      <div class="form-row"><label>Категория</label><select id="fCategory" required></select></div>
+      <div class="form-row"><label>Подкатегория</label><select id="fSubcategory"></select></div>
+      <div class="form-row"><label>Сумма, ₽</label><input type="number" id="fAmount" step="0.01" min="0" required placeholder="0"></div>
+      <div class="form-row"><label>Счёт</label><select id="fAccount"><option>Карта</option><option>Наличные</option><option>Кредитка</option></select></div>
+      <div class="form-row"><label>Комментарий</label><input type="text" id="fNote" placeholder="Например: Пятёрочка"></div>
+      <div class="form-row checkbox-row"><label><input type="checkbox" id="fImpulse"> Импульсивная покупка</label></div>
       <div class="form-actions">
         <button type="button" class="btn-danger" id="btnDelete" style="display:none">Удалить</button>
-        <button type="submit" class="btn-primary">Сохранить</button>
+        <button type="submit" class="btn-primary" id="btnSaveTransaction">Сохранить</button>
       </div>
     </form>
   </div>
@@ -1180,9 +491,7 @@ body {
   <div class="modal-content">
     <div class="modal-header">
       <h2 id="paymentTitle">Платёж по кредиту</h2>
-      <button class="close-btn" id="closePayment" type="button">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
+      <button class="close-btn" id="closePayment" type="button"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     </div>
     <div class="payment-info">
       <div class="payment-info-row"><span>Текущий долг</span><span id="payCurrentDebt">—</span></div>
@@ -1200,20 +509,21 @@ body {
         </div>
         <input type="hidden" id="payType" value="min">
       </div>
-      <div class="form-row">
-        <label>Сумма, ₽</label>
-        <input type="number" id="payAmount" step="0.01" min="0" required placeholder="0">
-      </div>
-      <div class="form-row">
-        <label>Дата</label>
-        <input type="date" id="payDate" required>
-      </div>
+      <div class="form-row"><label>Сумма, ₽</label><input type="number" id="payAmount" step="0.01" min="0" required placeholder="0"></div>
+      <div class="form-row"><label>Дата</label><input type="date" id="payDate" required></div>
       <div class="form-actions">
         <button type="button" class="btn-danger" id="btnPayDelete" style="display:none">Удалить</button>
         <button type="button" class="btn-danger" id="btnPayCancel">Отмена</button>
-        <button type="submit" class="btn-primary">Сохранить</button>
+        <button type="submit" class="btn-primary" id="btnSavePayment">Сохранить</button>
       </div>
     </form>
+  </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-box">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loadingText">Сохранение…</div>
   </div>
 </div>
 
@@ -1221,49 +531,37 @@ body {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-// ==================== КОНФИГ ====================
 const CONFIG = {
   API_URL: 'https://script.google.com/macros/s/AKfycbzI6MUyRJ6bvnwGl1xzuhMKmRscSiCIgMV5-ha2M9RAxFxio3rez2I3BBT1WXawlhWi/exec',
   API_TOKEN: 'finance_secret_2026',
   CACHE_KEY: 'finance_tracker_v1',
   SECTIONS_KEY: 'finance_sections_state_v1',
   OPEN_CARDS_KEY: 'finance_open_cards_v1',
-  DISPLAY_CACHE: 'finance_display_cache_v2',
+  DISPLAY_CACHE: 'finance_display_cache_v3',
   MONTH_KEY: 'finance_view_month_v1',
   HIST_MONTH_KEY: 'finance_hist_month_v1'
 };
 
 const state = {
-  transactions: [],
-  credits: [],
-  payments: [],
-  summary: null,
-  view: 'dashboard',
-  viewMonth: null,
-  histMonth: null
+  transactions: [], credits: [], payments: [], summary: null,
+  view: 'dashboard', viewMonth: null, histMonth: null,
+  saving: false, chartsDirty: true
 };
 
 (function initMonths() {
   const now = new Date();
-  try {
-    const saved = JSON.parse(localStorage.getItem(CONFIG.MONTH_KEY) || 'null');
-    state.viewMonth = saved || { year: now.getFullYear(), month: now.getMonth() };
-  } catch (e) {
-    state.viewMonth = { year: now.getFullYear(), month: now.getMonth() };
-  }
-  try {
-    const saved = JSON.parse(localStorage.getItem(CONFIG.HIST_MONTH_KEY) || 'null');
-    state.histMonth = saved || { year: now.getFullYear(), month: now.getMonth() };
-  } catch (e) {
-    state.histMonth = { year: now.getFullYear(), month: now.getMonth() };
-  }
+  try { const s = JSON.parse(localStorage.getItem(CONFIG.MONTH_KEY) || 'null');
+    state.viewMonth = s || { year: now.getFullYear(), month: now.getMonth() }; }
+  catch (e) { state.viewMonth = { year: now.getFullYear(), month: now.getMonth() }; }
+  try { const s = JSON.parse(localStorage.getItem(CONFIG.HIST_MONTH_KEY) || 'null');
+    state.histMonth = s || { year: now.getFullYear(), month: now.getMonth() }; }
+  catch (e) { state.histMonth = { year: now.getFullYear(), month: now.getMonth() }; }
 })();
 
 function saveViewMonth() { localStorage.setItem(CONFIG.MONTH_KEY, JSON.stringify(state.viewMonth)); }
 function saveHistMonth() { localStorage.setItem(CONFIG.HIST_MONTH_KEY, JSON.stringify(state.histMonth)); }
 
 const MONTH_NAMES = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
-
 function monthLabel(m) { return MONTH_NAMES[m.month] + ' ' + m.year; }
 function isCurrentMonth(m) {
   const now = new Date();
@@ -1276,8 +574,7 @@ function monthRange(m) {
   return { from, to };
 }
 function shiftMonth(m, delta) {
-  let month = m.month + delta;
-  let year = m.year;
+  let month = m.month + delta, year = m.year;
   while (month < 0) { month += 12; year--; }
   while (month > 11) { month -= 12; year++; }
   return { year, month };
@@ -1288,8 +585,7 @@ function loadSectionsState() {
   catch (e) { return {}; }
 }
 function saveSectionState(name, collapsed) {
-  const s = loadSectionsState();
-  s[name] = collapsed;
+  const s = loadSectionsState(); s[name] = collapsed;
   localStorage.setItem(CONFIG.SECTIONS_KEY, JSON.stringify(s));
 }
 function initCollapsibleSections() {
@@ -1302,7 +598,7 @@ function initCollapsibleSections() {
       section.classList.toggle('collapsed');
       saveSectionState(name, section.classList.contains('collapsed'));
       if (name === 'charts' && !section.classList.contains('collapsed')) {
-        setTimeout(() => renderCharts(state.summary), 320);
+        setTimeout(() => { state.chartsDirty = true; renderCharts(state.summary); }, 320);
       }
     });
   });
@@ -1313,8 +609,7 @@ function loadOpenCards() {
   catch (e) { return {}; }
 }
 function saveOpenCard(id, open) {
-  const s = loadOpenCards();
-  s[id] = open;
+  const s = loadOpenCards(); s[id] = open;
   localStorage.setItem(CONFIG.OPEN_CARDS_KEY, JSON.stringify(s));
 }
 
@@ -1362,34 +657,17 @@ const QUICK_BUTTONS = [
 ];
 
 const EXPENSE_COLORS = {
-  'Продукты':  '#D99A4E',
-  'Транспорт': '#5E8CBF',
-  'ЖКХ':       '#4CAF7A',
-  'Кредиты':   '#C66B66',
-  'Сигареты':  '#9B6DB8',
-  'Личное':    '#C9B560',
-  'Подушка':   '#6BA8B8'
+  'Продукты':  '#D99A4E', 'Транспорт': '#5E8CBF', 'ЖКХ': '#4CAF7A',
+  'Кредиты':   '#C66B66', 'Сигареты':  '#9B6DB8', 'Личное': '#C9B560', 'Подушка': '#6BA8B8'
 };
-
-const INCOME_COLORS = {
-  'Зарплата': '#4CAF7A',
-  'Фриланс':  '#7BA8D9',
-  'Прочее':   '#9B6DB8'
-};
-
 function getExpenseColor(name) { return EXPENSE_COLORS[name] || '#8E8E93'; }
-function getIncomeColor(name) { return INCOME_COLORS[name] || '#6BA8B8'; }
 
 async function api(action, payload = {}) {
-  if (!CONFIG.API_URL || CONFIG.API_URL.includes('ВСТАВЬ')) {
-    return demoApi(action, payload);
-  }
+  if (!CONFIG.API_URL || CONFIG.API_URL.includes('ВСТАВЬ')) return demoApi(action, payload);
   const body = { action, token: CONFIG.API_TOKEN, ...payload };
   const res = await fetch(CONFIG.API_URL, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    redirect: 'follow'
+    method: 'POST', body: JSON.stringify(body),
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, redirect: 'follow'
   });
   const data = await res.json();
   if (!data.ok) throw new Error(data.error || 'API error');
@@ -1407,12 +685,14 @@ function demoApi(action, payload) {
       result = { ok: true, transactions: db.transactions, credits: db.credits, payments: db.payments, total_debt: totalDebt, total_monthly: totalMonthly };
       break;
     }
-    case 'addTransaction':
-      db.transactions.push({ id: uid(), ...payload, created_at: new Date().toISOString() });
+    case 'addTransaction': {
+      const newId = uid();
+      db.transactions.push({ id: newId, ...payload, created_at: new Date().toISOString() });
+      result = { ok: true, id: newId };
       break;
+    }
     case 'deleteTransaction':
-      db.transactions = db.transactions.filter(t => t.id !== payload.id);
-      break;
+      db.transactions = db.transactions.filter(t => t.id !== payload.id); break;
     case 'updateTransaction': {
       const idx = db.transactions.findIndex(t => t.id === payload.id);
       if (idx >= 0) db.transactions[idx] = { ...db.transactions[idx], ...payload.data };
@@ -1421,11 +701,7 @@ function demoApi(action, payload) {
     case 'addPayment': {
       const c = db.credits.find(x => String(x.id) === String(payload.credit_id));
       let newDebt = null;
-      if (c) {
-        newDebt = Math.max(0, Number(c.current_debt) - Number(payload.amount));
-        c.current_debt = newDebt;
-        if (c.current_debt === 0) c.status = 'closed';
-      }
+      if (c) { newDebt = Math.max(0, Number(c.current_debt) - Number(payload.amount)); c.current_debt = newDebt; if (c.current_debt === 0) c.status = 'closed'; }
       const payment = { id: uid(), credit_id: payload.credit_id, date: payload.date || today(), amount: Number(payload.amount), type: payload.type || 'min', new_debt: newDebt, created_at: new Date().toISOString() };
       db.payments.push(payment);
       db.transactions.push({ id: uid(), date: payment.date, type: 'expense', category: 'Кредиты', subcategory: 'Кредит ' + payload.credit_id, amount: Number(payload.amount), note: payload.type === 'early' ? 'Досрочный платёж' : 'Платёж по кредиту', account: 'Карта', isImpulse: false, created_at: new Date().toISOString() });
@@ -1460,9 +736,7 @@ function demoApi(action, payload) {
   return result;
 }
 
-function uid() {
-  return 'x' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-}
+function uid() { return 'x' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
 
 async function loadAll(showToast = true) {
   try {
@@ -1472,21 +746,14 @@ async function loadAll(showToast = true) {
     state.credits = res.credits || [];
     state.payments = res.payments || [];
     recomputeSummary();
-    try {
-      localStorage.setItem(CONFIG.DISPLAY_CACHE, JSON.stringify({
-        transactions: state.transactions,
-        credits: state.credits,
-        payments: state.payments
-      }));
-    } catch (e) {}
+    try { localStorage.setItem(CONFIG.DISPLAY_CACHE, JSON.stringify({ transactions: state.transactions, credits: state.credits, payments: state.payments })); } catch (e) {}
+    state.chartsDirty = true;
     renderAll();
     if (showToast) toast('Обновлено');
   } catch (e) {
     console.error(e);
     if (showToast) toast('Ошибка: ' + e.message, true);
-  } finally {
-    setSync(false);
-  }
+  } finally { setSync(false); }
 }
 
 function loadFromCache() {
@@ -1498,6 +765,7 @@ function loadFromCache() {
     state.credits = db.credits || [];
     state.payments = db.payments || [];
     recomputeSummary();
+    state.chartsDirty = true;
     renderAll();
     return true;
   } catch (e) { return false; }
@@ -1507,27 +775,21 @@ function recomputeSummary() {
   const r = monthRange(state.viewMonth);
   state.summary = buildSummary(state.transactions, r.from, r.to);
 }
-
-function renderAll() {
-  renderBalance();
-  renderMonthTitle();
-  renderDashboard();
-  renderHistory();
-  renderCredits();
-}
-
-function setSync(on) {
-  document.getElementById('syncBtn').classList.toggle('syncing', on);
+function renderAll() { renderBalance(); renderMonthTitle(); renderDashboard(); renderHistory(); renderCredits(); }
+function setSync(on) { document.getElementById('syncBtn').classList.toggle('syncing', on); }
+function showLoading(text) { document.getElementById('loadingText').textContent = text || 'Загрузка…'; document.getElementById('loadingOverlay').classList.add('open'); }
+function hideLoading() { document.getElementById('loadingOverlay').classList.remove('open'); }
+function setButtonLoading(btn, loading, text) {
+  if (!btn) return;
+  if (loading) { btn.dataset.originalText = btn.textContent; btn.textContent = text || 'Сохранение…'; btn.disabled = true; }
+  else { btn.textContent = btn.dataset.originalText || 'Сохранить'; btn.disabled = false; }
 }
 
 function today() {
   const d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
-function formatMoney(n) {
-  const num = Number(n) || 0;
-  return num.toLocaleString('ru-RU') + ' ₽';
-}
+function formatMoney(n) { return (Number(n) || 0).toLocaleString('ru-RU') + ' ₽'; }
 function formatDate(str) {
   if (!str) return '';
   const d = new Date(str + 'T00:00:00');
@@ -1548,81 +810,32 @@ function toast(msg, isError = false) {
 }
 
 function renderBalance() {
-  let totalIncome = 0;
-  let totalExpense = 0;
+  let totalIncome = 0, totalExpense = 0;
   state.transactions.forEach(t => {
     const amt = Number(t.amount) || 0;
-    if (t.type === 'income') totalIncome += amt;
-    else totalExpense += amt;
+    if (t.type === 'income') totalIncome += amt; else totalExpense += amt;
   });
   const balance = totalIncome - totalExpense;
-  const el = document.getElementById('totalBalance');
-  const card = document.getElementById('balanceCard');
-  const sub = document.getElementById('balanceSub');
-  el.textContent = formatMoney(balance);
-  card.classList.toggle('negative', balance < 0);
-  sub.textContent = 'Доходы ' + formatMoney(totalIncome) + ' · Расходы ' + formatMoney(totalExpense);
+  document.getElementById('totalBalance').textContent = formatMoney(balance);
+  document.getElementById('balanceCard').classList.toggle('negative', balance < 0);
+  document.getElementById('balanceSub').textContent = 'Доходы ' + formatMoney(totalIncome) + ' · Расходы ' + formatMoney(totalExpense);
 }
 
 function renderMonthTitle() {
   const t = document.getElementById('monthTitle');
   const hint = isCurrentMonth(state.viewMonth) ? 'Текущий месяц' : 'Просмотр';
   t.innerHTML = monthLabel(state.viewMonth) + '<span class="month-hint">' + hint + '</span>';
-
   const ht = document.getElementById('histMonthTitle');
   const hh = isCurrentMonth(state.histMonth) ? 'Текущий месяц' : 'Просмотр';
   ht.innerHTML = monthLabel(state.histMonth) + '<span class="month-hint">' + hh + '</span>';
 }
 
-document.getElementById('prevMonth').onclick = () => {
-  state.viewMonth = shiftMonth(state.viewMonth, -1);
-  saveViewMonth();
-  recomputeSummary();
-  renderDashboard();
-  renderBalance();
-  renderMonthTitle();
-};
-
-document.getElementById('nextMonth').onclick = () => {
-  state.viewMonth = shiftMonth(state.viewMonth, 1);
-  saveViewMonth();
-  recomputeSummary();
-  renderDashboard();
-  renderBalance();
-  renderMonthTitle();
-};
-
-document.getElementById('monthTitle').onclick = () => {
-  const now = new Date();
-  state.viewMonth = { year: now.getFullYear(), month: now.getMonth() };
-  saveViewMonth();
-  recomputeSummary();
-  renderDashboard();
-  renderBalance();
-  renderMonthTitle();
-};
-
-document.getElementById('histPrevMonth').onclick = () => {
-  state.histMonth = shiftMonth(state.histMonth, -1);
-  saveHistMonth();
-  renderHistory();
-  renderMonthTitle();
-};
-
-document.getElementById('histNextMonth').onclick = () => {
-  state.histMonth = shiftMonth(state.histMonth, 1);
-  saveHistMonth();
-  renderHistory();
-  renderMonthTitle();
-};
-
-document.getElementById('histMonthTitle').onclick = () => {
-  const now = new Date();
-  state.histMonth = { year: now.getFullYear(), month: now.getMonth() };
-  saveHistMonth();
-  renderHistory();
-  renderMonthTitle();
-};
+document.getElementById('prevMonth').onclick = () => { state.viewMonth = shiftMonth(state.viewMonth, -1); saveViewMonth(); recomputeSummary(); state.chartsDirty = true; renderDashboard(); renderBalance(); renderMonthTitle(); };
+document.getElementById('nextMonth').onclick = () => { state.viewMonth = shiftMonth(state.viewMonth, 1); saveViewMonth(); recomputeSummary(); state.chartsDirty = true; renderDashboard(); renderBalance(); renderMonthTitle(); };
+document.getElementById('monthTitle').onclick = () => { const now = new Date(); state.viewMonth = { year: now.getFullYear(), month: now.getMonth() }; saveViewMonth(); recomputeSummary(); state.chartsDirty = true; renderDashboard(); renderBalance(); renderMonthTitle(); };
+document.getElementById('histPrevMonth').onclick = () => { state.histMonth = shiftMonth(state.histMonth, -1); saveHistMonth(); renderHistory(); renderMonthTitle(); };
+document.getElementById('histNextMonth').onclick = () => { state.histMonth = shiftMonth(state.histMonth, 1); saveHistMonth(); renderHistory(); renderMonthTitle(); };
+document.getElementById('histMonthTitle').onclick = () => { const now = new Date(); state.histMonth = { year: now.getFullYear(), month: now.getMonth() }; saveHistMonth(); renderHistory(); renderMonthTitle(); };
 
 function renderDashboard() {
   const s = state.summary || { income: 0, expense: 0, by_category: {} };
@@ -1634,22 +847,18 @@ function renderDashboard() {
   const blocksBadge = document.getElementById('blocksBadge');
   if (blocksBadge) blocksBadge.textContent = formatMoney(s.expense || 0);
   const chartsBadge = document.getElementById('chartsBadge');
-  if (chartsBadge) chartsBadge.textContent = formatMoney(s.income || 0) + ' / ' + formatMoney(s.expense || 0);
+  if (chartsBadge) chartsBadge.textContent = formatMoney(s.expense || 0);
 }
 
 function renderQuickButtons() {
   const grid = document.getElementById('quickGrid');
   grid.innerHTML = QUICK_BUTTONS.map(b => `
     <button class="quick-btn" data-cat="${b.category}" data-type="${b.type}">
-      ${ICONS[b.icon]}
-      <span>${b.label}</span>
+      ${ICONS[b.icon]}<span>${b.label}</span>
     </button>
   `).join('');
   grid.querySelectorAll('.quick-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      openAddModal(btn.dataset.cat, btn.dataset.type);
-    };
+    btn.onclick = (e) => { e.stopPropagation(); openAddModal(btn.dataset.cat, btn.dataset.type); };
   });
 }
 
@@ -1658,80 +867,47 @@ let chartMain = null;
 function renderCharts(s) {
   const byCat = s.by_category || {};
   const expenseCats = Object.entries(byCat).filter(([_,v]) => v.expense > 0).sort((a,b) => b[1].expense - a[1].expense);
-  const incomeCats = Object.entries(byCat).filter(([_,v]) => v.income > 0).sort((a,b) => b[1].income - a[1].income);
   const hasExpense = expenseCats.length > 0;
-  const hasIncome = incomeCats.length > 0;
-  const hasAny = hasExpense || hasIncome;
 
-  const innerData = hasExpense ? expenseCats.map(([_,v]) => v.expense) : [1];
-  const innerColors = hasExpense ? expenseCats.map(([k]) => getExpenseColor(k)) : ['#2C2C2E'];
-  const innerLabels = hasExpense ? expenseCats.map(([k]) => k) : ['Нет расходов'];
-
-  const outerData = hasIncome ? incomeCats.map(([_,v]) => v.income) : [1];
-  const outerColors = hasIncome ? incomeCats.map(([k]) => getIncomeColor(k)) : ['#2C2C2E'];
-  const outerLabels = hasIncome ? incomeCats.map(([k]) => k) : ['Нет доходов'];
-
-  const commonTooltip = {
-    position: 'nearest',
-    caretPadding: 8,
-    caretSize: 4,
-    yAlign: 'bottom',
-    xAlign: 'center',
-    backgroundColor: 'rgba(28,28,30,0.98)',
-    borderColor: 'rgba(94,140,191,0.4)',
-    borderWidth: 1,
-    titleColor: '#FFFFFF',
-    titleFont: { size: 12, weight: '600' },
-    titleMarginBottom: 4,
-    bodyColor: '#8E8E93',
-    bodyFont: { size: 11, weight: '500' },
-    bodySpacing: 3,
-    padding: { top: 8, bottom: 8, left: 10, right: 10 },
-    cornerRadius: 8,
-    displayColors: true,
-    boxWidth: 8,
-    boxHeight: 8,
-    boxPadding: 3,
-    callbacks: {
-      label: (ctx) => {
-        const val = ctx.parsed < 0.01 ? 0 : ctx.parsed;
-        return '  ' + val.toLocaleString('ru-RU') + ' ₽';
-      }
-    }
-  };
+  const labels = hasExpense ? expenseCats.map(([k]) => k) : ['Нет расходов'];
+  const data = hasExpense ? expenseCats.map(([_,v]) => v.expense) : [1];
+  const colors = hasExpense ? expenseCats.map(([k]) => getExpenseColor(k)) : ['#2C2C2E'];
 
   const cfg = {
     type: 'doughnut',
     data: {
-      labels: hasAny ? [...innerLabels, ...outerLabels] : ['Нет данных'],
-      datasets: [
-        {
-          label: 'Расход',
-          data: hasExpense ? innerData : [1],
-          backgroundColor: hasExpense ? innerColors : ['#2C2C2E'],
-          borderWidth: 0,
-          hoverOffset: 4,
-          weight: 1
-        },
-        {
-          label: 'Доход',
-          data: hasIncome ? outerData : [1],
-          backgroundColor: hasIncome ? outerColors : ['#2C2C2E'],
-          borderWidth: 0,
-          hoverOffset: 4,
-          weight: 0.7
-        }
-      ]
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: colors,
+        borderWidth: 0, hoverOffset: 4, hoverBorderWidth: 0
+      }]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 600 },
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 400 },
       layout: { padding: 8 },
-      cutout: '45%',
+      cutout: '68%',
       plugins: {
         legend: { display: false },
-        tooltip: commonTooltip
+        tooltip: {
+          position: 'nearest', caretPadding: 8, caretSize: 4,
+          yAlign: 'bottom', xAlign: 'center',
+          backgroundColor: 'rgba(28,28,30,0.98)',
+          borderColor: 'rgba(94,140,191,0.4)', borderWidth: 1,
+          titleColor: '#FFFFFF', titleFont: { size: 12, weight: '600' },
+          titleMarginBottom: 4,
+          bodyColor: '#8E8E93', bodyFont: { size: 11, weight: '500' }, bodySpacing: 3,
+          padding: { top: 8, bottom: 8, left: 10, right: 10 },
+          cornerRadius: 8, displayColors: true,
+          boxWidth: 8, boxHeight: 8, boxPadding: 3,
+          callbacks: {
+            label: (ctx) => {
+              const val = ctx.parsed < 0.01 ? 0 : ctx.parsed;
+              return '  ' + val.toLocaleString('ru-RU') + ' ₽';
+            }
+          }
+        }
       }
     }
   };
@@ -1742,31 +918,21 @@ function renderCharts(s) {
   chartMain = new Chart(canvas, cfg);
 
   const center = document.getElementById('chartCenter');
-  if (hasAny) {
-    center.innerHTML = `${formatMoney(s.expense || 0)}<small>расход</small>`;
-  } else {
-    center.innerHTML = `—<small>нет данных</small>`;
-  }
+  if (hasExpense) center.innerHTML = `${formatMoney(s.expense || 0)}<small>расход</small>`;
+  else center.innerHTML = `—<small>нет данных</small>`;
 
   const legend = document.getElementById('chartLegend');
-  const items = [];
-  expenseCats.forEach(([k, v]) => {
-    items.push(`<div class="legend-item"><span class="legend-dot" style="background:${getExpenseColor(k)}"></span>${k} · ${formatMoney(v.expense)}</div>`);
-  });
-  incomeCats.forEach(([k, v]) => {
-    items.push(`<div class="legend-item"><span class="legend-dot" style="background:${getIncomeColor(k)};border:1px solid rgba(255,255,255,0.3)"></span>${k} ↑ · ${formatMoney(v.income)}</div>`);
-  });
+  const items = expenseCats.map(([k, v]) =>
+    `<div class="legend-item"><span class="legend-dot" style="background:${getExpenseColor(k)}"></span>${k} · ${formatMoney(v.expense)}</div>`
+  );
   legend.innerHTML = items.length ? items.join('') : '';
 
   renderRatio(s);
 }
 
 function renderRatio(s) {
-  const income = s.income || 0;
-  const expense = s.expense || 0;
-  const balance = income - expense;
-  const total = income + expense;
-
+  const income = s.income || 0, expense = s.expense || 0;
+  const balance = income - expense, total = income + expense;
   const incomeBar = document.getElementById('ratioIncomeBar');
   const expenseBar = document.getElementById('ratioExpenseBar');
   const percentEl = document.getElementById('ratioPercent');
@@ -1775,27 +941,18 @@ function renderRatio(s) {
   const balanceEl = document.getElementById('ratioBalance');
 
   if (total === 0) {
-    incomeBar.style.width = '0%';
-    expenseBar.style.width = '0%';
+    incomeBar.style.width = '0%'; expenseBar.style.width = '0%';
     percentEl.textContent = 'Нет данных за этот месяц';
-    incomeEl.textContent = '0 ₽';
-    expenseEl.textContent = '0 ₽';
-    balanceEl.textContent = '0 ₽';
+    incomeEl.textContent = '0 ₽'; expenseEl.textContent = '0 ₽'; balanceEl.textContent = '0 ₽';
     return;
   }
-
-  const incomePct = (income / total) * 100;
-  const expensePct = (expense / total) * 100;
-  incomeBar.style.width = incomePct.toFixed(1) + '%';
-  expenseBar.style.width = expensePct.toFixed(1) + '%';
-
+  incomeBar.style.width = ((income / total) * 100).toFixed(1) + '%';
+  expenseBar.style.width = ((expense / total) * 100).toFixed(1) + '%';
   if (income > 0) {
-    const usedPct = (expense / income) * 100;
-    percentEl.innerHTML = `Расходы составляют <strong>${usedPct.toFixed(0)}%</strong> от доходов`;
+    percentEl.innerHTML = `Расходы составляют <strong>${((expense/income)*100).toFixed(0)}%</strong> от доходов`;
   } else {
     percentEl.innerHTML = `Доходов в этом месяце нет`;
   }
-
   incomeEl.textContent = formatMoney(income);
   expenseEl.textContent = formatMoney(expense);
   balanceEl.textContent = (balance >= 0 ? '+' : '') + formatMoney(balance);
@@ -1810,11 +967,7 @@ function renderBlocks(s) {
   const byCat = s.by_category || {};
   const totals = Object.entries(byCat).filter(([_,v]) => v.expense > 0).sort((a,b) => b[1].expense - a[1].expense);
 
-  if (!totals.length) {
-    list.innerHTML = '<div class="block-empty">Нет расходов за этот месяц</div>';
-    return;
-  }
-
+  if (!totals.length) { list.innerHTML = '<div class="block-empty">Нет расходов за этот месяц</div>'; return; }
   const max = Math.max(1, ...totals.map(([_,v]) => v.expense));
   list.innerHTML = totals.map(([name, v]) => `
     <div class="block-item" data-cat="${name}">
@@ -1822,21 +975,15 @@ function renderBlocks(s) {
         <span class="block-name">${name}</span>
         <span class="block-amount">${formatMoney(v.expense)}</span>
       </div>
-      <div class="block-bar">
-        <div class="block-bar-fill" style="width:${(v.expense/max*100).toFixed(1)}%;background:${getExpenseColor(name)}"></div>
-      </div>
+      <div class="block-bar"><div class="block-bar-fill" style="width:${(v.expense/max*100).toFixed(1)}%;background:${getExpenseColor(name)}"></div></div>
     </div>
   `).join('');
-
   list.querySelectorAll('.block-item').forEach(el => {
     el.onclick = (e) => {
       e.stopPropagation();
       document.getElementById('filterCategory').value = el.dataset.cat;
-      state.histMonth = { ...state.viewMonth };
-      saveHistMonth();
-      switchView('history');
-      renderHistory();
-      renderMonthTitle();
+      state.histMonth = { ...state.viewMonth }; saveHistMonth();
+      switchView('history'); renderHistory(); renderMonthTitle();
     };
   });
 }
@@ -1848,18 +995,14 @@ function renderHistory() {
   const range = monthRange(state.histMonth);
 
   let items = state.transactions.filter(t => t.date >= range.from && t.date <= range.to);
-  if (cat)  items = items.filter(t => t.category === cat);
+  if (cat) items = items.filter(t => t.category === cat);
   if (type) items = items.filter(t => t.type === type);
   items.sort((a,b) => (b.date || '').localeCompare(a.date || ''));
 
-  if (!items.length) {
-    list.innerHTML = '<div class="block-empty">Нет операций за этот месяц</div>';
-    return;
-  }
+  if (!items.length) { list.innerHTML = '<div class="block-empty">Нет операций за этот месяц</div>'; return; }
 
   const groups = {};
   items.forEach(t => { (groups[t.date] = groups[t.date] || []).push(t); });
-
   list.innerHTML = Object.entries(groups).map(([date, txs]) => {
     const dayIncome = txs.filter(t => t.type==='income').reduce((s,t) => s + Number(t.amount), 0);
     const dayExpense = txs.filter(t => t.type==='expense').reduce((s,t) => s + Number(t.amount), 0);
@@ -1875,14 +1018,11 @@ function renderHistory() {
             <div class="history-cat">${t.category}${t.subcategory?' · '+t.subcategory:''}</div>
             ${t.note?`<div class="history-note">${t.note}</div>`:''}
           </div>
-          <div class="history-amount ${t.type}">
-            ${t.type==='income'?'+':'−'}${formatMoney(t.amount)}
-          </div>
+          <div class="history-amount ${t.type}">${t.type==='income'?'+':'−'}${formatMoney(t.amount)}</div>
         </div>
       `).join('')}
     `;
   }).join('');
-
   list.querySelectorAll('.history-item').forEach(el => {
     el.onclick = () => {
       const t = state.transactions.find(x => x.id === el.dataset.id);
@@ -1904,10 +1044,10 @@ function renderCredits() {
     return;
   }
 
-  const total    = credits.reduce((s,c) => s + Number(c.current_debt||0), 0);
-  const monthly  = credits.reduce((s,c) => s + Number(c.monthly_payment||0), 0);
-  const initial  = credits.reduce((s,c) => s + Number(c.total||0), 0);
-  const paid     = initial - total;
+  const total = credits.reduce((s,c) => s + Number(c.current_debt||0), 0);
+  const monthly = credits.reduce((s,c) => s + Number(c.monthly_payment||0), 0);
+  const initial = credits.reduce((s,c) => s + Number(c.total||0), 0);
+  const paid = initial - total;
 
   sum.innerHTML = `
     <h4>Общий долг</h4>
@@ -1918,7 +1058,6 @@ function renderCredits() {
   document.getElementById('debtTotal').innerHTML = `<strong>${formatMoney(total)}</strong> из ${formatMoney(initial)}`;
   const pct = initial > 0 ? (1 - total/initial) * 100 : 0;
   document.getElementById('debtFill').style.width = pct.toFixed(1) + '%';
-
   const badge = document.getElementById('snowballBadge');
   if (badge) badge.textContent = pct.toFixed(0) + '%';
 
@@ -1932,15 +1071,12 @@ function renderCredits() {
     const isOpen = openCards[c.id] === true;
     const creditPayments = state.payments.filter(p => String(p.credit_id) === String(c.id)).sort((a,b) => (b.date || '').localeCompare(a.date || ''));
     const totalPaid = creditPayments.reduce((s,p) => s + Number(p.amount), 0);
-
     const paymentsHTML = creditPayments.length
       ? creditPayments.map(p => `
           <div class="payment-item" data-payment-id="${p.id}">
             <div class="payment-item-left">
               <span class="payment-date">${formatDateLong(p.date)}</span>
-              <span class="payment-type ${p.type === 'early' ? 'early' : ''}">
-                ${p.type === 'early' ? '⚡ Досрочный' : '• Минимальный'}
-              </span>
+              <span class="payment-type ${p.type === 'early' ? 'early' : ''}">${p.type === 'early' ? '⚡ Досрочный' : '• Минимальный'}</span>
             </div>
             <span class="payment-amount">−${formatMoney(p.amount)}</span>
           </div>
@@ -1951,15 +1087,10 @@ function renderCredits() {
       <div class="debt-card ${isTarget?'target':''} ${isClosed?'closed':''} ${isOpen?'open':''}" data-id="${c.id}">
         <div class="debt-card-header" data-toggle="card">
           <div class="debt-head">
-            <span class="debt-name">
-              ${isTarget ? ICONS.target : ''}${c.name}
-              ${ICONS.chevronRight}
-            </span>
+            <span class="debt-name">${isTarget ? ICONS.target : ''}${c.name} ${ICONS.chevronRight}</span>
             <span class="debt-num">${formatMoney(c.current_debt)}</span>
           </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width:${progress.toFixed(1)}%"></div>
-          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${progress.toFixed(1)}%"></div></div>
           <div class="debt-meta">
             <span>Платёж: ${formatMoney(c.monthly_payment)}</span>
             <span>${isClosed ? 'Закрыт' : 'до ' + (c.close_date || '—')}</span>
@@ -1968,31 +1099,15 @@ function renderCredits() {
         <div class="debt-card-body">
           <div class="debt-card-body-inner">
             <div class="debt-detail-grid">
-              <div class="debt-detail-item">
-                <div class="debt-detail-label">Изначально</div>
-                <div class="debt-detail-value">${formatMoney(c.total)}</div>
-              </div>
-              <div class="debt-detail-item">
-                <div class="debt-detail-label">Выплачено</div>
-                <div class="debt-detail-value">${formatMoney(totalPaid)}</div>
-              </div>
-              <div class="debt-detail-item">
-                <div class="debt-detail-label">Осталось</div>
-                <div class="debt-detail-value">${formatMoney(c.current_debt)}</div>
-              </div>
-              <div class="debt-detail-item">
-                <div class="debt-detail-label">Ставка</div>
-                <div class="debt-detail-value">${c.rate ? c.rate + '%' : '—'}</div>
-              </div>
+              <div class="debt-detail-item"><div class="debt-detail-label">Изначально</div><div class="debt-detail-value">${formatMoney(c.total)}</div></div>
+              <div class="debt-detail-item"><div class="debt-detail-label">Выплачено</div><div class="debt-detail-value">${formatMoney(totalPaid)}</div></div>
+              <div class="debt-detail-item"><div class="debt-detail-label">Осталось</div><div class="debt-detail-value">${formatMoney(c.current_debt)}</div></div>
+              <div class="debt-detail-item"><div class="debt-detail-label">Ставка</div><div class="debt-detail-value">${c.rate ? c.rate + '%' : '—'}</div></div>
             </div>
             ${!isClosed ? `
             <div class="debt-actions">
-              <button class="debt-action-btn primary" data-action="pay" data-id="${c.id}">
-                ${ICONS.plus} Внести
-              </button>
-              <button class="debt-action-btn secondary" data-action="early" data-id="${c.id}">
-                ${ICONS.bolt} Досрочно
-              </button>
+              <button class="debt-action-btn primary" data-action="pay" data-id="${c.id}">${ICONS.plus} Внести</button>
+              <button class="debt-action-btn secondary" data-action="early" data-id="${c.id}">${ICONS.bolt} Досрочно</button>
             </div>` : ''}
             <div class="payments-title">История платежей (${creditPayments.length})</div>
             <div class="payments-list">${paymentsHTML}</div>
@@ -2044,7 +1159,6 @@ function openPaymentModal(creditId, type = 'min', editPayment = null) {
     document.getElementById('payDate').value = today();
     setPayType(type);
   }
-
   document.getElementById('payCurrentDebt').textContent = formatMoney(c.current_debt);
   document.getElementById('payMonthly').textContent = formatMoney(c.monthly_payment);
   updatePayAfter();
@@ -2058,7 +1172,6 @@ function setPayType(type) {
     b.classList.toggle('active', b.dataset.paytype === type);
   });
 }
-
 function updatePayAfter() {
   const creditId = document.getElementById('payCreditId').value;
   const editId = document.getElementById('payEditId').value;
@@ -2066,21 +1179,16 @@ function updatePayAfter() {
   if (!c) return;
   const amount = Number(document.getElementById('payAmount').value) || 0;
   let baseDebt = Number(c.current_debt);
-  if (editId) {
-    const oldP = state.payments.find(p => p.id === editId);
-    if (oldP) baseDebt += Number(oldP.amount);
-  }
+  if (editId) { const oldP = state.payments.find(p => p.id === editId); if (oldP) baseDebt += Number(oldP.amount); }
   document.getElementById('payAfter').textContent = formatMoney(Math.max(0, baseDebt - amount));
 }
-
 document.querySelectorAll('#payTypeSegmented button').forEach(b => {
   b.addEventListener('click', () => {
     setPayType(b.dataset.paytype);
     const editId = document.getElementById('payEditId').value;
     if (editId) return;
-    if (b.dataset.paytype === 'early') {
-      document.getElementById('payAmount').value = '';
-    } else {
+    if (b.dataset.paytype === 'early') { document.getElementById('payAmount').value = ''; }
+    else {
       const creditId = document.getElementById('payCreditId').value;
       const c = state.credits.find(x => String(x.id) === String(creditId));
       if (c) document.getElementById('payAmount').value = c.monthly_payment || '';
@@ -2091,34 +1199,63 @@ document.querySelectorAll('#payTypeSegmented button').forEach(b => {
 
 document.getElementById('formPayment').addEventListener('submit', async (e) => {
   e.preventDefault();
+  if (state.saving) return;
+  state.saving = true;
+  const btn = document.getElementById('btnSavePayment');
   const creditId = document.getElementById('payCreditId').value;
   const editId = document.getElementById('payEditId').value;
   const amount = Number(document.getElementById('payAmount').value);
   const date = document.getElementById('payDate').value;
   const type = document.getElementById('payType').value;
-  if (!amount || amount <= 0) { toast('Введи сумму', true); return; }
+  if (!amount || amount <= 0) { toast('Введи сумму', true); state.saving = false; return; }
+
+  setButtonLoading(btn, true, 'Сохранение…');
+  showLoading('Сохранение платежа…');
   try {
     if (editId) {
       await api('updatePayment', { id: editId, data: { amount, date, type } });
+      const idx = state.payments.findIndex(p => p.id === editId);
+      if (idx >= 0) state.payments[idx] = { ...state.payments[idx], amount, date, type };
       toast('Платёж обновлён');
     } else {
-      await api('addPayment', { credit_id: creditId, amount, date, type });
+      const res = await api('addPayment', { credit_id: creditId, amount, date, type });
+      if (res.payment) state.payments.push(res.payment);
+      const c = state.credits.find(x => String(x.id) === String(creditId));
+      if (c) c.current_debt = res.new_debt;
+      state.transactions.push({
+        id: 'tmp_' + Date.now(), date, type: 'expense', category: 'Кредиты',
+        subcategory: 'Кредит ' + creditId, amount, account: 'Карта', isImpulse: false,
+        note: type === 'early' ? 'Досрочный платёж' : 'Платёж по кредиту'
+      });
       toast(type === 'early' ? 'Досрочный платёж внесён' : 'Платёж внесён');
     }
     document.getElementById('modalPayment').classList.remove('open');
-    await loadAll(false);
+    recomputeSummary(); state.chartsDirty = true; renderAll();
   } catch (err) { toast('Ошибка: ' + err.message, true); }
+  finally { state.saving = false; setButtonLoading(btn, false); hideLoading(); }
 });
 
 document.getElementById('btnPayDelete').addEventListener('click', async () => {
+  if (state.saving) return;
   const editId = document.getElementById('payEditId').value;
-  if (!editId || !confirm('Удалить платёж? Долг по кредиту восстановится.')) return;
+  if (!editId || !confirm('Удалить платёж? Долг восстановится.')) return;
+  const btn = document.getElementById('btnPayDelete');
+  state.saving = true;
+  setButtonLoading(btn, true, 'Удаление…');
+  showLoading('Удаление…');
   try {
+    const p = state.payments.find(x => x.id === editId);
     await api('deletePayment', { id: editId });
+    if (p) {
+      const c = state.credits.find(x => String(x.id) === String(p.credit_id));
+      if (c) c.current_debt = Number(c.current_debt) + Number(p.amount);
+      state.payments = state.payments.filter(x => x.id !== editId);
+    }
     document.getElementById('modalPayment').classList.remove('open');
     toast('Платёж удалён');
-    await loadAll(false);
+    recomputeSummary(); state.chartsDirty = true; renderAll();
   } catch (err) { toast('Ошибка: ' + err.message, true); }
+  finally { state.saving = false; setButtonLoading(btn, false); hideLoading(); }
 });
 
 document.getElementById('closePayment').onclick = () => document.getElementById('modalPayment').classList.remove('open');
@@ -2164,7 +1301,6 @@ function setType(type) {
   catSel.innerHTML = '<option value="">— выбери —</option>' +
     Object.keys(CATEGORIES[type]).map(c => `<option value="${c}">${c}</option>`).join('');
 }
-
 function updateSubcats() {
   const type = document.getElementById('fType').value;
   const cat  = document.getElementById('fCategory').value;
@@ -2172,7 +1308,6 @@ function updateSubcats() {
   const subs = (CATEGORIES[type] && CATEGORIES[type][cat]) || [];
   subSel.innerHTML = '<option value="">—</option>' + subs.map(s => `<option value="${s}">${s}</option>`).join('');
 }
-
 document.getElementById('fCategory').addEventListener('change', updateSubcats);
 document.querySelectorAll('#typeSegmented button').forEach(b => {
   b.addEventListener('click', () => { setType(b.dataset.type); updateSubcats(); });
@@ -2180,6 +1315,8 @@ document.querySelectorAll('#typeSegmented button').forEach(b => {
 
 document.getElementById('formAdd').addEventListener('submit', async (e) => {
   e.preventDefault();
+  if (state.saving) return;
+  const btn = document.getElementById('btnSaveTransaction');
   const id = document.getElementById('editId').value;
   const data = {
     date:        document.getElementById('fDate').value,
@@ -2193,32 +1330,49 @@ document.getElementById('formAdd').addEventListener('submit', async (e) => {
   };
   if (!data.category) { toast('Выбери категорию', true); return; }
   if (!data.amount || data.amount <= 0) { toast('Введи сумму', true); return; }
+
+  state.saving = true;
+  setButtonLoading(btn, true, 'Сохранение…');
+  showLoading(id ? 'Обновление…' : 'Сохранение…');
   try {
     if (id) {
       await api('updateTransaction', { id, data });
+      const idx = state.transactions.findIndex(t => t.id === id);
+      if (idx >= 0) state.transactions[idx] = { ...state.transactions[idx], ...data };
       toast('Обновлено');
     } else {
-      await api('addTransaction', data);
+      const res = await api('addTransaction', data);
+      state.transactions.push({
+        id: res.id || ('tmp_' + Date.now()),
+        ...data, created_at: new Date().toISOString()
+      });
       toast('Сохранено');
     }
     document.getElementById('modalAdd').classList.remove('open');
-    await loadAll(false);
+    recomputeSummary(); state.chartsDirty = true; renderAll();
   } catch (err) { toast('Ошибка: ' + err.message, true); }
+  finally { state.saving = false; setButtonLoading(btn, false); hideLoading(); }
 });
 
 document.getElementById('btnDelete').addEventListener('click', async () => {
+  if (state.saving) return;
   const id = document.getElementById('editId').value;
   if (!id || !confirm('Удалить операцию?')) return;
+  const btn = document.getElementById('btnDelete');
+  state.saving = true;
+  setButtonLoading(btn, true, 'Удаление…');
+  showLoading('Удаление…');
   try {
     await api('deleteTransaction', { id });
+    state.transactions = state.transactions.filter(t => t.id !== id);
     document.getElementById('modalAdd').classList.remove('open');
     toast('Удалено');
-    await loadAll(false);
+    recomputeSummary(); state.chartsDirty = true; renderAll();
   } catch (err) { toast('Ошибка: ' + err.message, true); }
+  finally { state.saving = false; setButtonLoading(btn, false); hideLoading(); }
 });
 
 document.getElementById('closeModal').onclick = () => document.getElementById('modalAdd').classList.remove('open');
-
 document.querySelectorAll('.modal').forEach(m => {
   m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
 });
@@ -2231,26 +1385,23 @@ function switchView(view) {
     b.classList.toggle('active', b.dataset.view === view);
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (view === 'dashboard') {
+  if (view === 'dashboard' && state.chartsDirty) {
     setTimeout(() => {
       const chartsSection = document.querySelector('.section[data-section="charts"]');
       if (!chartsSection || !chartsSection.classList.contains('collapsed')) {
         renderCharts(state.summary);
+        state.chartsDirty = false;
       }
     }, 60);
   }
 }
-
 document.querySelectorAll('.bottom-nav button').forEach(b => {
   b.onclick = () => switchView(b.dataset.view);
 });
-
 document.getElementById('fabAdd').onclick = () => openAddModal();
-
 ['filterCategory','filterType'].forEach(id => {
   document.getElementById(id).addEventListener('change', renderHistory);
 });
-
 document.getElementById('syncBtn').onclick = () => loadAll(true);
 
 function buildSummary(transactions, from, to) {
@@ -2294,7 +1445,6 @@ document.getElementById('filterCategory').innerHTML =
 
 initCollapsibleSections();
 seedDemoData();
-
 const hadCache = loadFromCache();
 loadAll(!hadCache);
 
