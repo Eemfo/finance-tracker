@@ -113,6 +113,10 @@ body {
 .card.accent .card-label { color: rgba(255,255,255,0.7); }
 .card.accent .card-value { color: #FFFFFF; }
 .card.accent .card-sub { color: rgba(255,255,255,0.55); }
+.card.accent.negative {
+  background: linear-gradient(135deg, #6B3A3A 0%, #4A2A2A 100%);
+  border-color: rgba(198,107,102,0.3);
+}
 .card-label {
   font-size: 11px; color: var(--text-secondary);
   margin-bottom: 8px; text-transform: uppercase;
@@ -129,85 +133,52 @@ body {
 .card-value .expense { color: var(--expense); }
 .card-sub { font-size: 11px; color: var(--text-secondary); margin-top: 6px; }
 
-/* Бюджет */
-.budget-card {
+.month-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-  margin-bottom: 16px;
   border: 0.5px solid var(--separator);
-  position: relative;
-  overflow: hidden;
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  margin-bottom: 14px;
 }
-.budget-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #4CAF7A 0%, #C9B560 50%, #C66B66 100%);
+.month-btn {
+  background: var(--bg-tertiary);
+  border: none;
+  color: var(--accent);
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
 }
-.budget-header {
-  display: flex; justify-content: space-between;
-  align-items: center; margin-bottom: 12px;
-}
-.budget-title {
-  font-size: 11px; color: var(--text-secondary);
-  text-transform: uppercase; letter-spacing: 0.06em;
-  font-weight: 600;
-}
-.budget-days {
-  font-size: 11px; color: var(--text-secondary);
-  font-feature-settings: 'tnum';
-}
-.budget-main {
-  font-size: 26px; font-weight: 700;
-  color: var(--text-primary);
-  font-feature-settings: 'tnum';
-  letter-spacing: -0.03em;
-  margin-bottom: 4px;
-}
-.budget-sub {
-  font-size: 12px; color: var(--text-secondary);
-  margin-bottom: 12px;
-}
-.budget-bar {
-  height: 6px; background: var(--bg-tertiary);
-  border-radius: 3px; overflow: hidden;
-  margin-bottom: 8px;
-}
-.budget-bar-fill {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 3px;
-  transition: width 0.5s;
-}
-.budget-bar-fill.warn { background: var(--warning); }
-.budget-bar-fill.over { background: var(--expense); }
-.budget-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-top: 10px;
-}
-.budget-stat {
+.month-btn:active { background: var(--bg-elevated); transform: scale(0.94); }
+.month-btn svg { width: 18px; height: 18px; }
+.month-title {
+  flex: 1;
   text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  text-transform: capitalize;
 }
-.budget-stat-label {
+.month-title:active { background: var(--bg-tertiary); }
+.month-title .month-hint {
+  display: block;
   font-size: 10px;
   color: var(--text-secondary);
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 4px;
-  font-weight: 600;
+  margin-top: 2px;
 }
-.budget-stat-value {
-  font-size: 13px;
-  font-weight: 600;
-  font-feature-settings: 'tnum';
-}
-.budget-stat-value.green { color: var(--income); }
-.budget-stat-value.red { color: var(--expense); }
 
-/* Секции */
 .section {
   margin-bottom: 16px;
   background: var(--bg-card);
@@ -262,40 +233,13 @@ body {
   padding-bottom: 0;
   opacity: 0;
 }
-.section .charts-row { margin-bottom: 0; padding-top: 4px; }
-.section .chart-box { background: var(--bg-tertiary); }
 
-/* Графики */
-.charts-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.chart-box {
-  background: var(--bg-card);
-  border-radius: var(--radius-md);
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  height: 200px;
-  overflow: hidden;
-  border: 0.5px solid var(--separator);
+.chart-wrap {
   position: relative;
+  height: 280px;
+  overflow: visible;
 }
-.chart-title {
-  font-size: 11px; color: var(--text-secondary);
-  margin-bottom: 8px; text-align: center;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-.chart-canvas-wrap {
-  position: relative;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-}
-.chart-canvas-wrap canvas {
+.chart-wrap canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
@@ -305,10 +249,10 @@ body {
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   text-align: center; pointer-events: none;
-  font-size: 12px; font-weight: 700;
-  color: var(--text-primary); line-height: 1.15;
+  font-size: 14px; font-weight: 700;
+  color: var(--text-primary); line-height: 1.2;
   font-feature-settings: 'tnum';
-  max-width: 70%;
+  max-width: 42%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -321,7 +265,86 @@ body {
   white-space: nowrap;
 }
 
-/* Быстрое добавление */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 0.5px solid var(--separator);
+  justify-content: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.legend-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ratio-block {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 0.5px solid var(--separator);
+}
+.ratio-bar {
+  display: flex;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  background: var(--bg-tertiary);
+}
+.ratio-income {
+  background: var(--income);
+  transition: width 0.5s;
+}
+.ratio-expense {
+  background: var(--expense);
+  transition: width 0.5s;
+}
+.ratio-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.ratio-stat {
+  text-align: center;
+}
+.ratio-stat-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.ratio-stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  font-feature-settings: 'tnum';
+}
+.ratio-stat-value.green { color: var(--income); }
+.ratio-stat-value.red { color: var(--expense); }
+.ratio-stat-value.accent { color: var(--accent-light); }
+
+.ratio-percent {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.ratio-percent strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
 .quick-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -347,11 +370,9 @@ body {
 .quick-btn svg {
   width: 26px; height: 26px;
   color: var(--accent);
-  transition: color 0.15s;
   flex-shrink: 0;
 }
 
-/* Блоки */
 .block-list { display: flex; flex-direction: column; gap: 8px; }
 .block-item {
   background: var(--bg-tertiary);
@@ -387,7 +408,6 @@ body {
   border-radius: var(--radius-md);
 }
 
-/* Кредиты */
 .debt-progress {
   background: var(--bg-tertiary);
   border-radius: var(--radius-md);
@@ -413,7 +433,6 @@ body {
   border-radius: 4px;
   transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
 }
-
 .credits-list { display: flex; flex-direction: column; gap: 8px; }
 
 .debt-card {
@@ -421,20 +440,16 @@ body {
   border-radius: var(--radius-md);
   border: 0.5px solid var(--separator);
   overflow: hidden;
-  transition: border-color 0.2s;
 }
 .debt-card.target { border-color: var(--accent); }
 .debt-card.closed { opacity: 0.55; }
-
 .debt-card-header {
   padding: 12px 14px;
   cursor: pointer;
-  transition: background 0.15s;
   user-select: none;
   -webkit-user-select: none;
 }
 .debt-card-header:active { background: var(--bg-elevated); }
-
 .debt-head {
   display: flex; justify-content: space-between;
   align-items: center; margin-bottom: 8px;
@@ -449,7 +464,7 @@ body {
 .debt-name .chevron {
   width: 14px; height: 14px;
   color: var(--text-secondary);
-  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+  transition: transform 0.25s;
   margin-left: auto;
   flex-shrink: 0;
 }
@@ -473,7 +488,6 @@ body {
   border-top: 0.5px solid var(--separator);
   padding-top: 12px;
 }
-
 .debt-detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -500,7 +514,6 @@ body {
   color: var(--text-primary);
   font-feature-settings: 'tnum';
 }
-
 .debt-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -515,11 +528,11 @@ body {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  transition: all 0.15s;
 }
 .debt-action-btn svg { width: 16px; height: 16px; }
 .debt-action-btn.primary { background: var(--accent); color: #FFFFFF; }
@@ -554,7 +567,6 @@ body {
   background: var(--bg-secondary);
   border-radius: var(--radius-sm);
   border: 0.5px solid var(--separator);
-  font-size: 12px;
   cursor: pointer;
   transition: background 0.15s;
 }
@@ -566,11 +578,7 @@ body {
   flex: 1;
   min-width: 0;
 }
-.payment-date {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-primary);
-}
+.payment-date { font-size: 12px; font-weight: 500; }
 .payment-type {
   font-size: 10px;
   color: var(--text-secondary);
@@ -582,7 +590,6 @@ body {
 .payment-amount {
   font-size: 13px;
   font-weight: 700;
-  color: var(--text-primary);
   font-feature-settings: 'tnum';
 }
 .payments-empty {
@@ -595,7 +602,6 @@ body {
   border: 0.5px dashed var(--separator-opaque);
 }
 
-/* История */
 .filters {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 8px; margin-bottom: 14px;
@@ -622,10 +628,9 @@ body {
   background-position: right 10px center;
   padding-right: 30px;
 }
-.filters input[type="date"] { position: relative; cursor: pointer; }
+.filters input[type="date"] { cursor: pointer; position: relative; }
 .filters input[type="date"]::-webkit-calendar-picker-indicator {
-  cursor: pointer; opacity: 0.6; padding: 4px;
-  border-radius: 4px; transition: opacity 0.15s;
+  cursor: pointer; opacity: 0.6; padding: 4px; border-radius: 4px;
 }
 
 .history-list { display: flex; flex-direction: column; }
@@ -673,7 +678,6 @@ body {
 .history-amount.income { color: var(--income); }
 .history-amount.expense { color: var(--expense); }
 
-/* Сводка кредитов */
 .credits-summary {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -697,7 +701,6 @@ body {
   margin-top: 6px;
 }
 
-/* FAB */
 .fab {
   position: fixed; right: 20px;
   bottom: calc(90px + env(safe-area-inset-bottom));
@@ -714,7 +717,6 @@ body {
 .fab svg { width: 26px; height: 26px; }
 .fab:active { transform: scale(0.92); }
 
-/* Нижняя навигация */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   display: flex;
@@ -736,12 +738,10 @@ body {
   transition: color 0.15s;
   display: flex; flex-direction: column;
   align-items: center; gap: 4px;
-  letter-spacing: 0.01em;
 }
 .bottom-nav button.active { color: var(--accent); }
 .bottom-nav svg { width: 24px; height: 24px; color: currentColor; }
 
-/* Модалки */
 .modal {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,0.6);
@@ -767,7 +767,6 @@ body {
 }
 .modal-header h2 {
   font-size: 18px; font-weight: 700;
-  color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 .close-btn {
@@ -776,9 +775,8 @@ body {
   color: var(--text-secondary);
   cursor: pointer;
   border-radius: 50%;
-  transition: all 0.15s;
-  display: flex; align-items: center; justify-content: center;
   width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
   padding: 0;
 }
 .close-btn svg { width: 16px; height: 16px; }
@@ -805,7 +803,6 @@ body {
   padding: 12px 14px;
   font-size: 14px;
   font-family: inherit;
-  transition: border-color 0.15s;
   color-scheme: dark;
   appearance: none;
   -webkit-appearance: none;
@@ -819,10 +816,9 @@ body {
 .form-row input:focus, .form-row select:focus {
   outline: none; border-color: var(--accent);
 }
-.form-row input[type="date"] { cursor: pointer; position: relative; }
+.form-row input[type="date"] { cursor: pointer; }
 .form-row input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer; opacity: 0.6; padding: 4px;
-  border-radius: 4px; transition: opacity 0.15s;
 }
 
 .checkbox-row label {
@@ -838,7 +834,6 @@ body {
   background: var(--bg-tertiary);
   border-radius: 9px;
   padding: 2px;
-  position: relative;
 }
 .segmented button {
   flex: 1;
@@ -866,15 +861,14 @@ body {
   border-radius: var(--radius-sm); border: none;
   font-family: inherit;
   font-size: 15px; font-weight: 600;
-  cursor: pointer; transition: all 0.15s;
-  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: all 0.15s;
 }
 .btn-primary { background: var(--accent); color: #FFFFFF; }
 .btn-primary:active { background: var(--accent-dark); }
 .btn-danger {
   background: rgba(198,107,102,0.15);
   color: var(--expense);
-  border: none;
   flex: 0 0 auto !important;
   padding-left: 20px !important;
   padding-right: 20px !important;
@@ -897,7 +891,6 @@ body {
 .payment-info-row span:first-child { color: var(--text-secondary); }
 .payment-info-row span:last-child { color: var(--text-primary); font-weight: 600; font-feature-settings: 'tnum'; }
 
-/* Toast */
 .toast {
   position: fixed;
   bottom: calc(110px + env(safe-area-inset-bottom));
@@ -925,9 +918,8 @@ body {
 .toast.error { color: var(--expense); }
 
 @media (max-width: 520px) {
-  .charts-row { grid-template-columns: 1fr; gap: 10px; }
-  .chart-box { height: 170px; }
-  .chart-center { font-size: 13px; }
+  .chart-wrap { height: 250px; }
+  .chart-center { font-size: 13px; max-width: 38%; }
   .cards-row { grid-template-columns: 1fr; gap: 10px; }
   .card-value { font-size: 20px; }
   .card-value.small { font-size: 15px; }
@@ -946,16 +938,15 @@ body {
   .debt-detail-grid { gap: 8px; }
   .debt-detail-item { padding: 8px 10px; }
   .debt-detail-value { font-size: 13px; }
-  .budget-main { font-size: 22px; }
-  .budget-stat-value { font-size: 12px; }
+  .month-title { font-size: 13px; }
+  .ratio-stat-value { font-size: 12px; }
 }
 
 @media (max-width: 360px) {
   .quick-grid { grid-template-columns: repeat(2, 1fr); }
   .card-value { font-size: 18px; }
-  .chart-box { height: 155px; }
+  .chart-wrap { height: 230px; }
   .debt-actions { grid-template-columns: 1fr; }
-  .budget-stat-value { font-size: 11px; }
 }
 </style>
 </head>
@@ -978,13 +969,13 @@ body {
 <main id="view-dashboard" class="view active">
 
   <section class="cards-row">
-    <div class="card accent">
-      <div class="card-label">Баланс сегодня</div>
-      <div class="card-value" id="todayBalance">0 ₽</div>
-      <div class="card-sub" id="todayDate">—</div>
+    <div class="card accent" id="balanceCard">
+      <div class="card-label">Остаток всего</div>
+      <div class="card-value" id="totalBalance">0 ₽</div>
+      <div class="card-sub" id="balanceSub">—</div>
     </div>
     <div class="card">
-      <div class="card-label">Доход / Расход</div>
+      <div class="card-label">Доход / Расход за месяц</div>
       <div class="card-value small">
         <span class="income" id="monthIncome">0</span><br>
         <span class="expense" id="monthExpense">0</span>
@@ -992,31 +983,14 @@ body {
     </div>
   </section>
 
-  <!-- Дневной бюджет -->
-  <div class="budget-card" id="budgetCard">
-    <div class="budget-header">
-      <span class="budget-title">Дневной бюджет</span>
-      <span class="budget-days" id="budgetDays">—</span>
-    </div>
-    <div class="budget-main" id="budgetMain">0 ₽</div>
-    <div class="budget-sub" id="budgetSub">—</div>
-    <div class="budget-bar">
-      <div class="budget-bar-fill" id="budgetBarFill" style="width: 0%"></div>
-    </div>
-    <div class="budget-stats">
-      <div class="budget-stat">
-        <div class="budget-stat-label">Лимит/день</div>
-        <div class="budget-stat-value" id="budgetLimit">—</div>
-      </div>
-      <div class="budget-stat">
-        <div class="budget-stat-label">Потрачено</div>
-        <div class="budget-stat-value red" id="budgetSpent">—</div>
-      </div>
-      <div class="budget-stat">
-        <div class="budget-stat-label">Осталось</div>
-        <div class="budget-stat-value green" id="budgetLeft">—</div>
-      </div>
-    </div>
+  <div class="month-switcher">
+    <button class="month-btn" id="prevMonth" title="Предыдущий месяц">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="month-title" id="monthTitle">Сентябрь 2026<span class="month-hint">Текущий месяц</span></div>
+    <button class="month-btn" id="nextMonth" title="Следующий месяц">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
   </div>
 
   <section class="section" data-section="charts">
@@ -1026,19 +1000,31 @@ body {
       <span class="section-badge" id="chartsBadge"></span>
     </div>
     <div class="section-content">
-      <div class="charts-row">
-        <div class="chart-box">
-          <div class="chart-title">Сегодня</div>
-          <div class="chart-canvas-wrap">
-            <canvas id="chartDay"></canvas>
-            <div class="chart-center" id="chartDayCenter"></div>
-          </div>
+      <div class="chart-wrap">
+        <canvas id="chartMain"></canvas>
+        <div class="chart-center" id="chartCenter"></div>
+      </div>
+
+      <div class="chart-legend" id="chartLegend"></div>
+
+      <div class="ratio-block" id="ratioBlock">
+        <div class="ratio-percent" id="ratioPercent">—</div>
+        <div class="ratio-bar">
+          <div class="ratio-income" id="ratioIncomeBar" style="width: 0%"></div>
+          <div class="ratio-expense" id="ratioExpenseBar" style="width: 0%"></div>
         </div>
-        <div class="chart-box">
-          <div class="chart-title">Месяц</div>
-          <div class="chart-canvas-wrap">
-            <canvas id="chartMonth"></canvas>
-            <div class="chart-center" id="chartMonthCenter"></div>
+        <div class="ratio-stats">
+          <div class="ratio-stat">
+            <div class="ratio-stat-label">Доход</div>
+            <div class="ratio-stat-value green" id="ratioIncome">0 ₽</div>
+          </div>
+          <div class="ratio-stat">
+            <div class="ratio-stat-label">Расход</div>
+            <div class="ratio-stat-value red" id="ratioExpense">0 ₽</div>
+          </div>
+          <div class="ratio-stat">
+            <div class="ratio-stat-label">Остаток</div>
+            <div class="ratio-stat-value accent" id="ratioBalance">0 ₽</div>
           </div>
         </div>
       </div>
@@ -1074,9 +1060,16 @@ body {
 </main>
 
 <main id="view-history" class="view">
+  <div class="month-switcher">
+    <button class="month-btn" id="histPrevMonth">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="month-title" id="histMonthTitle">Сентябрь 2026<span class="month-hint">История операций</span></div>
+    <button class="month-btn" id="histNextMonth">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
   <div class="filters">
-    <input type="date" id="filterFrom" placeholder="От">
-    <input type="date" id="filterTo" placeholder="До">
     <select id="filterCategory"><option value="">Все категории</option></select>
     <select id="filterType">
       <option value="">Все типы</option>
@@ -1105,35 +1098,6 @@ body {
   </section>
 </main>
 
-<main id="view-settings" class="view">
-  <section class="section" data-section="settings-budget">
-    <div class="section-header">
-      <svg class="section-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span class="section-title">Бюджет</span>
-    </div>
-    <div class="section-content">
-      <div class="form-row">
-        <label>Доход в месяц, ₽</label>
-        <input type="number" id="setIncome" step="1000" min="0" placeholder="110000">
-      </div>
-      <div class="form-row">
-        <label>Обязательные платежи в месяц, ₽</label>
-        <input type="number" id="setMandatory" step="1000" min="0" placeholder="70000">
-        <div style="font-size:11px;color:var(--text-secondary);margin-top:6px;line-height:1.4;">
-          ЖКХ, кредиты, связь — всё, что платишь каждый месяц
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Резерв/накопления в месяц, ₽</label>
-        <input type="number" id="setSavings" step="1000" min="0" placeholder="5000">
-      </div>
-      <div class="form-actions">
-        <button type="button" class="btn-primary" id="btnSaveSettings">Сохранить</button>
-      </div>
-    </div>
-  </section>
-</main>
-
 <nav class="bottom-nav">
   <button data-view="dashboard" class="active">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1153,27 +1117,18 @@ body {
     </svg>
     Кредиты
   </button>
-  <button data-view="settings">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
-    </svg>
-    Настройки
-  </button>
 </nav>
 
-<!-- Модалка: транзакция -->
 <div class="modal" id="modalAdd">
   <div class="modal-content">
     <div class="modal-header">
       <h2 id="modalTitle">Новая операция</h2>
       <button class="close-btn" id="closeModal" type="button">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
     <form id="formAdd">
       <input type="hidden" id="editId">
-
       <div class="form-row">
         <label>Тип</label>
         <div class="segmented" id="typeSegmented">
@@ -1182,27 +1137,22 @@ body {
         </div>
         <input type="hidden" id="fType" value="expense">
       </div>
-
       <div class="form-row">
         <label>Дата</label>
         <input type="date" id="fDate" required>
       </div>
-
       <div class="form-row">
         <label>Категория</label>
         <select id="fCategory" required></select>
       </div>
-
       <div class="form-row" id="subcatRow">
         <label>Подкатегория</label>
         <select id="fSubcategory"></select>
       </div>
-
       <div class="form-row">
         <label>Сумма, ₽</label>
         <input type="number" id="fAmount" step="0.01" min="0" required placeholder="0">
       </div>
-
       <div class="form-row">
         <label>Счёт</label>
         <select id="fAccount">
@@ -1211,16 +1161,13 @@ body {
           <option>Кредитка</option>
         </select>
       </div>
-
       <div class="form-row">
         <label>Комментарий</label>
         <input type="text" id="fNote" placeholder="Например: Пятёрочка">
       </div>
-
       <div class="form-row checkbox-row">
         <label><input type="checkbox" id="fImpulse"> Импульсивная покупка</label>
       </div>
-
       <div class="form-actions">
         <button type="button" class="btn-danger" id="btnDelete" style="display:none">Удалить</button>
         <button type="submit" class="btn-primary">Сохранить</button>
@@ -1229,13 +1176,12 @@ body {
   </div>
 </div>
 
-<!-- Модалка: платёж по кредиту (создание) -->
 <div class="modal" id="modalPayment">
   <div class="modal-content">
     <div class="modal-header">
       <h2 id="paymentTitle">Платёж по кредиту</h2>
       <button class="close-btn" id="closePayment" type="button">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
     <div class="payment-info">
@@ -1246,7 +1192,6 @@ body {
     <form id="formPayment">
       <input type="hidden" id="payCreditId">
       <input type="hidden" id="payEditId">
-
       <div class="form-row">
         <label>Тип платежа</label>
         <div class="segmented" id="payTypeSegmented">
@@ -1255,17 +1200,14 @@ body {
         </div>
         <input type="hidden" id="payType" value="min">
       </div>
-
       <div class="form-row">
         <label>Сумма, ₽</label>
         <input type="number" id="payAmount" step="0.01" min="0" required placeholder="0">
       </div>
-
       <div class="form-row">
         <label>Дата</label>
         <input type="date" id="payDate" required>
       </div>
-
       <div class="form-actions">
         <button type="button" class="btn-danger" id="btnPayDelete" style="display:none">Удалить</button>
         <button type="button" class="btn-danger" id="btnPayCancel">Отмена</button>
@@ -1286,11 +1228,61 @@ const CONFIG = {
   CACHE_KEY: 'finance_tracker_v1',
   SECTIONS_KEY: 'finance_sections_state_v1',
   OPEN_CARDS_KEY: 'finance_open_cards_v1',
-  DISPLAY_CACHE: 'finance_display_cache_v1',
-  BUDGET_KEY: 'finance_budget_v1'
+  DISPLAY_CACHE: 'finance_display_cache_v2',
+  MONTH_KEY: 'finance_view_month_v1',
+  HIST_MONTH_KEY: 'finance_hist_month_v1'
 };
 
-// ==================== СВОРАЧИВАНИЕ ====================
+const state = {
+  transactions: [],
+  credits: [],
+  payments: [],
+  summary: null,
+  view: 'dashboard',
+  viewMonth: null,
+  histMonth: null
+};
+
+(function initMonths() {
+  const now = new Date();
+  try {
+    const saved = JSON.parse(localStorage.getItem(CONFIG.MONTH_KEY) || 'null');
+    state.viewMonth = saved || { year: now.getFullYear(), month: now.getMonth() };
+  } catch (e) {
+    state.viewMonth = { year: now.getFullYear(), month: now.getMonth() };
+  }
+  try {
+    const saved = JSON.parse(localStorage.getItem(CONFIG.HIST_MONTH_KEY) || 'null');
+    state.histMonth = saved || { year: now.getFullYear(), month: now.getMonth() };
+  } catch (e) {
+    state.histMonth = { year: now.getFullYear(), month: now.getMonth() };
+  }
+})();
+
+function saveViewMonth() { localStorage.setItem(CONFIG.MONTH_KEY, JSON.stringify(state.viewMonth)); }
+function saveHistMonth() { localStorage.setItem(CONFIG.HIST_MONTH_KEY, JSON.stringify(state.histMonth)); }
+
+const MONTH_NAMES = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+
+function monthLabel(m) { return MONTH_NAMES[m.month] + ' ' + m.year; }
+function isCurrentMonth(m) {
+  const now = new Date();
+  return m.year === now.getFullYear() && m.month === now.getMonth();
+}
+function monthRange(m) {
+  const from = m.year + '-' + String(m.month+1).padStart(2,'0') + '-01';
+  const lastDay = new Date(m.year, m.month+1, 0).getDate();
+  const to = m.year + '-' + String(m.month+1).padStart(2,'0') + '-' + String(lastDay).padStart(2,'0');
+  return { from, to };
+}
+function shiftMonth(m, delta) {
+  let month = m.month + delta;
+  let year = m.year;
+  while (month < 0) { month += 12; year--; }
+  while (month > 11) { month -= 12; year++; }
+  return { year, month };
+}
+
 function loadSectionsState() {
   try { return JSON.parse(localStorage.getItem(CONFIG.SECTIONS_KEY) || '{}'); }
   catch (e) { return {}; }
@@ -1309,7 +1301,7 @@ function initCollapsibleSections() {
     header.addEventListener('click', () => {
       section.classList.toggle('collapsed');
       saveSectionState(name, section.classList.contains('collapsed'));
-      if (name === 'charts' && !section.classList.contains('collapsed') && state.summary) {
+      if (name === 'charts' && !section.classList.contains('collapsed')) {
         setTimeout(() => renderCharts(state.summary), 320);
       }
     });
@@ -1326,34 +1318,21 @@ function saveOpenCard(id, open) {
   localStorage.setItem(CONFIG.OPEN_CARDS_KEY, JSON.stringify(s));
 }
 
-// ==================== БЮДЖЕТ ====================
-function loadBudget() {
-  try {
-    return JSON.parse(localStorage.getItem(CONFIG.BUDGET_KEY) || '{}');
-  } catch (e) { return {}; }
-}
-function saveBudget(b) {
-  localStorage.setItem(CONFIG.BUDGET_KEY, JSON.stringify(b));
-}
-
-// ==================== SVG-ИКОНКИ ====================
 const ICONS = {
-  products: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  transport: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 7h8m-9 4h10M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16M5 21h14M5 21l-2-3M19 21l2-3M9 17h.01M15 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  housing: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h12a1 1 0 001-1V10M9 21v-6h6v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  cigarettes: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 14h18v4H2v-4zM22 14v4M7 11c0-1 1-1 1-2s-1-1-1-2M11 11c0-1 1-1 1-2s-1-1-1-2M15 11c0-1 1-1 1-2s-1-1-1-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  personal: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  credit: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  cushion: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  income: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 19V5M5 12l7-7 7 7M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  target: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>',
-  chevronRight: '<svg class="chevron" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  plus: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-  bolt: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  check: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  products: '<svg viewBox="0 0 24 24" fill="none"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  transport: '<svg viewBox="0 0 24 24" fill="none"><path d="M8 7h8m-9 4h10M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16M5 21h14M5 21l-2-3M19 21l2-3M9 17h.01M15 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  housing: '<svg viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h12a1 1 0 001-1V10M9 21v-6h6v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  cigarettes: '<svg viewBox="0 0 24 24" fill="none"><path d="M2 14h18v4H2v-4zM22 14v4M7 11c0-1 1-1 1-2s-1-1-1-2M11 11c0-1 1-1 1-2s-1-1-1-2M15 11c0-1 1-1 1-2s-1-1-1-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  personal: '<svg viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  credit: '<svg viewBox="0 0 24 24" fill="none"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  cushion: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  income: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  target: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>',
+  chevronRight: '<svg class="chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  bolt: '<svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 };
 
-// ==================== СПРАВОЧНИКИ ====================
 const CATEGORIES = {
   expense: {
     'Продукты':  ['Пятёрочка', 'Магнит', 'Рынок', 'Доставка', 'Прочее'],
@@ -1382,7 +1361,7 @@ const QUICK_BUTTONS = [
   { icon: 'income',     label: 'Приход',    category: 'Зарплата',  type: 'income'  }
 ];
 
-const BLOCK_COLORS = {
+const EXPENSE_COLORS = {
   'Продукты':  '#D99A4E',
   'Транспорт': '#5E8CBF',
   'ЖКХ':       '#4CAF7A',
@@ -1392,17 +1371,15 @@ const BLOCK_COLORS = {
   'Подушка':   '#6BA8B8'
 };
 
-// ==================== СОСТОЯНИЕ ====================
-const state = {
-  transactions: [],
-  credits: [],
-  payments: [],
-  summary: null,
-  budget: loadBudget(),
-  view: 'dashboard'
+const INCOME_COLORS = {
+  'Зарплата': '#4CAF7A',
+  'Фриланс':  '#7BA8D9',
+  'Прочее':   '#9B6DB8'
 };
 
-// ==================== API ====================
+function getExpenseColor(name) { return EXPENSE_COLORS[name] || '#8E8E93'; }
+function getIncomeColor(name) { return INCOME_COLORS[name] || '#6BA8B8'; }
+
 async function api(action, payload = {}) {
   if (!CONFIG.API_URL || CONFIG.API_URL.includes('ВСТАВЬ')) {
     return demoApi(action, payload);
@@ -1423,35 +1400,22 @@ function demoApi(action, payload) {
   const db = JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY) || '{"transactions":[],"credits":[],"payments":[]}');
   if (!db.payments) db.payments = [];
   let result = { ok: true };
-
   switch (action) {
     case 'getAll': {
       const totalDebt = db.credits.reduce((s,c) => s + Number(c.current_debt||0), 0);
       const totalMonthly = db.credits.reduce((s,c) => s + Number(c.monthly_payment||0), 0);
-      result = {
-        ok: true,
-        transactions: db.transactions,
-        credits: db.credits,
-        payments: db.payments,
-        total_debt: totalDebt,
-        total_monthly: totalMonthly
-      };
+      result = { ok: true, transactions: db.transactions, credits: db.credits, payments: db.payments, total_debt: totalDebt, total_monthly: totalMonthly };
       break;
     }
     case 'addTransaction':
-      db.transactions.push({
-        id: uid(), ...payload,
-        created_at: new Date().toISOString()
-      });
+      db.transactions.push({ id: uid(), ...payload, created_at: new Date().toISOString() });
       break;
     case 'deleteTransaction':
       db.transactions = db.transactions.filter(t => t.id !== payload.id);
       break;
     case 'updateTransaction': {
       const idx = db.transactions.findIndex(t => t.id === payload.id);
-      if (idx >= 0) {
-        db.transactions[idx] = { ...db.transactions[idx], ...payload.data };
-      }
+      if (idx >= 0) db.transactions[idx] = { ...db.transactions[idx], ...payload.data };
       break;
     }
     case 'addPayment': {
@@ -1462,28 +1426,9 @@ function demoApi(action, payload) {
         c.current_debt = newDebt;
         if (c.current_debt === 0) c.status = 'closed';
       }
-      const payment = {
-        id: uid(),
-        credit_id: payload.credit_id,
-        date: payload.date || today(),
-        amount: Number(payload.amount),
-        type: payload.type || 'min',
-        new_debt: newDebt,
-        created_at: new Date().toISOString()
-      };
+      const payment = { id: uid(), credit_id: payload.credit_id, date: payload.date || today(), amount: Number(payload.amount), type: payload.type || 'min', new_debt: newDebt, created_at: new Date().toISOString() };
       db.payments.push(payment);
-      db.transactions.push({
-        id: uid(),
-        date: payment.date,
-        type: 'expense',
-        category: 'Кредиты',
-        subcategory: 'Кредит ' + payload.credit_id,
-        amount: Number(payload.amount),
-        note: payload.type === 'early' ? 'Досрочный платёж' : 'Платёж по кредиту',
-        account: 'Карта',
-        isImpulse: false,
-        created_at: new Date().toISOString()
-      });
+      db.transactions.push({ id: uid(), date: payment.date, type: 'expense', category: 'Кредиты', subcategory: 'Кредит ' + payload.credit_id, amount: Number(payload.amount), note: payload.type === 'early' ? 'Досрочный платёж' : 'Платёж по кредиту', account: 'Карта', isImpulse: false, created_at: new Date().toISOString() });
       result = { ok: true, new_debt: newDebt, payment };
       break;
     }
@@ -1491,10 +1436,7 @@ function demoApi(action, payload) {
       const p = db.payments.find(x => x.id === payload.id);
       if (p) {
         const c = db.credits.find(x => String(x.id) === String(p.credit_id));
-        if (c) {
-          c.current_debt = Number(c.current_debt) + Number(p.amount);
-          if (c.current_debt > 0) c.status = 'active';
-        }
+        if (c) { c.current_debt = Number(c.current_debt) + Number(p.amount); if (c.current_debt > 0) c.status = 'active'; }
         db.payments = db.payments.filter(x => x.id !== payload.id);
       }
       break;
@@ -1507,16 +1449,12 @@ function demoApi(action, payload) {
         if (c) {
           c.current_debt = Number(c.current_debt) + Number(oldP.amount);
           c.current_debt = Math.max(0, c.current_debt - Number(payload.data.amount));
-          if (c.current_debt === 0) c.status = 'closed';
-          else c.status = 'active';
+          c.status = c.current_debt === 0 ? 'closed' : 'active';
         }
         db.payments[idx] = { ...oldP, ...payload.data };
       }
       break;
     }
-    case 'getSummary':
-      result = { ok: true, ...buildSummary(db.transactions, payload.from, payload.to) };
-      break;
   }
   localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(db));
   return result;
@@ -1526,7 +1464,6 @@ function uid() {
   return 'x' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
 }
 
-// ==================== ЗАГРУЗКА ====================
 async function loadAll(showToast = true) {
   try {
     setSync(true);
@@ -1534,9 +1471,7 @@ async function loadAll(showToast = true) {
     state.transactions = res.transactions || [];
     state.credits = res.credits || [];
     state.payments = res.payments || [];
-    state.summary = buildSummary(state.transactions, firstDayOfMonth(), today());
-
-    // кэш для мгновенного показа при следующем открытии
+    recomputeSummary();
     try {
       localStorage.setItem(CONFIG.DISPLAY_CACHE, JSON.stringify({
         transactions: state.transactions,
@@ -1544,11 +1479,7 @@ async function loadAll(showToast = true) {
         payments: state.payments
       }));
     } catch (e) {}
-
-    renderDashboard();
-    renderHistory();
-    renderCredits();
-    renderBudget();
+    renderAll();
     if (showToast) toast('Обновлено');
   } catch (e) {
     console.error(e);
@@ -1566,42 +1497,32 @@ function loadFromCache() {
     state.transactions = db.transactions || [];
     state.credits = db.credits || [];
     state.payments = db.payments || [];
-    state.summary = buildSummary(state.transactions, firstDayOfMonth(), today());
-    renderDashboard();
-    renderHistory();
-    renderCredits();
-    renderBudget();
+    recomputeSummary();
+    renderAll();
     return true;
   } catch (e) { return false; }
+}
+
+function recomputeSummary() {
+  const r = monthRange(state.viewMonth);
+  state.summary = buildSummary(state.transactions, r.from, r.to);
+}
+
+function renderAll() {
+  renderBalance();
+  renderMonthTitle();
+  renderDashboard();
+  renderHistory();
+  renderCredits();
 }
 
 function setSync(on) {
   document.getElementById('syncBtn').classList.toggle('syncing', on);
 }
 
-// ==================== ХЕЛПЕРЫ ====================
 function today() {
   const d = new Date();
-  return d.getFullYear() + '-' +
-    String(d.getMonth()+1).padStart(2,'0') + '-' +
-    String(d.getDate()).padStart(2,'0');
-}
-function firstDayOfMonth() {
-  const d = new Date();
-  return d.getFullYear() + '-' +
-    String(d.getMonth()+1).padStart(2,'0') + '-01';
-}
-function lastDayOfMonth() {
-  const d = new Date();
-  return new Date(d.getFullYear(), d.getMonth()+1, 0);
-}
-function daysLeftInMonth() {
-  const now = new Date();
-  const last = lastDayOfMonth();
-  return Math.max(1, last.getDate() - now.getDate() + 1);
-}
-function daysInMonth() {
-  return lastDayOfMonth().getDate();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
 function formatMoney(n) {
   const num = Number(n) || 0;
@@ -1626,89 +1547,94 @@ function toast(msg, isError = false) {
   el._t = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
-// ==================== БЮДЖЕТ ====================
-function calcBudget(s) {
-  const b = state.budget || {};
-  const income = Number(b.income) || 0;
-  const mandatory = Number(b.mandatory) || 0;
-  const savings = Number(b.savings) || 0;
-  const spent = s.expense || 0;
-  const daysLeft = daysLeftInMonth();
-  const totalDays = daysInMonth();
-
-  // Свободные деньги за месяц
-  const free = Math.max(0, income - mandatory - savings);
-  // Дневной лимит
-  const dailyLimit = free / totalDays;
-  // Сколько уже потрачено в этом месяце (кроме обязательных)
-  const discretionarySpent = Math.max(0, spent - mandatory);
-  // Сколько осталось
-  const left = Math.max(0, free - discretionarySpent);
-  // Лимит на оставшиеся дни
-  const dailyLeft = left / daysLeft;
-
-  return { income, mandatory, savings, free, dailyLimit, spent, discretionarySpent, left, dailyLeft, daysLeft, totalDays };
+function renderBalance() {
+  let totalIncome = 0;
+  let totalExpense = 0;
+  state.transactions.forEach(t => {
+    const amt = Number(t.amount) || 0;
+    if (t.type === 'income') totalIncome += amt;
+    else totalExpense += amt;
+  });
+  const balance = totalIncome - totalExpense;
+  const el = document.getElementById('totalBalance');
+  const card = document.getElementById('balanceCard');
+  const sub = document.getElementById('balanceSub');
+  el.textContent = formatMoney(balance);
+  card.classList.toggle('negative', balance < 0);
+  sub.textContent = 'Доходы ' + formatMoney(totalIncome) + ' · Расходы ' + formatMoney(totalExpense);
 }
 
-function renderBudget() {
-  const b = state.budget || {};
-  const s = state.summary || { expense: 0 };
-  const hasBudget = b.income && b.income > 0;
+function renderMonthTitle() {
+  const t = document.getElementById('monthTitle');
+  const hint = isCurrentMonth(state.viewMonth) ? 'Текущий месяц' : 'Просмотр';
+  t.innerHTML = monthLabel(state.viewMonth) + '<span class="month-hint">' + hint + '</span>';
 
-  const budgetMain = document.getElementById('budgetMain');
-  const budgetSub = document.getElementById('budgetSub');
-  const budgetDays = document.getElementById('budgetDays');
-  const budgetBar = document.getElementById('budgetBarFill');
-  const budgetLimit = document.getElementById('budgetLimit');
-  const budgetSpent = document.getElementById('budgetSpent');
-  const budgetLeft = document.getElementById('budgetLeft');
-
-  if (!hasBudget) {
-    budgetMain.textContent = '—';
-    budgetSub.textContent = 'Заполни настройки → вкладка «Настройки»';
-    budgetDays.textContent = '';
-    budgetBar.style.width = '0%';
-    budgetLimit.textContent = '—';
-    budgetSpent.textContent = '—';
-    budgetLeft.textContent = '—';
-    return;
-  }
-
-  const r = calcBudget(s);
-
-  budgetMain.textContent = formatMoney(r.dailyLeft);
-  budgetSub.textContent = `из ${formatMoney(r.dailyLimit)} в день · до конца месяца`;
-  budgetDays.textContent = `${r.daysLeft} дн. осталось`;
-
-  const pct = r.dailyLimit > 0 ? Math.min(100, (r.discretionarySpent / r.free) * 100) : 0;
-  budgetBar.style.width = pct.toFixed(1) + '%';
-  budgetBar.classList.remove('warn', 'over');
-  if (pct > 90) budgetBar.classList.add('over');
-  else if (pct > 70) budgetBar.classList.add('warn');
-
-  budgetLimit.textContent = formatMoney(r.dailyLimit);
-  budgetSpent.textContent = formatMoney(r.discretionarySpent);
-  budgetLeft.textContent = formatMoney(r.left);
+  const ht = document.getElementById('histMonthTitle');
+  const hh = isCurrentMonth(state.histMonth) ? 'Текущий месяц' : 'Просмотр';
+  ht.innerHTML = monthLabel(state.histMonth) + '<span class="month-hint">' + hh + '</span>';
 }
 
-// ==================== ДАШБОРД ====================
+document.getElementById('prevMonth').onclick = () => {
+  state.viewMonth = shiftMonth(state.viewMonth, -1);
+  saveViewMonth();
+  recomputeSummary();
+  renderDashboard();
+  renderBalance();
+  renderMonthTitle();
+};
+
+document.getElementById('nextMonth').onclick = () => {
+  state.viewMonth = shiftMonth(state.viewMonth, 1);
+  saveViewMonth();
+  recomputeSummary();
+  renderDashboard();
+  renderBalance();
+  renderMonthTitle();
+};
+
+document.getElementById('monthTitle').onclick = () => {
+  const now = new Date();
+  state.viewMonth = { year: now.getFullYear(), month: now.getMonth() };
+  saveViewMonth();
+  recomputeSummary();
+  renderDashboard();
+  renderBalance();
+  renderMonthTitle();
+};
+
+document.getElementById('histPrevMonth').onclick = () => {
+  state.histMonth = shiftMonth(state.histMonth, -1);
+  saveHistMonth();
+  renderHistory();
+  renderMonthTitle();
+};
+
+document.getElementById('histNextMonth').onclick = () => {
+  state.histMonth = shiftMonth(state.histMonth, 1);
+  saveHistMonth();
+  renderHistory();
+  renderMonthTitle();
+};
+
+document.getElementById('histMonthTitle').onclick = () => {
+  const now = new Date();
+  state.histMonth = { year: now.getFullYear(), month: now.getMonth() };
+  saveHistMonth();
+  renderHistory();
+  renderMonthTitle();
+};
+
 function renderDashboard() {
-  const s = state.summary || buildSummary(state.transactions, firstDayOfMonth(), today());
-
-  document.getElementById('todayBalance').textContent = formatMoney(s.today_balance || 0);
-  document.getElementById('todayDate').textContent =
-    new Date().toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' });
-  document.getElementById('monthIncome').textContent  = formatMoney(s.income || 0);
+  const s = state.summary || { income: 0, expense: 0, by_category: {} };
+  document.getElementById('monthIncome').textContent = formatMoney(s.income || 0);
   document.getElementById('monthExpense').textContent = formatMoney(s.expense || 0);
-
   renderCharts(s);
   renderBlocks(s);
   renderQuickButtons();
-
   const blocksBadge = document.getElementById('blocksBadge');
   if (blocksBadge) blocksBadge.textContent = formatMoney(s.expense || 0);
   const chartsBadge = document.getElementById('chartsBadge');
-  if (chartsBadge) chartsBadge.textContent = formatMoney(s.expense || 0);
+  if (chartsBadge) chartsBadge.textContent = formatMoney(s.income || 0) + ' / ' + formatMoney(s.expense || 0);
 }
 
 function renderQuickButtons() {
@@ -1727,115 +1653,162 @@ function renderQuickButtons() {
   });
 }
 
-let chartDay = null, chartMonth = null;
+let chartMain = null;
 
 function renderCharts(s) {
-  const dayData = (s.by_day && s.by_day[today()]) || { income: 0, expense: 0 };
-  const dayHasData = dayData.income > 0 || dayData.expense > 0;
-  const monthCats = Object.entries(s.by_category || {}).filter(([_,v]) => v.expense > 0);
+  const byCat = s.by_category || {};
+  const expenseCats = Object.entries(byCat).filter(([_,v]) => v.expense > 0).sort((a,b) => b[1].expense - a[1].expense);
+  const incomeCats = Object.entries(byCat).filter(([_,v]) => v.income > 0).sort((a,b) => b[1].income - a[1].income);
+  const hasExpense = expenseCats.length > 0;
+  const hasIncome = incomeCats.length > 0;
+  const hasAny = hasExpense || hasIncome;
 
-  const commonOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: { duration: 600 },
-    layout: { padding: 4 },
-    cutout: '72%',
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        enabled: true,
-        position: 'nearest',
-        caretPadding: 10,
-        caretSize: 5,
-        yAlign: 'bottom',
-        xAlign: 'center',
-        backgroundColor: 'rgba(28,28,30,0.98)',
-        borderColor: 'rgba(94,140,191,0.4)',
-        borderWidth: 1,
-        titleColor: '#FFFFFF',
-        titleFont: { size: 13, weight: '600', family: '-apple-system, Inter, sans-serif' },
-        titleMarginBottom: 6,
-        bodyColor: '#8E8E93',
-        bodyFont: { size: 12, weight: '500', family: '-apple-system, Inter, sans-serif' },
-        bodySpacing: 4,
-        padding: { top: 10, bottom: 10, left: 12, right: 12 },
-        cornerRadius: 10,
-        displayColors: true,
-        boxWidth: 8,
-        boxHeight: 8,
-        boxPadding: 4,
-        callbacks: {
-          title: (items) => items.length ? (items[0].label || '') : '',
-          label: (ctx) => {
-            const val = ctx.parsed < 0.01 ? 0 : ctx.parsed;
-            return '  ' + val.toLocaleString('ru-RU') + ' ₽';
-          }
-        }
+  const innerData = hasExpense ? expenseCats.map(([_,v]) => v.expense) : [1];
+  const innerColors = hasExpense ? expenseCats.map(([k]) => getExpenseColor(k)) : ['#2C2C2E'];
+  const innerLabels = hasExpense ? expenseCats.map(([k]) => k) : ['Нет расходов'];
+
+  const outerData = hasIncome ? incomeCats.map(([_,v]) => v.income) : [1];
+  const outerColors = hasIncome ? incomeCats.map(([k]) => getIncomeColor(k)) : ['#2C2C2E'];
+  const outerLabels = hasIncome ? incomeCats.map(([k]) => k) : ['Нет доходов'];
+
+  const commonTooltip = {
+    position: 'nearest',
+    caretPadding: 8,
+    caretSize: 4,
+    yAlign: 'bottom',
+    xAlign: 'center',
+    backgroundColor: 'rgba(28,28,30,0.98)',
+    borderColor: 'rgba(94,140,191,0.4)',
+    borderWidth: 1,
+    titleColor: '#FFFFFF',
+    titleFont: { size: 12, weight: '600' },
+    titleMarginBottom: 4,
+    bodyColor: '#8E8E93',
+    bodyFont: { size: 11, weight: '500' },
+    bodySpacing: 3,
+    padding: { top: 8, bottom: 8, left: 10, right: 10 },
+    cornerRadius: 8,
+    displayColors: true,
+    boxWidth: 8,
+    boxHeight: 8,
+    boxPadding: 3,
+    callbacks: {
+      label: (ctx) => {
+        const val = ctx.parsed < 0.01 ? 0 : ctx.parsed;
+        return '  ' + val.toLocaleString('ru-RU') + ' ₽';
       }
     }
   };
 
-  const dayCfg = {
+  const cfg = {
     type: 'doughnut',
     data: {
-      labels: dayHasData ? ['Доход', 'Расход'] : ['—'],
-      datasets: [{
-        data: dayHasData ? [dayData.income || 0.001, dayData.expense || 0.001] : [1],
-        backgroundColor: dayHasData ? ['#4CAF7A', '#C66B66'] : ['#2C2C2E'],
-        borderWidth: 0,
-        hoverOffset: 4,
-        hoverBorderWidth: 0
-      }]
+      labels: hasAny ? [...innerLabels, ...outerLabels] : ['Нет данных'],
+      datasets: [
+        {
+          label: 'Расход',
+          data: hasExpense ? innerData : [1],
+          backgroundColor: hasExpense ? innerColors : ['#2C2C2E'],
+          borderWidth: 0,
+          hoverOffset: 4,
+          weight: 1
+        },
+        {
+          label: 'Доход',
+          data: hasIncome ? outerData : [1],
+          backgroundColor: hasIncome ? outerColors : ['#2C2C2E'],
+          borderWidth: 0,
+          hoverOffset: 4,
+          weight: 0.7
+        }
+      ]
     },
     options: {
-      ...commonOptions,
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 600 },
+      layout: { padding: 8 },
+      cutout: '45%',
       plugins: {
-        ...commonOptions.plugins,
-        tooltip: { ...commonOptions.plugins.tooltip, enabled: dayHasData }
+        legend: { display: false },
+        tooltip: commonTooltip
       }
     }
   };
 
-  const monthCfg = {
-    type: 'doughnut',
-    data: {
-      labels: monthCats.length ? monthCats.map(([k]) => k) : ['Нет данных'],
-      datasets: [{
-        data: monthCats.length ? monthCats.map(([_,v]) => v.expense) : [1],
-        backgroundColor: monthCats.length
-          ? monthCats.map(([k]) => BLOCK_COLORS[k] || '#8E8E93')
-          : ['#2C2C2E'],
-        borderWidth: 0,
-        hoverOffset: 4,
-        hoverBorderWidth: 0
-      }]
-    },
-    options: commonOptions
-  };
+  const canvas = document.getElementById('chartMain');
+  if (!canvas) return;
+  if (chartMain) { chartMain.destroy(); chartMain = null; }
+  chartMain = new Chart(canvas, cfg);
 
-  if (chartDay) { chartDay.destroy(); chartDay = null; }
-  if (chartMonth) { chartMonth.destroy(); chartMonth = null; }
+  const center = document.getElementById('chartCenter');
+  if (hasAny) {
+    center.innerHTML = `${formatMoney(s.expense || 0)}<small>расход</small>`;
+  } else {
+    center.innerHTML = `—<small>нет данных</small>`;
+  }
 
-  const dayCanvas = document.getElementById('chartDay');
-  const monthCanvas = document.getElementById('chartMonth');
-  if (!dayCanvas || !monthCanvas) return;
+  const legend = document.getElementById('chartLegend');
+  const items = [];
+  expenseCats.forEach(([k, v]) => {
+    items.push(`<div class="legend-item"><span class="legend-dot" style="background:${getExpenseColor(k)}"></span>${k} · ${formatMoney(v.expense)}</div>`);
+  });
+  incomeCats.forEach(([k, v]) => {
+    items.push(`<div class="legend-item"><span class="legend-dot" style="background:${getIncomeColor(k)};border:1px solid rgba(255,255,255,0.3)"></span>${k} ↑ · ${formatMoney(v.income)}</div>`);
+  });
+  legend.innerHTML = items.length ? items.join('') : '';
 
-  chartDay = new Chart(dayCanvas, dayCfg);
-  chartMonth = new Chart(monthCanvas, monthCfg);
+  renderRatio(s);
+}
 
-  const dayBal = (dayData.income || 0) - (dayData.expense || 0);
-  document.getElementById('chartDayCenter').innerHTML =
-    `${dayHasData ? formatMoney(dayBal) : '—'}<small>баланс</small>`;
-  document.getElementById('chartMonthCenter').innerHTML =
-    `${formatMoney(s.expense || 0)}<small>расход</small>`;
+function renderRatio(s) {
+  const income = s.income || 0;
+  const expense = s.expense || 0;
+  const balance = income - expense;
+  const total = income + expense;
+
+  const incomeBar = document.getElementById('ratioIncomeBar');
+  const expenseBar = document.getElementById('ratioExpenseBar');
+  const percentEl = document.getElementById('ratioPercent');
+  const incomeEl = document.getElementById('ratioIncome');
+  const expenseEl = document.getElementById('ratioExpense');
+  const balanceEl = document.getElementById('ratioBalance');
+
+  if (total === 0) {
+    incomeBar.style.width = '0%';
+    expenseBar.style.width = '0%';
+    percentEl.textContent = 'Нет данных за этот месяц';
+    incomeEl.textContent = '0 ₽';
+    expenseEl.textContent = '0 ₽';
+    balanceEl.textContent = '0 ₽';
+    return;
+  }
+
+  const incomePct = (income / total) * 100;
+  const expensePct = (expense / total) * 100;
+  incomeBar.style.width = incomePct.toFixed(1) + '%';
+  expenseBar.style.width = expensePct.toFixed(1) + '%';
+
+  if (income > 0) {
+    const usedPct = (expense / income) * 100;
+    percentEl.innerHTML = `Расходы составляют <strong>${usedPct.toFixed(0)}%</strong> от доходов`;
+  } else {
+    percentEl.innerHTML = `Доходов в этом месяце нет`;
+  }
+
+  incomeEl.textContent = formatMoney(income);
+  expenseEl.textContent = formatMoney(expense);
+  balanceEl.textContent = (balance >= 0 ? '+' : '') + formatMoney(balance);
+  balanceEl.classList.remove('green', 'red', 'accent');
+  if (balance > 0) balanceEl.classList.add('green');
+  else if (balance < 0) balanceEl.classList.add('red');
+  else balanceEl.classList.add('accent');
 }
 
 function renderBlocks(s) {
   const list = document.getElementById('blockList');
   const byCat = s.by_category || {};
-  const totals = Object.entries(byCat)
-    .filter(([_,v]) => v.expense > 0)
-    .sort((a,b) => b[1].expense - a[1].expense);
+  const totals = Object.entries(byCat).filter(([_,v]) => v.expense > 0).sort((a,b) => b[1].expense - a[1].expense);
 
   if (!totals.length) {
     list.innerHTML = '<div class="block-empty">Нет расходов за этот месяц</div>';
@@ -1850,9 +1823,7 @@ function renderBlocks(s) {
         <span class="block-amount">${formatMoney(v.expense)}</span>
       </div>
       <div class="block-bar">
-        <div class="block-bar-fill"
-             style="width:${(v.expense/max*100).toFixed(1)}%;
-                    background:${BLOCK_COLORS[name] || '#5E8CBF'}"></div>
+        <div class="block-bar-fill" style="width:${(v.expense/max*100).toFixed(1)}%;background:${getExpenseColor(name)}"></div>
       </div>
     </div>
   `).join('');
@@ -1861,31 +1832,28 @@ function renderBlocks(s) {
     el.onclick = (e) => {
       e.stopPropagation();
       document.getElementById('filterCategory').value = el.dataset.cat;
-      document.getElementById('filterFrom').value = firstDayOfMonth();
-      document.getElementById('filterTo').value = today();
+      state.histMonth = { ...state.viewMonth };
+      saveHistMonth();
       switchView('history');
       renderHistory();
+      renderMonthTitle();
     };
   });
 }
 
-// ==================== ИСТОРИЯ ====================
 function renderHistory() {
   const list = document.getElementById('historyList');
-  const from = document.getElementById('filterFrom').value;
-  const to   = document.getElementById('filterTo').value;
   const cat  = document.getElementById('filterCategory').value;
   const type = document.getElementById('filterType').value;
+  const range = monthRange(state.histMonth);
 
-  let items = [...state.transactions];
-  if (from) items = items.filter(t => t.date >= from);
-  if (to)   items = items.filter(t => t.date <= to);
+  let items = state.transactions.filter(t => t.date >= range.from && t.date <= range.to);
   if (cat)  items = items.filter(t => t.category === cat);
   if (type) items = items.filter(t => t.type === type);
   items.sort((a,b) => (b.date || '').localeCompare(a.date || ''));
 
   if (!items.length) {
-    list.innerHTML = '<div class="block-empty">Нет операций</div>';
+    list.innerHTML = '<div class="block-empty">Нет операций за этот месяц</div>';
     return;
   }
 
@@ -1923,7 +1891,6 @@ function renderHistory() {
   });
 }
 
-// ==================== КРЕДИТЫ ====================
 function renderCredits() {
   const sum  = document.getElementById('creditsSummary');
   const list = document.getElementById('creditsList');
@@ -1948,8 +1915,7 @@ function renderCredits() {
     <div class="sub">Выплачено ${formatMoney(paid)} · Мин. платёж ${formatMoney(monthly)}/мес</div>
   `;
 
-  document.getElementById('debtTotal').innerHTML =
-    `<strong>${formatMoney(total)}</strong> из ${formatMoney(initial)}`;
+  document.getElementById('debtTotal').innerHTML = `<strong>${formatMoney(total)}</strong> из ${formatMoney(initial)}`;
   const pct = initial > 0 ? (1 - total/initial) * 100 : 0;
   document.getElementById('debtFill').style.width = pct.toFixed(1) + '%';
 
@@ -1964,11 +1930,7 @@ function renderCredits() {
     const isClosed = Number(c.current_debt) === 0;
     const progress = c.total > 0 ? (1 - c.current_debt/c.total)*100 : 0;
     const isOpen = openCards[c.id] === true;
-
-    const creditPayments = state.payments
-      .filter(p => String(p.credit_id) === String(c.id))
-      .sort((a,b) => (b.date || '').localeCompare(a.date || ''));
-
+    const creditPayments = state.payments.filter(p => String(p.credit_id) === String(c.id)).sort((a,b) => (b.date || '').localeCompare(a.date || ''));
     const totalPaid = creditPayments.reduce((s,p) => s + Number(p.amount), 0);
 
     const paymentsHTML = creditPayments.length
@@ -2023,7 +1985,6 @@ function renderCredits() {
                 <div class="debt-detail-value">${c.rate ? c.rate + '%' : '—'}</div>
               </div>
             </div>
-
             ${!isClosed ? `
             <div class="debt-actions">
               <button class="debt-action-btn primary" data-action="pay" data-id="${c.id}">
@@ -2033,11 +1994,8 @@ function renderCredits() {
                 ${ICONS.bolt} Досрочно
               </button>
             </div>` : ''}
-
             <div class="payments-title">История платежей (${creditPayments.length})</div>
-            <div class="payments-list">
-              ${paymentsHTML}
-            </div>
+            <div class="payments-list">${paymentsHTML}</div>
           </div>
         </div>
       </div>
@@ -2047,13 +2005,7 @@ function renderCredits() {
   list.querySelectorAll('.debt-card').forEach(card => {
     const id = card.dataset.id;
     const header = card.querySelector('[data-toggle="card"]');
-    if (header) {
-      header.onclick = (e) => {
-        e.stopPropagation();
-        card.classList.toggle('open');
-        saveOpenCard(id, card.classList.contains('open'));
-      };
-    }
+    if (header) header.onclick = (e) => { e.stopPropagation(); card.classList.toggle('open'); saveOpenCard(id, card.classList.contains('open')); };
     card.querySelectorAll('[data-action]').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -2063,30 +2015,23 @@ function renderCredits() {
         else if (action === 'early') openPaymentModal(creditId, 'early', null);
       };
     });
-    // Клик по платежу — редактирование
     card.querySelectorAll('[data-payment-id]').forEach(pEl => {
       pEl.onclick = (e) => {
         e.stopPropagation();
-        const pid = pEl.dataset.paymentId;
-        const payment = state.payments.find(p => p.id === pid);
+        const payment = state.payments.find(p => p.id === pEl.dataset.paymentId);
         if (payment) openPaymentModal(payment.credit_id, payment.type, payment);
       };
     });
   });
 }
 
-// ==================== МОДАЛКА ПЛАТЕЖА (создание + редактирование) ====================
 function openPaymentModal(creditId, type = 'min', editPayment = null) {
   const c = state.credits.find(x => String(x.id) === String(creditId));
   if (!c) return;
-
   const isEdit = !!editPayment;
-  document.getElementById('paymentTitle').textContent =
-    isEdit ? 'Редактировать платёж' : 'Платёж · ' + c.name;
+  document.getElementById('paymentTitle').textContent = isEdit ? 'Редактировать платёж' : 'Платёж · ' + c.name;
   document.getElementById('payCreditId').value = creditId;
   document.getElementById('payEditId').value = isEdit ? editPayment.id : '';
-
-  // Показываем кнопку удаления только при редактировании
   document.getElementById('btnPayDelete').style.display = isEdit ? 'block' : 'none';
   document.getElementById('btnPayCancel').style.display = isEdit ? 'block' : 'none';
 
@@ -2103,10 +2048,7 @@ function openPaymentModal(creditId, type = 'min', editPayment = null) {
   document.getElementById('payCurrentDebt').textContent = formatMoney(c.current_debt);
   document.getElementById('payMonthly').textContent = formatMoney(c.monthly_payment);
   updatePayAfter();
-
-  const amountInput = document.getElementById('payAmount');
-  amountInput.oninput = updatePayAfter;
-
+  document.getElementById('payAmount').oninput = updatePayAfter;
   document.getElementById('modalPayment').classList.add('open');
 }
 
@@ -2123,22 +2065,19 @@ function updatePayAfter() {
   const c = state.credits.find(x => String(x.id) === String(creditId));
   if (!c) return;
   const amount = Number(document.getElementById('payAmount').value) || 0;
-
-  // Если редактируем — сначала возвращаем старую сумму
   let baseDebt = Number(c.current_debt);
   if (editId) {
     const oldP = state.payments.find(p => p.id === editId);
     if (oldP) baseDebt += Number(oldP.amount);
   }
-  const after = Math.max(0, baseDebt - amount);
-  document.getElementById('payAfter').textContent = formatMoney(after);
+  document.getElementById('payAfter').textContent = formatMoney(Math.max(0, baseDebt - amount));
 }
 
 document.querySelectorAll('#payTypeSegmented button').forEach(b => {
   b.addEventListener('click', () => {
     setPayType(b.dataset.paytype);
     const editId = document.getElementById('payEditId').value;
-    if (editId) return; // при редактировании не меняем сумму автоматически
+    if (editId) return;
     if (b.dataset.paytype === 'early') {
       document.getElementById('payAmount').value = '';
     } else {
@@ -2157,9 +2096,7 @@ document.getElementById('formPayment').addEventListener('submit', async (e) => {
   const amount = Number(document.getElementById('payAmount').value);
   const date = document.getElementById('payDate').value;
   const type = document.getElementById('payType').value;
-
   if (!amount || amount <= 0) { toast('Введи сумму', true); return; }
-
   try {
     if (editId) {
       await api('updatePayment', { id: editId, data: { amount, date, type } });
@@ -2170,31 +2107,23 @@ document.getElementById('formPayment').addEventListener('submit', async (e) => {
     }
     document.getElementById('modalPayment').classList.remove('open');
     await loadAll(false);
-  } catch (err) {
-    toast('Ошибка: ' + err.message, true);
-  }
+  } catch (err) { toast('Ошибка: ' + err.message, true); }
 });
 
 document.getElementById('btnPayDelete').addEventListener('click', async () => {
   const editId = document.getElementById('payEditId').value;
-  if (!editId) return;
-  if (!confirm('Удалить платёж? Долг по кредиту восстановится.')) return;
+  if (!editId || !confirm('Удалить платёж? Долг по кредиту восстановится.')) return;
   try {
     await api('deletePayment', { id: editId });
     document.getElementById('modalPayment').classList.remove('open');
     toast('Платёж удалён');
     await loadAll(false);
-  } catch (err) {
-    toast('Ошибка: ' + err.message, true);
-  }
+  } catch (err) { toast('Ошибка: ' + err.message, true); }
 });
 
-document.getElementById('closePayment').onclick = () =>
-  document.getElementById('modalPayment').classList.remove('open');
-document.getElementById('btnPayCancel').onclick = () =>
-  document.getElementById('modalPayment').classList.remove('open');
+document.getElementById('closePayment').onclick = () => document.getElementById('modalPayment').classList.remove('open');
+document.getElementById('btnPayCancel').onclick = () => document.getElementById('modalPayment').classList.remove('open');
 
-// ==================== МОДАЛКА ТРАНЗАКЦИИ ====================
 function openAddModal(category, type) {
   document.getElementById('modalTitle').textContent = 'Новая операция';
   document.getElementById('editId').value = '';
@@ -2233,8 +2162,7 @@ function setType(type) {
   });
   const catSel = document.getElementById('fCategory');
   catSel.innerHTML = '<option value="">— выбери —</option>' +
-    Object.keys(CATEGORIES[type]).map(c =>
-      `<option value="${c}">${c}</option>`).join('');
+    Object.keys(CATEGORIES[type]).map(c => `<option value="${c}">${c}</option>`).join('');
 }
 
 function updateSubcats() {
@@ -2242,17 +2170,12 @@ function updateSubcats() {
   const cat  = document.getElementById('fCategory').value;
   const subSel = document.getElementById('fSubcategory');
   const subs = (CATEGORIES[type] && CATEGORIES[type][cat]) || [];
-  subSel.innerHTML = '<option value="">—</option>' +
-    subs.map(s => `<option value="${s}">${s}</option>`).join('');
+  subSel.innerHTML = '<option value="">—</option>' + subs.map(s => `<option value="${s}">${s}</option>`).join('');
 }
 
 document.getElementById('fCategory').addEventListener('change', updateSubcats);
-
 document.querySelectorAll('#typeSegmented button').forEach(b => {
-  b.addEventListener('click', () => {
-    setType(b.dataset.type);
-    updateSubcats();
-  });
+  b.addEventListener('click', () => { setType(b.dataset.type); updateSubcats(); });
 });
 
 document.getElementById('formAdd').addEventListener('submit', async (e) => {
@@ -2270,7 +2193,6 @@ document.getElementById('formAdd').addEventListener('submit', async (e) => {
   };
   if (!data.category) { toast('Выбери категорию', true); return; }
   if (!data.amount || data.amount <= 0) { toast('Введи сумму', true); return; }
-
   try {
     if (id) {
       await api('updateTransaction', { id, data });
@@ -2281,9 +2203,7 @@ document.getElementById('formAdd').addEventListener('submit', async (e) => {
     }
     document.getElementById('modalAdd').classList.remove('open');
     await loadAll(false);
-  } catch (err) {
-    toast('Ошибка: ' + err.message, true);
-  }
+  } catch (err) { toast('Ошибка: ' + err.message, true); }
 });
 
 document.getElementById('btnDelete').addEventListener('click', async () => {
@@ -2294,41 +2214,15 @@ document.getElementById('btnDelete').addEventListener('click', async () => {
     document.getElementById('modalAdd').classList.remove('open');
     toast('Удалено');
     await loadAll(false);
-  } catch (err) {
-    toast('Ошибка: ' + err.message, true);
-  }
+  } catch (err) { toast('Ошибка: ' + err.message, true); }
 });
 
-document.getElementById('closeModal').onclick = () =>
-  document.getElementById('modalAdd').classList.remove('open');
+document.getElementById('closeModal').onclick = () => document.getElementById('modalAdd').classList.remove('open');
 
 document.querySelectorAll('.modal').forEach(m => {
-  m.addEventListener('click', e => {
-    if (e.target === m) m.classList.remove('open');
-  });
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
 });
 
-// ==================== НАСТРОЙКИ ====================
-document.getElementById('btnSaveSettings').onclick = () => {
-  const b = {
-    income: Number(document.getElementById('setIncome').value) || 0,
-    mandatory: Number(document.getElementById('setMandatory').value) || 0,
-    savings: Number(document.getElementById('setSavings').value) || 0
-  };
-  state.budget = b;
-  saveBudget(b);
-  renderBudget();
-  toast('Настройки сохранены');
-};
-
-function loadSettingsIntoForm() {
-  const b = state.budget || {};
-  document.getElementById('setIncome').value = b.income || '';
-  document.getElementById('setMandatory').value = b.mandatory || '';
-  document.getElementById('setSavings').value = b.savings || '';
-}
-
-// ==================== НАВИГАЦИЯ ====================
 function switchView(view) {
   state.view = view;
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -2337,17 +2231,13 @@ function switchView(view) {
     b.classList.toggle('active', b.dataset.view === view);
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  if (view === 'dashboard' && state.summary) {
+  if (view === 'dashboard') {
     setTimeout(() => {
       const chartsSection = document.querySelector('.section[data-section="charts"]');
       if (!chartsSection || !chartsSection.classList.contains('collapsed')) {
         renderCharts(state.summary);
       }
     }, 60);
-  }
-  if (view === 'settings') {
-    loadSettingsIntoForm();
   }
 }
 
@@ -2357,45 +2247,26 @@ document.querySelectorAll('.bottom-nav button').forEach(b => {
 
 document.getElementById('fabAdd').onclick = () => openAddModal();
 
-['filterFrom','filterTo','filterCategory','filterType'].forEach(id => {
+['filterCategory','filterType'].forEach(id => {
   document.getElementById(id).addEventListener('change', renderHistory);
 });
 
 document.getElementById('syncBtn').onclick = () => loadAll(true);
 
-// ==================== СВОДКА ====================
 function buildSummary(transactions, from, to) {
   const items = transactions.filter(t => t.date >= from && t.date <= to);
   const byCat = {};
-  const byDay = {};
   let income = 0, expense = 0;
-
   items.forEach(t => {
     const amt = Number(t.amount) || 0;
-    if (t.type === 'income') income += amt;
-    else expense += amt;
-
+    if (t.type === 'income') income += amt; else expense += amt;
     if (!byCat[t.category]) byCat[t.category] = { income: 0, expense: 0 };
     if (t.type === 'income') byCat[t.category].income += amt;
     else byCat[t.category].expense += amt;
-
-    if (!byDay[t.date]) byDay[t.date] = { income: 0, expense: 0 };
-    if (t.type === 'income') byDay[t.date].income += amt;
-    else byDay[t.date].expense += amt;
   });
-
-  const todayD = byDay[today()] || { income: 0, expense: 0 };
-
-  return {
-    from, to, income, expense,
-    balance: income - expense,
-    today_balance: todayD.income - todayD.expense,
-    by_category: byCat,
-    by_day: byDay
-  };
+  return { from, to, income, expense, balance: income - expense, by_category: byCat };
 }
 
-// ==================== ДЕМО-ДАННЫЕ ====================
 function seedDemoData() {
   const existing = localStorage.getItem(CONFIG.CACHE_KEY);
   if (existing) {
@@ -2413,16 +2284,8 @@ function seedDemoData() {
   ];
   const existingTx = existing ? (JSON.parse(existing).transactions || []) : [];
   const existingPay = existing ? (JSON.parse(existing).payments || []) : [];
-  localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify({
-    transactions: existingTx,
-    credits: demoCredits,
-    payments: existingPay
-  }));
+  localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify({ transactions: existingTx, credits: demoCredits, payments: existingPay }));
 }
-
-// ==================== СТАРТ ====================
-document.getElementById('filterFrom').value = firstDayOfMonth();
-document.getElementById('filterTo').value = today();
 
 document.getElementById('filterCategory').innerHTML =
   '<option value="">Все категории</option>' +
@@ -2432,10 +2295,7 @@ document.getElementById('filterCategory').innerHTML =
 initCollapsibleSections();
 seedDemoData();
 
-// Сначала мгновенно показываем кэш
 const hadCache = loadFromCache();
-
-// Потом тихо синхронизируемся с сервером
 loadAll(!hadCache);
 
 let resizeTimer;
